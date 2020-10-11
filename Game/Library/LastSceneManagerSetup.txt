@@ -1,6 +1,6 @@
 sceneSetups:
-- path: Assets/Malbers Animations/Dragons/1 - Little Tiger Dragon/1 - LDTiger AC/1
-    - Demos/2 - LDTiger Mobile.unity
+- path: Assets/Malbers Animations/Animals Packs/01 Forest Pack/_Forest Pack (AC)/Raccoon
+    AC/1 - Demos PA/2 - Raccoon Mobile.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
