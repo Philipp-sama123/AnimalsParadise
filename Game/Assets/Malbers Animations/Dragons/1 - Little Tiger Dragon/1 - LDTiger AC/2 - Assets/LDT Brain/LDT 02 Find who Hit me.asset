@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e33e187dc72d4a48aaede99913c6393, type: 3}
+  m_Name: LDT 02 Find who Hit me
+  m_EditorClassIdentifier: 
+  tasks:
+  - {fileID: 11400000, guid: ae3d20b8dad49f94583b5bb86d88df94, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: a01f3518599818c468033a05d34a3836, type: 2}
+    trueState: {fileID: 11400000, guid: df3eeba9d2dd89243928936243e2ad57, type: 2}
+    falseState: {fileID: 11400000, guid: 9832e1d25d87c144682e956c4ad6aea0, type: 2}
+  GizmoStateColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

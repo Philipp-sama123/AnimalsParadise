@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e33e187dc72d4a48aaede99913c6393, type: 3}
+  m_Name: LDT 02 Circle Around
+  m_EditorClassIdentifier: 
+  tasks:
+  - {fileID: 11400000, guid: 5aa81b1ddc1dbec488b3de851cf8b7c9, type: 2}
+  - {fileID: 11400000, guid: b35b1cd4654a89e409d6ab40a679b94a, type: 2}
+  - {fileID: 11400000, guid: ae7fac85f19b9a9418c2e7f7841c5fe4, type: 2}
+  - {fileID: 11400000, guid: ff56f4762056add468aeb3b0679896b4, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: de3cc4c71569b8d40800483519dceb2a, type: 2}
+    trueState: {fileID: 11400000, guid: b8ba5051c64a00a4c9db3a4e3d2db1c7, type: 2}
+    falseState: {fileID: 11400000, guid: 2ecb231e39609524b9fd193fb84c5f26, type: 2}
+  - decision: {fileID: 11400000, guid: 4f4a43102e1ffe343a316b7e87127ed4, type: 2}
+    trueState: {fileID: 11400000, guid: 2ecb231e39609524b9fd193fb84c5f26, type: 2}
+    falseState: {fileID: 11400000, guid: 9832e1d25d87c144682e956c4ad6aea0, type: 2}
+  GizmoStateColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

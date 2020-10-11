@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e33e187dc72d4a48aaede99913c6393, type: 3}
+  m_Name: LDT 03 Attack in Distance FB
+  m_EditorClassIdentifier: 
+  tasks:
+  - {fileID: 11400000, guid: 21b587246c67ed045a6e8c8833f19ef4, type: 2}
+  - {fileID: 11400000, guid: ff56f4762056add468aeb3b0679896b4, type: 2}
+  - {fileID: 11400000, guid: 59acf92bb61eb00429afa5c5427f51bf, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: e7e2645ff1542844db35d825c1af0d82, type: 2}
+    trueState: {fileID: 11400000, guid: 9832e1d25d87c144682e956c4ad6aea0, type: 2}
+    falseState: {fileID: 11400000, guid: 2ecb231e39609524b9fd193fb84c5f26, type: 2}
+  - decision: {fileID: 11400000, guid: 4f4a43102e1ffe343a316b7e87127ed4, type: 2}
+    trueState: {fileID: 11400000, guid: 2ecb231e39609524b9fd193fb84c5f26, type: 2}
+    falseState: {fileID: 11400000, guid: 9832e1d25d87c144682e956c4ad6aea0, type: 2}
+  GizmoStateColor: {r: 1, g: 0, b: 0.99701786, a: 1}

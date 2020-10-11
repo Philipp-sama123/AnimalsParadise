@@ -1,0 +1,6 @@
+sceneSetups:
+- path: Assets/Malbers Animations/Dragons/1 - Little Tiger Dragon/1 - LDTiger AC/1
+    - Demos/2 - LDTiger Mobile.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
