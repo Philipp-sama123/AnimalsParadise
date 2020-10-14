@@ -17,7 +17,6 @@ ScriptsOnlyBuild:
     - MalbersAnimations.Controller.AI.SetStanceTask
     - MalbersAnimations.Controller.AI.WaitDecision
     - MalbersAnimations.Controller.AttackTriggerBehaviour
-    - MalbersAnimations.Controller.Climb
     - MalbersAnimations.Controller.Death
     - MalbersAnimations.Controller.Fall
     - MalbersAnimations.Controller.Idle
@@ -28,7 +27,6 @@ ScriptsOnlyBuild:
     - MalbersAnimations.Controller.MAttackTrigger
     - MalbersAnimations.Controller.MDirectionalDamage
     - MalbersAnimations.Controller.ModeBehaviour
-    - MalbersAnimations.Controller.ModifierDodge
     - MalbersAnimations.Controller.PointClick
     - MalbersAnimations.Controller.PointClickData
     - MalbersAnimations.Controller.Reactions.GravityReaction
@@ -40,6 +38,7 @@ ScriptsOnlyBuild:
     - MalbersAnimations.FreeLockCameraManager
     - MalbersAnimations.FreeLookCameraState
     - MalbersAnimations.GizmoVisualizer
+    - MalbersAnimations.IntVarListener
     - MalbersAnimations.IsKinematicB
     - MalbersAnimations.MAction
     - MalbersAnimations.MDamageable
@@ -61,13 +60,15 @@ ScriptsOnlyBuild:
     - MalbersAnimations.StepTrigger
     - MalbersAnimations.StepsManager
     - MalbersAnimations.Tag
+    - MalbersAnimations.TransformAnimation
+    - MalbersAnimations.UnityUtils
+    - MalbersAnimations.Utilities.ActiveMeshes
     - MalbersAnimations.Utilities.Aim
     - MalbersAnimations.Utilities.BlendShape
-    - MalbersAnimations.Utilities.BlendShapePreset
-    - MalbersAnimations.Utilities.BlinkEyes
     - MalbersAnimations.Utilities.Comment
     - MalbersAnimations.Utilities.LookAt
     - MalbersAnimations.Utilities.MaterialChanger
+    - MalbersAnimations.Utilities.ValueToString
     Unity.RenderPipelines.Core.Runtime.dll:
     - UnityEngine.Rendering.UI.DebugUIHandlerBitField
     - UnityEngine.Rendering.UI.DebugUIHandlerButton
@@ -123,11 +124,13 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Outline
     - UnityEngine.UI.ScrollRect
     - UnityEngine.UI.Scrollbar
+    - UnityEngine.UI.Shadow
+    - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
     - UnityEngine.UI.VerticalLayoutGroup
   sceneClasses:
-    Assets/MovementSandbox.unity:
+    Assets/MovementSandboxFox.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -177,6 +180,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11430}
     - Class: 114
+      Script: {instanceID: 11432}
+    - Class: 114
       Script: {instanceID: 11434}
     - Class: 114
       Script: {instanceID: 11436}
@@ -191,57 +196,61 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11446}
     - Class: 114
-      Script: {instanceID: 11538}
+      Script: {instanceID: 11448}
     - Class: 114
-      Script: {instanceID: 11554}
+      Script: {instanceID: 11450}
     - Class: 114
-      Script: {instanceID: 11624}
+      Script: {instanceID: 11540}
     - Class: 114
-      Script: {instanceID: 11694}
+      Script: {instanceID: 11556}
     - Class: 114
-      Script: {instanceID: 11738}
+      Script: {instanceID: 11626}
     - Class: 114
-      Script: {instanceID: 11758}
+      Script: {instanceID: 11696}
     - Class: 114
-      Script: {instanceID: 11824}
+      Script: {instanceID: 11740}
     - Class: 114
-      Script: {instanceID: 11998}
+      Script: {instanceID: 11760}
     - Class: 114
-      Script: {instanceID: 12016}
+      Script: {instanceID: 11826}
     - Class: 114
-      Script: {instanceID: 12094}
+      Script: {instanceID: 12000}
     - Class: 114
-      Script: {instanceID: 12098}
+      Script: {instanceID: 12018}
     - Class: 114
-      Script: {instanceID: 12118}
+      Script: {instanceID: 12096}
     - Class: 114
-      Script: {instanceID: 12190}
+      Script: {instanceID: 12100}
     - Class: 114
-      Script: {instanceID: 12204}
+      Script: {instanceID: 12120}
     - Class: 114
-      Script: {instanceID: 12372}
+      Script: {instanceID: 12192}
     - Class: 114
-      Script: {instanceID: 12398}
+      Script: {instanceID: 12206}
     - Class: 114
-      Script: {instanceID: 12460}
+      Script: {instanceID: 12374}
     - Class: 114
-      Script: {instanceID: 12564}
+      Script: {instanceID: 12400}
     - Class: 114
-      Script: {instanceID: 12616}
+      Script: {instanceID: 12442}
     - Class: 114
-      Script: {instanceID: 12622}
+      Script: {instanceID: 12462}
     - Class: 114
-      Script: {instanceID: 12672}
+      Script: {instanceID: 12566}
     - Class: 114
-      Script: {instanceID: 12690}
+      Script: {instanceID: 12618}
     - Class: 114
-      Script: {instanceID: 12716}
+      Script: {instanceID: 12624}
     - Class: 114
-      Script: {instanceID: 12720}
+      Script: {instanceID: 12674}
     - Class: 114
-      Script: {instanceID: 12762}
+      Script: {instanceID: 12692}
     - Class: 114
-      Script: {instanceID: 12824}
+      Script: {instanceID: 12718}
+    - Class: 114
+      Script: {instanceID: 12722}
+    - Class: 114
+      Script: {instanceID: 12764}
     - Class: 114
       Script: {instanceID: 12854}
     - Class: 114
@@ -252,6 +261,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12968}
     - Class: 114
       Script: {instanceID: 12976}
+    - Class: 114
+      Script: {instanceID: 13004}
     - Class: 114
       Script: {instanceID: 13030}
     - Class: 114
@@ -272,8 +283,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 13372}
     - Class: 114
       Script: {instanceID: 13402}
-    - Class: 114
-      Script: {instanceID: 13430}
     - Class: 114
       Script: {instanceID: 13442}
     - Class: 114
@@ -329,17 +338,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14836}
     - Class: 114
-      Script: {instanceID: 14848}
-    - Class: 114
-      Script: {instanceID: 14904}
-    - Class: 114
       Script: {instanceID: 14914}
     - Class: 114
       Script: {instanceID: 14924}
     - Class: 114
       Script: {instanceID: 14930}
     - Class: 114
+      Script: {instanceID: 15030}
+    - Class: 114
       Script: {instanceID: 15042}
+    - Class: 114
+      Script: {instanceID: 15062}
     - Class: 114
       Script: {instanceID: 15126}
     - Class: 114
@@ -381,9 +390,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 15722}
     - Class: 114
-      Script: {instanceID: 15736}
-    - Class: 114
       Script: {instanceID: 15756}
+    - Class: 114
+      Script: {instanceID: 15782}
     - Class: 114
       Script: {instanceID: 15788}
     - Class: 114
@@ -493,6 +502,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Shadow
+  - hash:
+      serializedVersion: 2
+      Hash: cc4274b586df3c02688bac01b88bd16c
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.EventSystems
+    className: EventSystem
   - hash:
       serializedVersion: 2
       Hash: e8436e5c58661cc5052e54a7a094d71e
@@ -1105,12 +1120,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: MalbersAnimations.Controller.AI
     className: ChanceTask
-  - hash:
-      serializedVersion: 2
-      Hash: cc4274b586df3c02688bac01b88bd16c
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.EventSystems
-    className: EventSystem
   - hash:
       serializedVersion: 2
       Hash: 0fb27be807aa299702f28ad0bcad1f46
@@ -2481,5 +2490,5 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   platform: 13
   scenePathNames:
-  - Assets/MovementSandbox.unity
-  playerPath: C:/Users/Phili/Documents/GameDevelopment/AnimalsParadise/Game/raccoontest.apk
+  - Assets/MovementSandboxFox.unity
+  playerPath: C:/Users/Phili/Documents/GameDevelopment/AnimalsParadise/Game/foxtest.apk

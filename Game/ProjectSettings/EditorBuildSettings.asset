@@ -16,7 +16,10 @@ EditorBuildSettings:
     path: Assets/Malbers Animations/Animals Packs/01 Forest Pack/_Forest Pack (AC)/Raccoon
       AC/1 - Demos PA/2 - Raccoon Mobile.unity
     guid: 1de9c5f0e4d8880489f6932af7ee5f91
-  - enabled: 1
-    path: Assets/MovementSandbox.unity
+  - enabled: 0
+    path: Assets/MovementSandboxRaccoon.unity
     guid: ea9cc779b072e0d4aa76fdf41e721617
+  - enabled: 1
+    path: Assets/MovementSandboxFox.unity
+    guid: 24216aa9f61337d46a3736f742c253c0
   m_configObjects: {}
