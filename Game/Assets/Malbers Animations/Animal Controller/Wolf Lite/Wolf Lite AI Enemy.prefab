@@ -206,7 +206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6193658036588503428
@@ -338,7 +338,7 @@ PrefabInstance:
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -453,6 +453,11 @@ PrefabInstance:
       propertyPath: hitLayer.m_Bits
       value: 1048576
       objectReference: {fileID: 0}
+    - target: {fileID: 7403766772878258876, guid: d520239042c144f438232f9375004dc2,
+        type: 3}
+      propertyPath: SelectedMode
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7403808674889620378, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: Bones.Array.data[0].bone
@@ -521,7 +526,7 @@ PrefabInstance:
     - target: {fileID: 7432517556429644034, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7433476673198389666, guid: d520239042c144f438232f9375004dc2,
         type: 3}
@@ -726,7 +731,7 @@ PrefabInstance:
     - target: {fileID: 7438778725627470454, guid: d520239042c144f438232f9375004dc2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7455737227193508598, guid: d520239042c144f438232f9375004dc2,
         type: 3}

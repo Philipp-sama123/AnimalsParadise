@@ -62,7 +62,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16
   AlignSmooth: 7.5
-  Bounce: 5
+  Bounce: 1
   TryExitTime: 1
   WaterIsStatic: 1
   KeepInertia: 1
