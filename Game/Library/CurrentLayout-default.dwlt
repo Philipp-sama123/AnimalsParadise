@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 433, y: 271}
   m_MaxSize: {x: 14003, y: 10021}
   vertical: 0
-  controlID: 68
+  controlID: 151
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_MinSize: {x: 709, y: 492}
   m_MaxSize: {x: 18004, y: 14042}
   vertical: 0
-  controlID: 150
+  controlID: 149
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_MinSize: {x: 433, y: 492}
   m_MaxSize: {x: 14003, y: 14042}
   vertical: 1
-  controlID: 151
+  controlID: 150
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 152
+  controlID: 52
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -480,20 +480,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Malbers Animations/Common/Assets/Animal Brain/Decisions
+    - Assets/Malbers Animations/Common/Assets/Animal Brain/Tasks
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Malbers Animations/Common/Assets/Animal Brain/Decisions
+  - Assets/Malbers Animations/Common/Assets/Animal Brain/Tasks
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Phili\Documents\GameDevelopment\AnimalsParadise\Game
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 874}
-    m_SelectedIDs: 34b70000
-    m_LastClickedID: 46900
-    m_ExpandedIDs: 0000000020400000085100000a5100000e5100001a5100001c5100002251000042510000885200009452000088640000589b000022b700002eb7000030b7000000ca9a3b
+    scrollPos: {x: 0, y: 138}
+    m_SelectedIDs: e0560000
+    m_LastClickedID: 22240
+    m_ExpandedIDs: 000000001e400000be560000c4560000d2560000d4560000d65600003657000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -521,7 +521,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000020400000
+    m_ExpandedIDs: 000000001e400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -552,18 +552,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c6230000eebb00007268000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Art
-      m_OriginalName: Art
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 20746
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 7}
     m_CreateAssetUtility:
@@ -573,7 +573,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 58.5}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 260
@@ -606,9 +606,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 8e4b0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 6c38fdff1639fdff1e3dfdfff275fdff9c76fdffa47afdffe690fdff34c7fdff44d2fdffeed2fdffe8d5fdff2adffdffdadffdffd6e2fdffaeedfdff5eeefdffe8eefdffd8f0fdff88f1fdffc6fafdff78f5ffff66fbffff6242000012300100024f01008e650100
+      m_ExpandedIDs: 50eeffff62eeffff66eeffff80eeffff8ceeffffa6eeffffaaeeffffbeeeffffcaeeffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -661,16 +661,16 @@ MonoBehaviour:
   m_ShowContextualTools: 0
   m_WindowGUID: 49bdf3888045b0a4fb3627d3142506d5
   m_Gizmos: 1
-  m_SceneIsLit: 1
+  m_SceneIsLit: 0
   m_SceneLighting: 1
   m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -20.239376, y: 15.604605, z: -16.259933}
+    m_Target: {x: 2.4031622, y: 0.17405373, z: -1.4276506}
     speed: 2
-    m_Value: {x: -20.239376, y: 15.604605, z: -16.259933}
+    m_Value: {x: 2.4031622, y: 0.17405373, z: -1.4276506}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -683,7 +683,7 @@ MonoBehaviour:
   m_SceneViewState:
     showFog: 1
     showMaterialUpdate: 0
-    showSkybox: 1
+    showSkybox: 0
     showFlares: 1
     showImageEffects: 1
     showParticleSystems: 1
@@ -716,13 +716,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.4424894, y: -0.27793196, z: 0.14634377, w: 0.8400214}
+    m_Target: {x: -0.12327161, y: 0.8149334, z: -0.18807085, w: -0.53415066}
     speed: 2
-    m_Value: {x: 0.4424683, y: -0.2779187, z: 0.1463368, w: 0.8399813}
+    m_Value: {x: -0.12327161, y: 0.8149334, z: -0.18807085, w: -0.53415066}
   m_Size:
-    m_Target: 3.768613
+    m_Target: 0.7771546
     speed: 2
-    m_Value: 3.4686131
+    m_Value: 0.7771546
   m_Ortho:
     m_Target: 0
     speed: 2
