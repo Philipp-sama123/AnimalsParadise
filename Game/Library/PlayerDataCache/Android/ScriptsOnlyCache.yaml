@@ -17,6 +17,7 @@ ScriptsOnlyBuild:
     - MalbersAnimations.Controller.AI.SetStanceTask
     - MalbersAnimations.Controller.AI.WaitDecision
     - MalbersAnimations.Controller.AttackTriggerBehaviour
+    - MalbersAnimations.Controller.Climb
     - MalbersAnimations.Controller.Death
     - MalbersAnimations.Controller.Fall
     - MalbersAnimations.Controller.Idle
@@ -28,6 +29,7 @@ ScriptsOnlyBuild:
     - MalbersAnimations.Controller.MDirectionalDamage
     - MalbersAnimations.Controller.MWayPoint
     - MalbersAnimations.Controller.ModeBehaviour
+    - MalbersAnimations.Controller.ModifierDodge
     - MalbersAnimations.Controller.PointClick
     - MalbersAnimations.Controller.PointClickData
     - MalbersAnimations.Controller.Reactions.GravityReaction
@@ -46,6 +48,7 @@ ScriptsOnlyBuild:
     - MalbersAnimations.MFreeLookCamera
     - MalbersAnimations.MGameSettings
     - MalbersAnimations.MInput
+    - MalbersAnimations.MModeAlign
     - MalbersAnimations.MalbersInput
     - MalbersAnimations.MessagesBehavior
     - MalbersAnimations.MobileJoystick
@@ -69,6 +72,9 @@ ScriptsOnlyBuild:
     - MalbersAnimations.Utilities.ActiveMeshes
     - MalbersAnimations.Utilities.Aim
     - MalbersAnimations.Utilities.BlendShape
+    - MalbersAnimations.Utilities.BlendShapePreset
+    - MalbersAnimations.Utilities.BlinkEyes
+    - MalbersAnimations.Utilities.BonePreset
     - MalbersAnimations.Utilities.Comment
     - MalbersAnimations.Utilities.LookAt
     - MalbersAnimations.Utilities.MaterialChanger
@@ -109,6 +115,15 @@ ScriptsOnlyBuild:
     - UnityEngine.Rendering.Universal.UniversalRenderPipelineEditorResources
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    UnityEditor.Graphs.dll:
+    - UnityEditor.Graphs.AnimationBlendTree.Graph
+    - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
+    - UnityEditor.Graphs.AnimationStateMachine.Graph
+    - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateMachineNode
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
+    - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -128,6 +143,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Outline
     - UnityEngine.UI.ScrollRect
     - UnityEngine.UI.Scrollbar
+    - UnityEngine.UI.Shadow
     - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
@@ -201,11 +217,15 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11446}
     - Class: 114
+      Script: {instanceID: 11448}
+    - Class: 114
       Script: {instanceID: 11450}
     - Class: 114
       Script: {instanceID: 11540}
     - Class: 114
       Script: {instanceID: 11556}
+    - Class: 114
+      Script: {instanceID: 11560}
     - Class: 114
       Script: {instanceID: 11626}
     - Class: 114
@@ -289,6 +309,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13402}
     - Class: 114
+      Script: {instanceID: 13430}
+    - Class: 114
       Script: {instanceID: 13442}
     - Class: 114
       Script: {instanceID: 13444}
@@ -337,13 +359,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14468}
     - Class: 114
+      Script: {instanceID: 14560}
+    - Class: 114
       Script: {instanceID: 14656}
     - Class: 114
       Script: {instanceID: 14814}
     - Class: 114
       Script: {instanceID: 14836}
     - Class: 114
+      Script: {instanceID: 14848}
+    - Class: 114
       Script: {instanceID: 14890}
+    - Class: 114
+      Script: {instanceID: 14904}
     - Class: 114
       Script: {instanceID: 14914}
     - Class: 114
@@ -385,31 +413,33 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 15564}
     - Class: 114
-      Script: {instanceID: 15572}
+      Script: {instanceID: 15574}
     - Class: 114
-      Script: {instanceID: 15600}
+      Script: {instanceID: 15602}
     - Class: 114
-      Script: {instanceID: 15626}
-    - Class: 114
-      Script: {instanceID: 15656}
+      Script: {instanceID: 15628}
     - Class: 114
       Script: {instanceID: 15658}
     - Class: 114
-      Script: {instanceID: 15668}
+      Script: {instanceID: 15660}
     - Class: 114
-      Script: {instanceID: 15694}
+      Script: {instanceID: 15670}
     - Class: 114
-      Script: {instanceID: 15722}
+      Script: {instanceID: 15696}
     - Class: 114
-      Script: {instanceID: 15756}
+      Script: {instanceID: 15724}
     - Class: 114
-      Script: {instanceID: 15782}
+      Script: {instanceID: 15738}
     - Class: 114
-      Script: {instanceID: 15788}
+      Script: {instanceID: 15758}
     - Class: 114
-      Script: {instanceID: 15846}
+      Script: {instanceID: 15784}
     - Class: 114
-      Script: {instanceID: 15852}
+      Script: {instanceID: 15790}
+    - Class: 114
+      Script: {instanceID: 15848}
+    - Class: 114
+      Script: {instanceID: 15854}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -471,16 +501,16 @@ ScriptsOnlyBuild:
     className: CanvasScaler
   - hash:
       serializedVersion: 2
-      Hash: 8aa3d6ccbcb54ee8db6c1229854adaaa
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: ContentSizeFitter
-  - hash:
-      serializedVersion: 2
       Hash: 89f9a1b4c64db9559e39f4a2e3bfaadd
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Image
+  - hash:
+      serializedVersion: 2
+      Hash: 8aa3d6ccbcb54ee8db6c1229854adaaa
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: ContentSizeFitter
   - hash:
       serializedVersion: 2
       Hash: ae83e830e7a90c0aff918c4c2e520825
@@ -2307,6 +2337,12 @@ ScriptsOnlyBuild:
     className: MWayPoint
   - hash:
       serializedVersion: 2
+      Hash: 946ba6d4a5bcec9d6a0f4f14b020563d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: IconPreview
+  - hash:
+      serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -2503,13 +2539,7 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 946ba6d4a5bcec9d6a0f4f14b020563d
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: IconPreview
   platform: 13
   scenePathNames:
   - Assets/SandboxLevel.unity
-  playerPath: C:/Users/Phili/Documents/GameDevelopment/AnimalsParadise/Game/foxtest.apk
+  playerPath: C:/Users/Phili/Documents/GameDevelopment/AnimalsParadise/Game/raccoontest.apk
