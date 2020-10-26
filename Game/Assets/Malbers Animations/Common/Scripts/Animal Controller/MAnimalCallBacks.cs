@@ -12,71 +12,56 @@ namespace MalbersAnimations.Controller
     {
         #region INPUTS
         /// <summary>Updates all the Input from Malbers Input in case needed (Rewired conextion(</summary>
-        public virtual void UpdateInputSource()
+        public virtual void UpdateInputSource(bool connect = true)
         {
-            foreach (var state in states)
+            InputSource = this.FindComponent<IInputSource>(); //Find if we have a InputSource
+
+            if (InputSource != null)
             {
-                SetInputs(state, false);
-                SetInputs(state, true);
+                foreach (var state in states)
+                {
+                    SetStatesInput(state, false);
+                    if (connect) SetStatesInput(state, true);
+                }
+
+                foreach (var mode in modes)
+                {
+                    SetModesInput(mode, false);
+                    if (connect) SetModesInput(mode, true);
+                }
             }
         }
 
         /// <summary> Get the Inputs for the Source to add it to the States </summary>
-        internal virtual void SetInputs(State state, bool active)
+        internal virtual void SetStatesInput(State state, bool connect)
         {
-            if (active) InputSource = GetComponent<IInputSource>(); //If are being enable then
-
-            if (InputSource != null)
+            if (!string.IsNullOrEmpty(state.Input)) //If a State has an Input 
             {
-                if (!string.IsNullOrEmpty(state.Input))
-                {
                     var input = InputSource.GetInput(state.Input);
 
                     if (input != null)
                     {
-                        if (active)
-                        {
-                            if (input.GetPressed == InputButton.Down || input.GetPressed == InputButton.Up)
-                            {
-                                input.OnInputDown.AddListener(() => { state.ActivatebyInput(true); });
-                                input.OnInputUp.AddListener(() => { state.ActivatebyInput(false); });
-                            }
-                            else
-                            {
-                                input.OnInputChanged.AddListener(state.ActivatebyInput);
-                            }
-                        }
+                        if (connect)
+                            input.InputChanged.AddListener(state.ActivatebyInput);
                         else
-                        {
-                            if (input.GetPressed == InputButton.Down || input.GetPressed == InputButton.Up)
-                            {
-                                input.OnInputDown.RemoveAllListeners();
-                                input.OnInputUp.RemoveAllListeners();
-                            }
-                            else
-                            {
-                                input.OnInputChanged.RemoveListener(state.ActivatebyInput);
-                            }
-                        }
+                            input.InputChanged.RemoveListener(state.ActivatebyInput);
                     }
                 }
+        }
 
+        /// <summary> Get the Inputs for the Source to add it to the States </summary>
+        internal virtual void SetModesInput(Mode mode, bool connect)
+        {
+            if (!string.IsNullOrEmpty(mode.Input)) //If a mode has an Input 
+            {
+                var input = InputSource.GetInput(mode.Input);
 
-                //Enable Disable the Inputs for the States
-                foreach (var mode in modes)
+                if (input != null)
                 {
-                    if (!string.IsNullOrEmpty(mode.Input))
-                    {
-                        var input = InputSource.GetInput(mode.Input);
-
-                        if (input != null)
-                        {
-                            if (active)
-                                input.OnInputChanged.AddListener(mode.ActivatebyInput);
-                            else
-                                input.OnInputChanged.RemoveListener(mode.ActivatebyInput);
-                        }
-                    }
+                    if (connect)
+                        input.InputChanged.AddListener(mode.ActivatebyInput);
+                    else
+                        input.InputChanged.RemoveListener(mode.ActivatebyInput);
                 }
             }
         }
@@ -169,8 +154,15 @@ namespace MalbersAnimations.Controller
         }
 
         /// <summary>The Ground</summary>
-        public void GroundChangesGravity(bool value) => ground_Changes_Gravity = value;
+        public void GroundChangesGravity(bool value)
+        {
+            if (value)
+                UseCameraInput = false;
+            else
+                UseCameraInput = DefaultCameraInput;
 
+            ground_Changes_Gravity = value;
+        }
         /// <summary>Aling with no lerp to the Gravity Direction</summary>
         public void AlignGravity()
         {

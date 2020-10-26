@@ -220,7 +220,7 @@ namespace MalbersAnimations.SA
                 //handled last as if strafing and moving forward at the same time forwards speed should take precedence
                 CurrentTargetSpeed = ForwardSpeed;
             }
-            if (RunKey.GetInput)
+            if (RunKey.GetValue)
             {
                 CurrentTargetSpeed *= RunMultiplier;
                 m_Running = true;

@@ -7,7 +7,7 @@ using MalbersAnimations.Scriptables;
 namespace MalbersAnimations.Controller
 {
     /// <summary>  This will controll all Animals Motion
-    /// Version 1.2.0 </summary>
+    /// Version 1.2.1 </summary>
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/main-components/manimal-controller")]
     [DefaultExecutionOrder(-10)]
     public partial class MAnimal : MonoBehaviour, 

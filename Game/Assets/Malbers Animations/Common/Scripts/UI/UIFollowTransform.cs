@@ -1,42 +1,23 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using MalbersAnimations.Events;
-using MalbersAnimations.Utilities;
 
 namespace MalbersAnimations
 {
     /// <summary>makes an UI Object to follow a World Object</summary>
     public class UIFollowTransform : MonoBehaviour
     {
-      [SerializeField]  private Camera MainCamera;
+        private Camera MainCamera;
         public Transform WorldTransform;
-        public bool Lerp;
-        public bool StartOff;
-        public float Smoothness = 20f;
-        public Color FadeOut;
-        public Color FadeIn = Color.white;
-        public float time = 0.3f;
-        Graphic graphic;
+        [Tooltip("Reset the World Transform to Null when this component is Disable")]
+        public bool ResetOnDisable = false;
 
         public Vector3 ScreenCenter { get; set; }
         public Vector3 DefaultScreenCenter { get; set; }
-
-        Graphic Graph
-        {
-            get
-            {
-                if (graphic == null)
-                    graphic = GetComponent<Graphic>();
-                return graphic;
-            }
-        }
+ 
 
         void Awake()
         {
             MainCamera = MTools.FindMainCamera();
-
-            graphic = GetComponent<Graphic>();
-
             ScreenCenter = transform.position;
             DefaultScreenCenter = transform.position;
         }
@@ -44,19 +25,16 @@ namespace MalbersAnimations
         private void OnEnable()
         {
             MainCamera = MTools.FindMainCamera();
-
-            if (StartOff && graphic)
-            {
-                graphic.CrossFadeColor(FadeOut, 0, false, true);
-            }
-
             Align();
         }
 
         private void OnDisable()
         {
-            WorldTransform = null;
-            Align();
+            if (ResetOnDisable)
+            {
+                WorldTransform = null;
+                Align();
+            }
         }
 
         public void SetTransform(Transform newTarget)
@@ -70,14 +48,11 @@ namespace MalbersAnimations
             Align();
         }
 
-       
+
 
         void FixedUpdate()
         {
-            if (Lerp)
-                AlingLerp();
-            else
-                Align();
+            Align();
         }
 
         public void Align()
@@ -86,32 +61,6 @@ namespace MalbersAnimations
             transform.position = WorldTransform != null ? MainCamera.WorldToScreenPoint(WorldTransform.position) : ScreenCenter;
         }
 
-
-        public void AlingLerp()
-        {
-            if (Lerp)
-            {
-                Vector3 UIPos = WorldTransform != null ? MainCamera.WorldToScreenPoint(WorldTransform.position) : ScreenCenter;
-                transform.position = Vector3.Slerp(transform.position, UIPos, Time.deltaTime * Smoothness);
-            }
-        }
-
-
-        public virtual void Fade_In_Out(bool value)
-        {
-            Graph.CrossFadeColor(value ? FadeIn : FadeOut, time, false, true);
-        }
-
-
-        public virtual void Fade_In(float time)
-        {
-            graphic.CrossFadeColor(FadeIn, time, false, true);
-        }
-
-        public virtual void Fade_Out(float time)
-        {
-            graphic.CrossFadeColor(FadeOut, time, false, true);
-        }
 
 #if UNITY_EDITOR
 

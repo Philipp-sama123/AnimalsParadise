@@ -103,8 +103,10 @@ namespace MalbersAnimations.Controller
                 Set_Sleep_FromStates(activeState);
                 Set_Queue_States(activeState);
 
-                if (ActiveMode != null && ActiveMode.StateCanInterrupt(ActiveStateID))//If a mode is playing check a State Change
+                if (IsPlayingMode && ActiveMode.StateCanInterrupt(ActiveStateID))//If a mode is playing check a State Change
+                { 
                     Mode_Interrupt();
+                }
             }
         }
 
@@ -182,8 +184,7 @@ namespace MalbersAnimations.Controller
 
                 LastStance = currentStance;
                 currentStance = value;
-
-
+                 
                 var exit = OnEnterExitStances.Find(st => st.ID.ID == LastStance);
                 exit?.OnExit.Invoke();
                 OnStanceChange.Invoke(value); 
@@ -258,6 +259,7 @@ namespace MalbersAnimations.Controller
 
         /// <summary>The Animal uses the Camera Forward Diretion to Move</summary>
         public bool UseCameraInput { get => useCameraInput.Value; set => useCameraInput.Value = value; }
+        public bool DefaultCameraInput { get; set; }
 
         /// <summary>Use the Camera Up Vector to Move while flying or Swiming UnderWater</summary>
         public bool UseCameraUp { get => useCameraUp.Value; set => useCameraUp.Value = value; }
@@ -575,8 +577,7 @@ namespace MalbersAnimations.Controller
 
 
                 activeMode = value;
-                ActiveModeID = activeMode?.ID;
-             //   IsPlayingMode = activeMode != null;
+                ActiveModeID = activeMode?.ID; 
                 ModeTime = 0;
 
                // if (ModeStatus == MStatus.Prepared) IsPlayingMode = true; //IMPORTANT Means that another Mode is prepared to make it Playing Mode 
@@ -588,6 +589,8 @@ namespace MalbersAnimations.Controller
                 else if (lastMode != null)
                 {
                     OnModeEnd.Invoke(LastMode, LastAbility);
+
+                    Stance = Stance; //Makes the Stance Code
                 }
             }
         }

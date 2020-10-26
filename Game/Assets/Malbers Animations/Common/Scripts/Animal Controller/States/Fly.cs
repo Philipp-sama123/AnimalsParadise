@@ -196,12 +196,12 @@ namespace MalbersAnimations.Controller
                     var WaterPos = transform.position + animal.AdditivePosition;
                     var Dist = WDistance * animal.ScaleFactor;
                     var Gravity = animal.Gravity;
-                    Color findWater = Color.gray;
+               
 
 
                     if (Physics.Raycast(WaterPos, Gravity, out RaycastHit hit, Dist, WaterLayer))
                     {
-                        findWater = Color.cyan;
+                        Color findWater = Color.cyan;
 
                         if (animal.MovementAxis.y < 0) animal.MovementAxis.y = 0;
 

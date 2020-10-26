@@ -57,10 +57,15 @@ namespace MalbersAnimations.Utilities
         {
             if (random)
             {
-                foreach (var mat in Meshes)
-                {
-                    mat.ChangeMesh(UnityEngine.Random.Range(0, mat.meshes.Length));
-                }
+                Randomize();
+            }
+        }
+
+        public void Randomize()
+        {
+            foreach (var mat in Meshes)
+            {
+                mat.ChangeMesh(UnityEngine.Random.Range(0, mat.meshes.Length));
             }
         }
 

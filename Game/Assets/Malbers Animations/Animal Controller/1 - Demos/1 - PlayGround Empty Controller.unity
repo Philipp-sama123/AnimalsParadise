@@ -1382,18 +1382,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &790373708 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95767892450346170, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-    type: 3}
-  m_PrefabInstance: {fileID: 5118507369252550695}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &790373709 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 54279645329307990, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-    type: 3}
-  m_PrefabInstance: {fileID: 5118507369252550695}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &800614549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3226,46 +3214,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4010446270091430, guid: 1f27d2e99f3b7fd45aed329b6dc2da82, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: ShowMovement
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: m_gravityPower.ConstantValue
-      value: 9.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: Editor_Tabs1
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: Editor_Tabs2
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: Anim
-      value: 
-      objectReference: {fileID: 790373708}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: RB
-      value: 
-      objectReference: {fileID: 790373709}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: useCameraInput.UseConstant
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114485145315289786, guid: 1f27d2e99f3b7fd45aed329b6dc2da82,
-        type: 3}
-      propertyPath: debugStates
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

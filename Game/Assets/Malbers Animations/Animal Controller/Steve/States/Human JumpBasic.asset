@@ -20,7 +20,7 @@ MonoBehaviour:
     modify: 3327
     RootMotion: 0
     Sprint: 0
-    Gravity: 1
+    Gravity: 0
     Grounded: 0
     OrientToGround: 0
     CustomRotation: 0
@@ -86,6 +86,7 @@ MonoBehaviour:
     UseConstant: 0
     ConstantValue: 8
     Variable: {fileID: 11400000, guid: 8ee0bf1f77aecf64c83fe6307542d514, type: 2}
+  ResetJump: []
   profiles:
   - name: InPlace
     VerticalSpeed: 0

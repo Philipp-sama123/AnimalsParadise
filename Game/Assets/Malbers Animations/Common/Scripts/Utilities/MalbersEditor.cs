@@ -79,7 +79,7 @@ namespace MalbersAnimations
             currentStyle.normal.background = bg;
 
 
-#if UNITY_2019 || UNITY_2020
+#if UNITY_2019_4 || UNITY_2020
             // MW 04-Jul-2020: Check if system supports newer graphics formats used by Unity GUI
             Texture2D bgActual = currentStyle.normal.scaledBackgrounds[0];
 

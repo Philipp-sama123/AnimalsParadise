@@ -146,6 +146,8 @@ namespace MalbersAnimations.Controller
             SpeedMultiplier = 1;
             CurrentFrame = 0;
 
+            DefaultCameraInput = UseCameraInput;
+
             SetOptionalAnimParameter(Animator.StringToHash(m_Type), animalType); //This is only done once!
         }
 
@@ -166,7 +168,10 @@ namespace MalbersAnimations.Controller
             if (Animals == null) Animals = new List<MAnimal>();
             Animals.Add(this);                                              //Save the the Animal on the current List
 
-            foreach (var state in states) SetInputs(state, true);
+
+            UpdateInputSource(); //Connect the Inputs
+
+
             if (isPlayer) SetMainPlayer();
             SetBoolParameter += SetAnimParameter;
             SetIntParameter += SetAnimParameter;
@@ -182,7 +187,8 @@ namespace MalbersAnimations.Controller
         void OnDisable()
         {
             if (Animals != null) Animals.Remove(this);       //Remove all this animal from the Overall AnimalList
-            foreach (var state in states) SetInputs(state, false);
+
+            UpdateInputSource(false); //Disconnect the inputs
 
             DisableMainPlayer();
 
@@ -698,7 +704,8 @@ namespace MalbersAnimations.Controller
                 hit_Hip = hit_Chest;  //In case there's no Hip Ray
             }
 
-            if (ground_Changes_Gravity) Gravity = -hit_Hip.normal;
+            if (ground_Changes_Gravity)
+                Gravity = -hit_Hip.normal;
 
             CalculateSurfaceNormal();
         }

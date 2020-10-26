@@ -49,133 +49,106 @@ namespace MalbersAnimations
         }
 
         /// <summary>Updates all Stats</summary>
-        public virtual void Stats_Update()
-        {
-            foreach (var s in stats)
-                s.UpdateStat();
-        }
+            public virtual void Stats_Update()
+            {
+                foreach (var s in stats)   s.UpdateStat();
+            }
 
-        public virtual void Stats_Update(StatID iD) => Stats_Update(iD.ID);
+            /// <summary>Updates a stat logic by its Stat ID</summary>
+            public virtual void Stats_Update(StatID iD) => Stats_Update(iD.ID);
 
-        public virtual void Stats_Update(int iD)
-        {
-            Stat_Get(iD);
-            PinnedStat?.UpdateStat();
-        }
+            public virtual void Stats_Update(int iD) => Stat_Get(iD)?.UpdateStat();
 
-        public virtual void Stat_Enable(StatID iD)
-        {
-            Stat_Get(iD);
-            PinnedStat?.SetActive(true);
-        }
+            /// <summary>Enable a stat</summary>
+            public virtual void Stat_Enable(StatID iD) => Stat_Get(iD)?.SetActive(true);
 
-        public virtual void Stat_Disable(StatID iD)
-        {
-            Stat_Get(iD);
-            PinnedStat?.SetActive(false);
-        }
+            /// <summary>Disable a stat</summary>
+            public virtual void Stat_Disable(StatID iD) => Stat_Get(iD)?.SetActive(false);
 
-       // public virtual void _DisableStat(StatID iD)    { Stat_Disable(iD); } //OLD VERSION
-    
+            /// <summary>Disable a stat Degeneration logic</summary>
+            public virtual void DegenerateOff(StatID ID) => Stat_Get(ID)?.SetDegeneration(false);
 
-        public virtual void DegenerateOff(StatID ID)
-        {
-            Stat_Get(ID);
-            PinnedStat?.SetDegeneration(false);
-        }
+            /// <summary>Enable a stat Degeneration logic</summary>
+            public virtual void DegenerateOn(StatID ID) => Stat_Get(ID)?.SetDegeneration(true);
 
-        public virtual void DegenerateOn(StatID ID)
-        {
-            Stat_Get(ID);
-            PinnedStat?.SetDegeneration(true);
-        }
+            /// <summary>Set PinnedStat searching for a Stat Name</summary>
+            public virtual void Stat_Pin(string name) => Stat_Get(name);
 
-        /// <summary>Set PinnedStat searching for a Stat Name</summary>
-        public virtual void Stat_Pin(string name) => Stat_Get(name);
+            /// <summary>Set PinnedStat searching for a int ID value</summary>
+            public virtual void Stat_Pin(int ID) => Stat_Get(ID);
 
-        /// <summary>Set PinnedStat searching for a int ID value</summary>
-        public virtual void Stat_Pin(int ID) => Stat_Get(ID);
+            /// <summary>Set PinnedStat searching for a StatID</summary>
+            public virtual void Stat_Pin(StatID ID) => Stat_Get(ID);
 
-        /// <summary>Set PinnedStat searching for a StatID</summary>
-        public virtual void Stat_Pin(StatID ID) => Stat_Get(ID);
+            /// <summary>Find a Stat Using its name for the ID and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
+            public virtual Stat Stat_Get(string name) => PinnedStat = stats.Find(item => item.Name == name);
 
+            /// <summary>Find a Stat Using a int Value for the ID and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
+            public virtual Stat Stat_Get(int ID)
+            {
+                if (stats_D.TryGetValue(ID, out PinnedStat))
+                    return PinnedStat;
+                return null;
+            }
+            /// <summary>Find a Stat Using an IntVar and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
+            public virtual Stat Stat_Get(IntVar ID) => Stat_Get(ID.Value);
 
-        /// <summary>Find a Stat Using its name for the ID and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
-        public virtual Stat Stat_Get(string name)
-        {
-            PinnedStat = stats.Find(item => item.Name == name);
-            return PinnedStat;
-        }
+            /// <summary>Find a Stat Using a StatID and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
+            public virtual Stat Stat_Get(StatID ID) => Stat_Get(ID.ID);
+     
 
-        /// <summary>Find a Stat Using a int Value for the ID and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
-        public virtual Stat Stat_Get(int ID)
-        {
-            if (stats_D.TryGetValue(ID, out PinnedStat))
-                return PinnedStat;
-            return null;
-        }
-        /// <summary>Find a Stat Using an IntVar and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
-        public virtual Stat Stat_Get(IntVar ID) => Stat_Get(ID.Value);
+            public virtual void Stat_ModifyValue(StatID ID, float modifyvalue) => Stat_Get(ID)?.Modify(modifyvalue);
+            public virtual void Stat_ModifyValue(int ID, float modifyvalue) => Stat_Get(ID)?.Modify(modifyvalue);
+            public virtual void Stat_ModifyValue(string name, float modifyvalue) => Stat_Get(name)?.Modify(modifyvalue);
 
-        /// <summary>Find a Stat Using a StatID and Return if the Stat is on the List. Also Saves it to the PinnedStat</summary>
-        public virtual Stat Stat_Get(StatID ID)
-        {
-            if (ID != null) return Stat_Get(ID.ID);
-            return null;
-        }
-
-        public virtual void Stat_ModifyValue(StatID ID, float modifyvalue) => Stat_Get(ID)?.Modify(modifyvalue);
-        public virtual void Stat_ModifyValue(int ID, float modifyvalue) => Stat_Get(ID)?.Modify(modifyvalue);
-        public virtual void Stat_ModifyValue(string name, float modifyvalue) => Stat_Get(name)?.Modify(modifyvalue);
-
-        public virtual void Stat_ModifyValue(StatID ID, float modifyvalue, StatOption modifyType) => Stat_Get(ID)?.Modify(modifyvalue, modifyType);
+            public virtual void Stat_ModifyValue(StatID ID, float modifyvalue, StatOption modifyType) => Stat_Get(ID)?.Modify(modifyvalue, modifyType);
 
 
-        /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
-        public virtual void Stat_Pin_ModifyValue(float value) => PinnedStat?.Modify(value);
+            /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
+            public virtual void Stat_Pin_ModifyValue(float value) => PinnedStat?.Modify(value);
 
-        /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
-        public virtual void Stat_Pin_ModifyValue(FloatVar value) => PinnedStat?.Modify(value.Value);
+            /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
+            public virtual void Stat_Pin_ModifyValue(FloatVar value) => PinnedStat?.Modify(value.Value);
 
-        /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
-        public virtual void Stat_Pin_SetMult(float value) => PinnedStat?.SetMultiplier(value);
+            /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
+            public virtual void Stat_Pin_SetMult(float value) => PinnedStat?.SetMultiplier(value);
 
-        /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
-        public virtual void Stat_Pin_SetMult(FloatVar value) => PinnedStat?.SetMultiplier(value.Value);
+            /// <summary>Modify Stat Value instantly (Add/Remove to the Value)</summary>
+            public virtual void Stat_Pin_SetMult(FloatVar value) => PinnedStat?.SetMultiplier(value.Value);
 
-        /// <summary>Modify Stat Value in a X time period(Add/Remove to the Value)</summary>
-        public virtual void Stat_Pin_ModifyValue(float value, float time) => PinnedStat?.Modify(value, time);
+            /// <summary>Modify Stat Value in a X time period(Add/Remove to the Value)</summary>
+            public virtual void Stat_Pin_ModifyValue(float value, float time) => PinnedStat?.Modify(value, time);
 
-        /// <summary>Modify Stat Value in 1 second period(Add/Remove to the Value)</summary>
-        public virtual void Stat_Pin_ModifyValue_1Sec(float value) => PinnedStat?.Modify(value, 1);
+            /// <summary>Modify Stat Value in 1 second period(Add/Remove to the Value)</summary>
+            public virtual void Stat_Pin_ModifyValue_1Sec(float value) => PinnedStat?.Modify(value, 1);
 
-        /// <summary>Set  Stat Value to a fixed Value</summary>
-        public virtual void Stat_Pin_SetValue(float value) => PinnedStat.SetValue(value);
+            /// <summary>Set  Stat Value to a fixed Value</summary>
+            public virtual void Stat_Pin_SetValue(float value) => PinnedStat.SetValue(value);
 
-        /// <summary>Modify the Pinned Stat MAX Value (Add or remove to the Max Value) </summary>
-        public virtual void Stat_Pin_ModifyMaxValue(float value) => PinnedStat?.ModifyMAX(value);
+            /// <summary>Modify the Pinned Stat MAX Value (Add or remove to the Max Value) </summary>
+            public virtual void Stat_Pin_ModifyMaxValue(float value) => PinnedStat?.ModifyMAX(value);
 
-        /// <summary>Set the Pinned Stat MAX Value </summary>
-        public virtual void Stat_Pin_SetMaxValue(float value) => PinnedStat?.SetMAX(value);
+            /// <summary>Set the Pinned Stat MAX Value </summary>
+            public virtual void Stat_Pin_SetMaxValue(float value) => PinnedStat?.SetMAX(value);
 
-        /// <summary> Enable/Disable the Pinned Stat Regeneration Rate </summary>
-        public virtual void Stat_Pin_Modify_RegenRate(float value) => PinnedStat?.ModifyRegenRate(value);
+            /// <summary> Enable/Disable the Pinned Stat Regeneration Rate </summary>
+            public virtual void Stat_Pin_Modify_RegenRate(float value) => PinnedStat?.ModifyRegenRate(value);
 
-        /// <summary> Enable/Disable the Pinned Stat Degeneration </summary>
-        public virtual void Stat_Pin_Degenerate(bool value) => PinnedStat?.SetDegeneration(value);
+            /// <summary> Enable/Disable the Pinned Stat Degeneration </summary>
+            public virtual void Stat_Pin_Degenerate(bool value) => PinnedStat?.SetDegeneration(value);
 
-        /// <summary>Enable/Disable the Pinned Stat Regeneration </summary>
-        public virtual void Stat_Pin_Regenerate(bool value) => PinnedStat?.SetRegeneration(value);
-        //  public virtual void _PinStatRegenerate(bool value) { Stat_Pin_Regenerate(value); }
+            /// <summary>Enable/Disable the Pinned Stat Regeneration </summary>
+            public virtual void Stat_Pin_Regenerate(bool value) => PinnedStat?.SetRegeneration(value);
+            //  public virtual void _PinStatRegenerate(bool value) { Stat_Pin_Regenerate(value); }
 
-        /// <summary> Enable/Disable the Pinned Stat</summary>
-        public virtual void Stat_Pin_Enable(bool value) => PinnedStat?.SetActive(value);
+            /// <summary> Enable/Disable the Pinned Stat</summary>
+            public virtual void Stat_Pin_Enable(bool value) => PinnedStat?.SetActive(value);
 
-        /// <summary>Modify the Pinned Stat value with a 'new Value',  'ticks' times , every 'timeBetweenTicks' seconds</summary>
-        public virtual void Stat_Pin_ModifyValue(float newValue, int ticks, float timeBetweenTicks) => PinnedStat?.Modify(newValue, ticks, timeBetweenTicks);
+            /// <summary>Modify the Pinned Stat value with a 'new Value',  'ticks' times , every 'timeBetweenTicks' seconds</summary>
+            public virtual void Stat_Pin_ModifyValue(float newValue, int ticks, float timeBetweenTicks) => PinnedStat?.Modify(newValue, ticks, timeBetweenTicks);
 
-        /// <summary> Clean the Pinned Stat from All Regeneration/Degeneration and Modify Tick Values </summary>
-        public virtual void Stat_Pin_CleanCoroutines() => PinnedStat?.CleanRoutines();
+            /// <summary> Clean the Pinned Stat from All Regeneration/Degeneration and Modify Tick Values </summary>
+            public virtual void Stat_Pin_CleanCoroutines() => PinnedStat?.CleanRoutines();
  
     }
 
@@ -205,7 +178,7 @@ namespace MalbersAnimations
         [SerializeField] private FloatReference multiplier = new FloatReference(1);
 
         /// <summary>Can the Stat regenerate overtime</summary>
-        [SerializeField] private bool regenerate = false;
+        [SerializeField] private BoolReference regenerate = new BoolReference( false);
         /// <summary>Regeneration Rate. Change the Speed of the Regeneration</summary>
         public FloatReference RegenRate;
         /// <summary>Regeneration Rate. When the value is modified this will increase or decrease it over time.</summary>
@@ -213,7 +186,7 @@ namespace MalbersAnimations
         /// <summary>Regeneration Rate. When the value is modified this will increase or decrease it over time.</summary>
         public FloatReference DegenWaitTime = new FloatReference(0);
         /// <summary>Can the Stat degenerate overtime</summary>
-        [SerializeField] private bool degenerate = false;
+        [SerializeField] private BoolReference degenerate = new BoolReference(false);
         /// <summary>Degeneration Rate. Change the Speed of the Degeneration</summary>
         public FloatReference DegenRate;
         /// <summary>If greater than zero, the Stat cannot be modify until the inmune time have passed</summary>
@@ -241,7 +214,8 @@ namespace MalbersAnimations
         public UnityEvent OnStatAbove = new UnityEvent();
         public FloatEvent OnValueChangeNormalized = new FloatEvent();
         public FloatEvent OnValueChange = new FloatEvent();
-        public BoolEvent OnDegenereate = new BoolEvent();
+        public BoolEvent OnDegenerate = new BoolEvent();
+        public BoolEvent OnRegenerate = new BoolEvent();
         #endregion
 
         #region Properties
@@ -274,7 +248,7 @@ namespace MalbersAnimations
         /// <summary> Current value of the Stat</summary>
         public float Value
         {
-            get { return value; }
+            get => value;
             set
             {
                 if (!Active) return;                //If the  Stat is not Active do nothing
@@ -308,13 +282,12 @@ namespace MalbersAnimations
         /// <summary>Can the Stat Regenerate over time</summary>
         public bool Regenerate
         {
-            get { return regenerate; }
+            get => regenerate.Value;
             set
             {
-                regenerate = value;
+                regenerate.Value = value;
                 regenerate_LastValue = regenerate;           //In case Regenerate is changed 
-                
-                
+                OnRegenerate.Invoke(value);
                 StartRegeneration();
             }
         }
@@ -322,24 +295,24 @@ namespace MalbersAnimations
         /// <summary> Can the Stat Degenerate over time </summary>
         public bool Degenerate
         {
-            get { return degenerate; }
+            get => degenerate.Value; 
             set
             {
-                degenerate = value;
+                degenerate.Value = value;
                 degenerate_LastValue = degenerate;           //In case Regenerate is changed 
 
 
-                OnDegenereate.Invoke(value);
+                OnDegenerate.Invoke(value);
 
                 if (degenerate)
                 {
-                    regenerate = false;     //Do not Regenerate if we are Degenerating
+                    regenerate.Value = false;     //Do not Regenerate if we are Degenerating
                     StartDegeneration();
                     StopRegeneration();
                 }
                 else
                 {
-                    regenerate = regenerate_LastValue;   //If we are no longer Degenerating Start Regenerating again in case the Regenerate was true
+                    regenerate.Value = regenerate_LastValue;   //If we are no longer Degenerating Start Regenerating again in case the Regenerate was true
                     StopDegeneration();
                     StartRegeneration();
                 }
@@ -371,7 +344,7 @@ namespace MalbersAnimations
 
             InmuneWait = new WaitForSeconds(InmuneTime);
 
-            //        Debug.Log(Name + " MAX: " + MaxValue + "Val: " + Value);
+            //Debug.Log(Name + " MAX: " + MaxValue + "Val: " + Value);
 
             OnValueChangeNormalized.Invoke(NormalizedValue);
             OnValueChange.Invoke(Value);

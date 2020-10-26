@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1281922324}
-  m_IndirectSpecularColor: {r: 0.7321309, g: 0.79944193, b: 0.83688277, a: 1}
+  m_IndirectSpecularColor: {r: 0.73213524, g: 0.799442, b: 0.83688515, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -234,16 +234,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wolf Lite AI Enemy (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 3696115590862623544, guid: cee82014b2fbce7418429456a3996ca2,
+    - target: {fileID: 5780204833020680588, guid: cee82014b2fbce7418429456a3996ca2,
         type: 3}
-      propertyPath: Editor_Tabs1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3696115590862623544, guid: cee82014b2fbce7418429456a3996ca2,
-        type: 3}
-      propertyPath: Editor_Tabs2
-      value: 4
-      objectReference: {fileID: 0}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1374826376}
     - target: {fileID: 6083284556602497632, guid: cee82014b2fbce7418429456a3996ca2,
         type: 3}
       propertyPath: target
@@ -713,7 +708,7 @@ PrefabInstance:
     - target: {fileID: 114222225517902476, guid: a578de702f2191b4fa9cdcec1ad493c5,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114222225517902476, guid: a578de702f2191b4fa9cdcec1ad493c5,
         type: 3}
@@ -1790,7 +1785,7 @@ PrefabInstance:
     - target: {fileID: 3695551657482356886, guid: cee82014b2fbce7418429456a3996ca2,
         type: 3}
       propertyPath: stats.Array.data[1].regenerate
-      value: 1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3696115590862623544, guid: cee82014b2fbce7418429456a3996ca2,
         type: 3}
@@ -1803,6 +1798,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7aeddc7f19f7d9a48b115fe9c0581668,
         type: 2}
+    - target: {fileID: 5780204833020680588, guid: cee82014b2fbce7418429456a3996ca2,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1439867349}
     - target: {fileID: 6083284556602497632, guid: cee82014b2fbce7418429456a3996ca2,
         type: 3}
       propertyPath: AutoNextTarget
@@ -2095,6 +2095,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7aeddc7f19f7d9a48b115fe9c0581668,
         type: 2}
+    - target: {fileID: 5780204833020680588, guid: cee82014b2fbce7418429456a3996ca2,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 469384921}
     - target: {fileID: 6083284556602497632, guid: cee82014b2fbce7418429456a3996ca2,
         type: 3}
       propertyPath: AutoNextTarget

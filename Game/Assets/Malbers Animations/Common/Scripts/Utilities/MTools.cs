@@ -930,6 +930,7 @@ namespace MalbersAnimations
         public float height;
         public int direction;
         public float radius;
+        public PhysicMaterial material;
 
         [Utilities.Flag]
         public CapsuleModifier modify;
@@ -942,6 +943,7 @@ namespace MalbersAnimations
             height = collider.height;
             radius = collider.radius;
             direction = collider.direction;
+            material = collider.material;
             modify = 0;
         }
 
@@ -956,6 +958,7 @@ namespace MalbersAnimations
             if (Modify(CapsuleModifier.height)) collider.height = height;
             if (Modify(CapsuleModifier.radius)) collider.radius = radius;
             if (Modify(CapsuleModifier.direction)) collider.direction = direction;
+            if (Modify(CapsuleModifier.material)) collider.material = material;
         }
 
 
@@ -973,6 +976,7 @@ namespace MalbersAnimations
         height    = 1 << 3,
         radius    = 1 << 4,
         direction = 1 << 5,
+        material  = 1 << 6,
     }
 
 #if UNITY_EDITOR
@@ -1006,6 +1010,7 @@ namespace MalbersAnimations
             var center = property.FindPropertyRelative("center");
             var height1 = property.FindPropertyRelative("height");
             var direction = property.FindPropertyRelative("direction");
+            var material = property.FindPropertyRelative("material");
             
             #endregion
 
@@ -1037,6 +1042,12 @@ namespace MalbersAnimations
             if (Modify(ModifyValue, CapsuleModifier.isTrigger))
                 DrawProperty(ref line, isTrigger);
 
+            if (Modify(ModifyValue, CapsuleModifier.material))
+                DrawProperty(ref line, material);
+
+            if (Modify(ModifyValue, CapsuleModifier.center))
+                DrawProperty(ref line, center);
+
             if (Modify(ModifyValue, CapsuleModifier.radius))
                 DrawProperty(ref line, radius);
 
@@ -1046,8 +1057,7 @@ namespace MalbersAnimations
             if (Modify(ModifyValue, CapsuleModifier.direction))
                 DrawProperty(ref line, direction);
 
-            if (Modify(ModifyValue, CapsuleModifier.center))
-                DrawProperty(ref line, center);
+
 
             EditorGUI.indentLevel = indent;
             EditorGUI.EndProperty();
@@ -1078,6 +1088,7 @@ namespace MalbersAnimations
             if (Modify(ModifyValue, CapsuleModifier.radius)) activeProperties++;
             if (Modify(ModifyValue, CapsuleModifier.direction)) activeProperties++;
             if (Modify(ModifyValue, CapsuleModifier.isTrigger)) activeProperties++;
+            if (Modify(ModifyValue, CapsuleModifier.material)) activeProperties++;
             float lines = (int)(activeProperties + 2);
             return base.GetPropertyHeight(property, label) * lines;// + (1 * lines);
         }

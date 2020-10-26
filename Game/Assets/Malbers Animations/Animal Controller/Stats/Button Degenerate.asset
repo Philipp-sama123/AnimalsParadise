@@ -15,3 +15,4 @@ MonoBehaviour:
   Description: 'Catch if the Stamina button was Pressed
 
     Bool: Button Stamina Pressed'
+  debug: 1

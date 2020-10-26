@@ -96,7 +96,7 @@ namespace MalbersAnimations
     
     /// <summary>Input Class to change directly between Keys and Unity Inputs </summary>
     [System.Serializable]
-    public class InputRow
+    public class InputRow : IInputAction
     {
         public string name = "InputName";
         public BoolReference active = new BoolReference(true);
@@ -134,7 +134,7 @@ namespace MalbersAnimations
         #endregion
 
         /// <summary>Return True or False to the Selected type of Input of choice</summary>
-        public virtual bool GetInput
+        public virtual bool GetValue
         {
             get
             {
@@ -178,7 +178,6 @@ namespace MalbersAnimations
                     case InputButton.Up:
 
                         InputValue = (type == InputType.Input) ? InputSystem.GetButtonUp(input) : Input.GetKeyUp(key);
-
 
                         if (oldValue != InputValue)
                         {
@@ -287,11 +286,17 @@ namespace MalbersAnimations
             }
         }
 
-        public IInputSystem InputSystem
-        {
-            get => inputSystem;  
-            set => inputSystem = value; 
-        }
+        public IInputSystem InputSystem { get => inputSystem; set => inputSystem = value; }
+        public string Name { get => name; set => name = value; }
+        public bool Active { get => active.Value; set => active.Value = value; }
+        public InputButton Button => GetPressed;
+
+        public UnityEvent InputDown => this.OnInputDown;
+
+        public UnityEvent InputUp => this.OnInputUp;
+
+        public BoolEvent InputChanged => this.OnInputChanged;
+
 
         #region Constructors
 

@@ -74,7 +74,7 @@ namespace MalbersAnimations.Controller
             switch (hatchtype)
             {
                 case HatchType.Input:
-                    if (input.GetInput) crack_egg = true;
+                    if (input.GetValue) crack_egg = true;
                     break;
                 default:
                     break;

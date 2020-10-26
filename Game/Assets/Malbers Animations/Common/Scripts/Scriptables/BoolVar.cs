@@ -16,7 +16,7 @@ namespace MalbersAnimations.Scriptables
         /// <summary> Value of the Bool variable</summary>
         public virtual bool Value
         {
-            get => value; 
+            get => value;
             set
             {
                 if (this.value != value)                  //If the value is diferent change it
@@ -42,9 +42,7 @@ namespace MalbersAnimations.Scriptables
         public bool UseConstant = true;
 
         public bool ConstantValue;
-#pragma warning disable CA2235 // Mark all non-serializable fields
         [RequiredField] public BoolVar Variable;
-#pragma warning restore CA2235 // Mark all non-serializable fields
 
         public BoolReference() => Value = false;
 
@@ -57,7 +55,7 @@ namespace MalbersAnimations.Scriptables
             get => UseConstant || Variable == null ? ConstantValue : Variable.Value;
             set
             {
-               // Debug.Log(value);
+                // Debug.Log(value);
                 if (UseConstant || Variable == null)
                     ConstantValue = value;
                 else

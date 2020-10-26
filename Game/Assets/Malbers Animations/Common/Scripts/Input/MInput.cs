@@ -62,7 +62,7 @@ namespace MalbersAnimations
             if (IgnoreOnPause.Value && Time.timeScale == 0) return;
 
             foreach (var item in inputs)
-                _ = item.GetInput;  //This will set the Current Input value to the inputs and Invoke the Values
+                _ = item.GetValue;  //This will set the Current Input value to the inputs and Invoke the Values
         }
 
 
@@ -107,10 +107,7 @@ namespace MalbersAnimations
         }
 
         /// <summary>Check if an Input Row  exist  and returns it</summary>
-        public virtual InputRow FindInput(string name)
-        {
-            return inputs.Find(item => item.name == name);
-        }
+        public virtual InputRow FindInput(string name) => inputs.Find(item => item.name == name);
 
         public bool GetInputValue(string name)
         {
@@ -120,7 +117,7 @@ namespace MalbersAnimations
             return false;
         }
 
-        public InputRow GetInput(string name)
+        public IInputAction GetInput(string name)
         {
             if (DInputs.TryGetValue(name, out InputRow getInput))
                 return getInput;

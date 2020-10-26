@@ -1,6 +1,6 @@
 ﻿using MalbersAnimations.Events;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace MalbersAnimations
 {
@@ -8,10 +8,27 @@ namespace MalbersAnimations
     public interface IInputSource
     {
         void Enable(bool val);
-        InputRow GetInput(string input);
+
+        /// <summary>Returns the Input Action by its name</summary>
+        IInputAction GetInput(string input);
         void EnableInput(string input);
         void DisableInput(string input);
+
+        /// <summary>Changes the value of an Input using its name</summary>
         void SetInput(string input, bool value);
+    }
+
+    public interface IInputAction
+    {
+        /// <summary> Set/Get Input Action Active value</summary>
+        bool Active { get; set; }
+
+        /// <summary>Input Action Value True (Down/Pressed) False (Up/Released)</summary>
+        bool GetValue { get; }
+
+        string Name { get; }
+ 
+        BoolEvent InputChanged { get; }
     }
    
     
@@ -40,30 +57,15 @@ namespace MalbersAnimations
     /// <summary> Default Unity Input</summary>
     public class DefaultInput : IInputSystem
     {
-        public float GetAxis(string Axis)
-        {
-            return Input.GetAxis(Axis);
-        }
+        public float GetAxis(string Axis) => Input.GetAxis(Axis);
 
-        public float GetAxisRaw(string Axis)
-        {
-            return Input.GetAxisRaw(Axis);
-        }
+        public float GetAxisRaw(string Axis) => Input.GetAxisRaw(Axis);
 
-        public bool GetButton(string button)
-        {
-            return Input.GetButton(button);
-        }
+        public bool GetButton(string button) => Input.GetButton(button);
 
-        public bool GetButtonDown(string button)
-        {
-            return Input.GetButtonDown(button);
-        }
+        public bool GetButtonDown(string button) => Input.GetButtonDown(button);
 
-        public bool GetButtonUp(string button)
-        {
-            return Input.GetButtonUp(button);
-        }
+        public bool GetButtonUp(string button) => Input.GetButtonUp(button);
 
         /// <summary> This Gets the Current Input System that is being used... Unity's, CrossPlatform or Rewired</summary>
         public static IInputSystem GetInputSystem(string PlayerID = "")

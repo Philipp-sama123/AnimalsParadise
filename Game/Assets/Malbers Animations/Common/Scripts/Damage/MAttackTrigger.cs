@@ -42,13 +42,13 @@ namespace MalbersAnimations.Controller
         public override Transform Owner { get => m_Owner; set => m_Owner = value; }
           
         [HideInInspector] public int Editor_Tabs1;
-       
+
 
         void OnEnable()
         {
             if (Owner == null) Owner = transform.root;                         //Set which is the owner of this AttackTrigger
 
-            Trigger.enabled = Trigger.isTrigger = true;
+            if (Trigger) Trigger.enabled = Trigger.isTrigger = true;
             AlreadyHitted = new List<Collider>();
             OnAttackBegin.Invoke();
             enemy = null;
@@ -60,7 +60,7 @@ namespace MalbersAnimations.Controller
 
         void OnDisable()
         {
-            Trigger.enabled = false;
+            if (Trigger) Trigger.enabled = false;
 
             if (enemyStats) EnemyStatExit.ModifyStat(enemyStats); //Means the Colliders was disable before Exit Trigger
 

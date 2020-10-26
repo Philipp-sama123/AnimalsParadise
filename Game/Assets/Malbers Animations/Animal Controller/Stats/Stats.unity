@@ -193,6 +193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 694439212}
+  - component: {fileID: 694439213}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -214,6 +215,116 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &694439213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694439211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cf9548d1f32af143802e526c7043914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_active:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  m_aimOrigin: {fileID: 694439212}
+  m_Smoothness: 10
+  m_aimLayer:
+    UseConstant: 1
+    ConstantValue:
+      serializedVersion: 2
+      m_Bits: 3230662677
+    Variable: {fileID: 0}
+  m_Triggers: 2
+  m_AimTarget: {fileID: 0}
+  m_AimPositon: {fileID: 0}
+  m_Ignore: {fileID: 0}
+  m_camera: {fileID: 987905783}
+  m_screenCenter:
+    UseConstant: 1
+    ConstantValue: {x: 0.5, y: 0.5}
+    Variable: {fileID: 0}
+  m_AimSide: 0
+  updateMode: 1
+  rayRadius:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  RayLength: 75
+  RayHits: 3
+  OnAimRayTarget:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 4bc2ab8546709574cb4c726c9a520da6, type: 2}
+        m_MethodName: Invoke
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 4bc2ab8546709574cb4c726c9a520da6, type: 2}
+        m_MethodName: Invoke
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnScreenCenter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 4bc2ab8546709574cb4c726c9a520da6, type: 2}
+        m_MethodName: Invoke
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 4bc2ab8546709574cb4c726c9a520da6, type: 2}
+        m_MethodName: Invoke
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnAimSide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: b44110dcbf690f24a8b7e30ef52ec965, type: 2}
+        m_MethodName: SetAim
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnAiming:
+    m_PersistentCalls:
+      m_Calls: []
+  debug: 1
+  EditorTab1: 0
 --- !u!1 &844541320
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +441,7 @@ PrefabInstance:
     - target: {fileID: 224392173004599436, guid: 4201cde6935a40a4f95c84a699c7faee,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224392173004599436, guid: 4201cde6935a40a4f95c84a699c7faee,
         type: 3}
@@ -561,7 +672,7 @@ RectTransform:
   m_Children:
   - {fileID: 844541321}
   m_Father: {fileID: 224405951998978053}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -705,7 +816,7 @@ PrefabInstance:
     - target: {fileID: 224099771466802532, guid: fc0ba8caed599c844aea169a458f10e0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224099771466802532, guid: fc0ba8caed599c844aea169a458f10e0,
         type: 3}
@@ -845,7 +956,7 @@ RectTransform:
   m_Children:
   - {fileID: 1423667544}
   m_Father: {fileID: 224405951998978053}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1157,6 +1268,51 @@ PrefabInstance:
         type: 3}
       propertyPath: stats.Array.data[1].RegenWaitTime.ConstantValue
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[1].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[2].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[3].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[4].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[0].ShowEvents
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[0].regenerate.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[1].degenerate.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[1].regenerate.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114842976740646932, guid: dacc0534c43f8a145a5fbcf7415da3e4,
+        type: 3}
+      propertyPath: stats.Array.data[4].degenerate.ConstantValue
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dacc0534c43f8a145a5fbcf7415da3e4, type: 3}
@@ -1894,7 +2050,7 @@ RectTransform:
   m_Children:
   - {fileID: 224690277857357781}
   m_Father: {fileID: 224405951998978053}
-  m_RootOrder: 1
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1914,7 +2070,7 @@ RectTransform:
   m_Children:
   - {fileID: 224552069362127755}
   m_Father: {fileID: 224405951998978053}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1933,13 +2089,13 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 224109664055564249}
-  - {fileID: 224199874196184941}
   - {fileID: 224224780632991383}
   - {fileID: 1862051753}
   - {fileID: 628039948}
   - {fileID: 2357014701558860873}
   - {fileID: 1452637058}
   - {fileID: 1057254878}
+  - {fileID: 224199874196184941}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0.072000004, y: 0.047000002, z: 0.019000001}
@@ -2076,7 +2232,7 @@ RectTransform:
   - {fileID: 2356981768893787253}
   - {fileID: 2357518038707482599}
   m_Father: {fileID: 224405951998978053}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
