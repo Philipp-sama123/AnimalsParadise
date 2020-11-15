@@ -880,6 +880,7 @@ Transform:
   - {fileID: 680665504505907254}
   - {fileID: 7658512594846129269}
   - {fileID: 1482666740941975971}
+  - {fileID: 397285097739601126}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1576,7 +1577,7 @@ MonoBehaviour:
   PivotPosDir: 1
   showStates: 1
   ModeShowEvents: 0
-  Editor_Tabs1: 3
+  Editor_Tabs1: 0
   Editor_Tabs2: 4
   SelectedMode: 3
   debugStates: 0
@@ -3259,7 +3260,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    regenerate: 1
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
     RegenRate:
       UseConstant: 1
       ConstantValue: 20
@@ -3272,7 +3276,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    degenerate: 0
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     DegenRate:
       UseConstant: 1
       ConstantValue: 10
@@ -3339,7 +3346,10 @@ MonoBehaviour:
     OnValueChange:
       m_PersistentCalls:
         m_Calls: []
-    OnDegenereate:
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
       m_PersistentCalls:
         m_Calls: []
   - active: 1
@@ -3360,7 +3370,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    regenerate: 1
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
     RegenRate:
       UseConstant: 1
       ConstantValue: 2
@@ -3373,14 +3386,17 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    degenerate: 0
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     DegenRate:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
     InmuneTime:
       UseConstant: 1
-      ConstantValue: 1.5
+      ConstantValue: 0.5
       Variable: {fileID: 0}
     resetTo: 1
     ShowEvents: 1
@@ -3442,7 +3458,110 @@ MonoBehaviour:
     OnValueChange:
       m_PersistentCalls:
         m_Calls: []
-    OnDegenereate:
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+  - active: 1
+    ID: {fileID: 11400000, guid: af163a301fc6eb642afd2bd110058459, type: 2}
+    value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    maxValue:
+      UseConstant: 1
+      ConstantValue: 200
+      Variable: {fileID: 0}
+    minValue:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    multiplier:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    RegenRate:
+      UseConstant: 1
+      ConstantValue: 0.1
+      Variable: {fileID: 0}
+    RegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 5
+      Variable: {fileID: 0}
+    DegenWaitTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DegenRate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    InmuneTime:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    resetTo: 1
+    ShowEvents: 1
+    OnStatFull:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3130098926154694629}
+          m_MethodName: State_Activate
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: adfa24f62d6db4d40a1d837f4ec1a6e9,
+              type: 2}
+            m_ObjectArgumentAssemblyTypeName: MalbersAnimations.StateID, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnStatEmpty:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStat:
+      m_PersistentCalls:
+        m_Calls: []
+    Below: 0
+    Above: 0
+    OnStatBelow:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStatAbove:
+      m_PersistentCalls:
+        m_Calls: []
+    OnValueChangeNormalized:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: e0b8d951a8c55484c955ef187a14fbc4, type: 2}
+          m_MethodName: Invoke
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
       m_PersistentCalls:
         m_Calls: []
   PinnedStat:
@@ -3464,7 +3583,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    regenerate: 0
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     RegenRate:
       UseConstant: 1
       ConstantValue: 0
@@ -3477,7 +3599,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    degenerate: 0
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     DegenRate:
       UseConstant: 1
       ConstantValue: 0
@@ -3511,7 +3636,10 @@ MonoBehaviour:
     OnValueChange:
       m_PersistentCalls:
         m_Calls: []
-    OnDegenereate:
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
       m_PersistentCalls:
         m_Calls: []
 --- !u!114 &7562380563576296395
@@ -3537,7 +3665,29 @@ MonoBehaviour:
   events:
     OnReceivingDamage:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 3887469385004013809}
+          m_MethodName: Play
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1752668988750914200}
+          m_MethodName: Play
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnCriticalDamage:
       m_PersistentCalls:
         m_Calls: []
@@ -5968,6 +6118,38 @@ CapsuleCollider:
   m_Height: 0.39940086
   m_Direction: 0
   m_Center: {x: -0.04123628, y: -0.008486735, z: 0.000000020204048}
+--- !u!1 &6403386438258103564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397285097739601126}
+  m_Layer: 20
+  m_Name: Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &397285097739601126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6403386438258103564}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3973239457020847531}
+  - {fileID: 1910198988238397378}
+  m_Father: {fileID: 3092035782127313265}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6950485189663010075
 GameObject:
   m_ObjectHideFlags: 0
@@ -6735,3 +6917,165 @@ Transform:
   m_Father: {fileID: 2508400108570483755}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6543999821413456115
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 397285097739601126}
+    m_Modifications:
+    - target: {fileID: 7917855724878275646, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_Name
+      value: FX_BloodSplat Raccoon
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.38268343
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.92387956
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa93b26fb8cf23d48adcfd60c95ebfdb, type: 3}
+--- !u!4 &3973239457020847531 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6543999821413456115}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3887469385004013809 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8008497335813226498, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6543999821413456115}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8606764600238023322
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 397285097739601126}
+    m_Modifications:
+    - target: {fileID: 7917855724878275646, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_Name
+      value: FX_BloodSplat Raccoon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.38268343
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.92387956
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa93b26fb8cf23d48adcfd60c95ebfdb, type: 3}
+--- !u!4 &1910198988238397378 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7922743335630585176, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8606764600238023322}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1752668988750914200 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8008497335813226498, guid: aa93b26fb8cf23d48adcfd60c95ebfdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8606764600238023322}
+  m_PrefabAsset: {fileID: 0}

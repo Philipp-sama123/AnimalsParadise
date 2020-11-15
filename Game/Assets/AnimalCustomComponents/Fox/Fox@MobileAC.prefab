@@ -1,167 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &591795732345501300
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8374247086100117368}
-  - component: {fileID: 7996326268642151592}
-  - component: {fileID: 5326910488229279461}
-  - component: {fileID: 8922174737225045298}
-  - component: {fileID: 797760664549703050}
-  m_Layer: 20
-  m_Name: '- AI -'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &8374247086100117368
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591795732345501300}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.43}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5110631567626396366}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7996326268642151592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591795732345501300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e018d88fdcd394a4c8254460a5394eaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Editor_Tabs1: 0
-  agent: {fileID: 797760664549703050}
-  animal: {fileID: 5148929542509606692}
-  stoppingDistance: 0.6
-  walkDistance: 1
-  target: {fileID: 0}
-  AutoNextTarget: 1
-  AutoInteract: 1
-  MoveAgentOnMovingTarget: 1
-  LookAtTargetOnArrival: 0
-  MovingTargetInterval: 0.2
-  updateTargetPosition: 1
-  debug: 0
-  debugGizmos: 1
-  OnTargetPositionArrived:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTargetArrived:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTargetSet:
-    m_PersistentCalls:
-      m_Calls: []
-  pointType: 0
---- !u!114 &5326910488229279461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591795732345501300}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19c8f4f5fdbe96840982ce61b3fbc8fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AIMovement: {fileID: 7996326268642151592}
-  Eyes: {fileID: 260803312834900465}
-  TransitionCoolDown: 0.2
-  currentState: {fileID: 11400000, guid: 7aeddc7f19f7d9a48b115fe9c0581668, type: 2}
-  remainInState: {fileID: 11400000, guid: 2ecb231e39609524b9fd193fb84c5f26, type: 2}
-  RemoveAIOnDeath: 1
-  debug: 1
-  OnTaskStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDecisionSucceded:
-    m_PersistentCalls:
-      m_Calls: []
-  TasksTimeElapsed: []
-  DecisionsTimeElapsed: []
---- !u!114 &8922174737225045298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591795732345501300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 719277e72cb5d59488defcf2eaf68d45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointClickData: {fileID: 11400000, guid: b4b12009e452a364c8c23d8a0f881a61, type: 2}
-  PointUI: {fileID: 1291115747974048, guid: a7118c63ac516284aa1961df48d8ce0a, type: 3}
-  radius: 0.2
-  OnPointClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7996326268642151592}
-        m_MethodName: SetDestination
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnInteractableClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7996326268642151592}
-        m_MethodName: SetTarget
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!195 &797760664549703050
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591795732345501300}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.27
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.65
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &1109751176672041345
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5110631567626396366}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8543543333308996781
 MonoBehaviour:
@@ -257,7 +95,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5110631567626396366}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4628580292068434512
 MonoBehaviour:
@@ -331,7 +169,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 5e2948538d3401c4e9b045835fad426a, type: 2}
     Linked: 0
     Master: 0
-    current: 0
+    current: 4
     HasLODs: 0
     LODs: []
     indexM: 0
@@ -938,7 +776,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5110631567626396366}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &5119368430602925750
 SkinnedMeshRenderer:
@@ -958,7 +796,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c4976ecf03899a04a8d5faa68fcc1a02, type: 2}
+  - {fileID: 2100000, guid: e06654e42f6991548a76f7ed883c3515, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1715,7 +1553,6 @@ Transform:
   m_LocalPosition: {x: -5.54, y: -0, z: -9.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8374247086100117368}
   - {fileID: 2440655636183118408}
   - {fileID: 631964351830278173}
   - {fileID: 5112201129096275462}
@@ -3356,7 +3193,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    regenerate: 1
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     RegenRate:
       UseConstant: 1
       ConstantValue: 20
@@ -3369,7 +3209,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    degenerate: 0
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     DegenRate:
       UseConstant: 1
       ConstantValue: 10
@@ -3436,7 +3279,10 @@ MonoBehaviour:
     OnValueChange:
       m_PersistentCalls:
         m_Calls: []
-    OnDegenereate:
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
       m_PersistentCalls:
         m_Calls: []
   - active: 1
@@ -3457,7 +3303,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    regenerate: 1
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     RegenRate:
       UseConstant: 1
       ConstantValue: 2
@@ -3470,7 +3319,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    degenerate: 0
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     DegenRate:
       UseConstant: 1
       ConstantValue: 0
@@ -3539,7 +3391,10 @@ MonoBehaviour:
     OnValueChange:
       m_PersistentCalls:
         m_Calls: []
-    OnDegenereate:
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
       m_PersistentCalls:
         m_Calls: []
   PinnedStat:
@@ -3561,7 +3416,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    regenerate: 0
+    regenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     RegenRate:
       UseConstant: 1
       ConstantValue: 0
@@ -3574,7 +3432,10 @@ MonoBehaviour:
       UseConstant: 1
       ConstantValue: 0
       Variable: {fileID: 0}
-    degenerate: 0
+    degenerate:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
     DegenRate:
       UseConstant: 1
       ConstantValue: 0
@@ -3608,7 +3469,10 @@ MonoBehaviour:
     OnValueChange:
       m_PersistentCalls:
         m_Calls: []
-    OnDegenereate:
+    OnDegenerate:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRegenerate:
       m_PersistentCalls:
         m_Calls: []
 --- !u!114 &902716587436140980
@@ -4713,7 +4577,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5110631567626396366}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &5119190226371056604
 SkinnedMeshRenderer:
@@ -5305,7 +5169,7 @@ Transform:
   m_Children:
   - {fileID: 5110610574323918112}
   m_Father: {fileID: 5110631567626396366}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5109309114262279990
 GameObject:
