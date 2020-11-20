@@ -13,12 +13,18 @@ namespace MalbersAnimations.Controller
         public float Bank = 30;
         [Range(0, 90), Tooltip("Limit to go Up and Down")]
         public float Ylimit = 80;
+
+        [Tooltip("Bank amount used when turning while straffing")]
+        public float BankStrafe = 0; 
+        [Tooltip("Limit to go Up and Down while straffing")]
+        public float YlimitStrafe = 0;
+
         //[Space, Tooltip("Type of Fly Input for Activating Flying. \nToggle: Press the Input Down to Start Flying. Press when Flying to Stop Flying.\nPress: As long as the Input is Pressed the Animal will keep Flying")]
         //public FlyInput flyInput = FlyInput.Toggle;
 
 
 
-        [Tooltip("Sets Always Forward when Flying to true")]
+        [Space,Tooltip("Sets Always Forward when Flying to true")]
         public BoolReference AlwaysForward = new BoolReference(false);
         private bool LastAlwaysForward;
 
@@ -153,6 +159,13 @@ namespace MalbersAnimations.Controller
                 GravityPush(deltatime);
 
                 var limit = Ylimit;
+                var bank = Bank;
+
+                if (animal.Strafe)
+                {
+                    limit = YlimitStrafe;
+                    bank = BankStrafe;
+                }
 
                 if (GlideOnly)
                 {
@@ -184,8 +197,10 @@ namespace MalbersAnimations.Controller
                     }
                 }
 
+               
+
                 if (General.FreeMovement)
-                    animal.FreeMovementRotator(limit, Bank, deltatime);
+                    animal.FreeMovementRotator(limit, bank, deltatime);
 
 
 
@@ -261,7 +276,7 @@ namespace MalbersAnimations.Controller
                 var newGlideSpeed = Random.Range(GlideSpeed - Variation, GlideSpeed);
                 var newFlapSpeed = Random.Range(FlapSpeed, FlapSpeed + Variation);
 
-                animal.currentSpeedModifier.Vertical = isGliding ? newGlideSpeed : newFlapSpeed;
+                animal.currentSpeedModifier.Vertical = (isGliding && !animal.Strafe) ? newGlideSpeed : newFlapSpeed;
             }
         }
       

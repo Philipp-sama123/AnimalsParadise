@@ -1,5 +1,8 @@
 ﻿#if UNITY_EDITOR
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace MalbersAnimations.Scriptables
@@ -14,6 +17,7 @@ namespace MalbersAnimations.Scriptables
     [CustomPropertyDrawer(typeof(LayerReference))]
     [CustomPropertyDrawer(typeof(GameObjectReference))]
     [CustomPropertyDrawer(typeof(SpriteReference))]
+    [CustomPropertyDrawer(typeof(TransformReference))]
     public class VariableReferenceDrawer : PropertyDrawer
     {
         /// <summary>  Options to display in the popup to select constant or variable. </summary>
@@ -21,13 +25,15 @@ namespace MalbersAnimations.Scriptables
 
         /// <summary> Cached style to use to draw the popup button. </summary>
         private GUIStyle popupStyle;
+        private GUIStyle AddStyle;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (popupStyle == null)
-            {
                 popupStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions")) { imagePosition = ImagePosition.ImageOnly };
-            }
+
+            if (AddStyle == null)
+                AddStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions")) { imagePosition = ImagePosition.ImageOnly };
 
             label = EditorGUI.BeginProperty(position, label, property);
             Rect variableRect = new Rect(position);
@@ -52,6 +58,9 @@ namespace MalbersAnimations.Scriptables
             position.xMin = buttonRect.xMax;
 
 
+            var AddButtonRect = new Rect(prop) { x = prop.width + prop.x-20,  width = 22 };
+
+
             // Store old indent level and set it to 0, the PrefixLabel takes care of it
             int indent = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
@@ -60,9 +69,22 @@ namespace MalbersAnimations.Scriptables
 
             useConstant.boolValue = (result == 0);
 
+            bool varIsEmpty = variable.objectReferenceValue == null;
+
+            if (varIsEmpty && !useConstant.boolValue) { prop.width -= 22; }
+            
+
             EditorGUI.PropertyField(prop, useConstant.boolValue ? constantValue : variable, GUIContent.none, false);
 
-          //  ShowScriptVar(variableRect, height, useConstant, variable);
+            if (varIsEmpty && !useConstant.boolValue)
+            {
+                if (GUI.Button(AddButtonRect, new GUIContent("+", "Create")))
+                { 
+                    MTools.CreateScriptableAsset(variable, MTools.Get_Type( variable), MTools.GetSelectedPathOrFallback());
+                }
+            }
+
+            //  ShowScriptVar(variableRect, height, useConstant, variable);
 
             if (EditorGUI.EndChangeCheck())
                 property.serializedObject.ApplyModifiedProperties();

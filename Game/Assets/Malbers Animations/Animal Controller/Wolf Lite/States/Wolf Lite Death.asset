@@ -36,6 +36,9 @@ MonoBehaviour:
   QueueFrom:
   - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
   TagModifiers: []
+  CanStrafe: 0
+  MovementStrafe: 1
+  IdleStrafe: 1
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
@@ -45,5 +48,4 @@ MonoBehaviour:
   debug: 0
   DisableAllComponents: 1
   RemoveAllColliders: 0
-  DestroyGameObject: 0
-  DestroyTime: 5
+  RemoveAllTriggers: 1

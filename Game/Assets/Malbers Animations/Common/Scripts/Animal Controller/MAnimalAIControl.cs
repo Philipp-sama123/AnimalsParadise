@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using MalbersAnimations.Utilities;
 using UnityEngine.Events;
 using MalbersAnimations.Events;
-using System;
+ 
 using UnityEngine.AI;
 using MalbersAnimations.Scriptables;
-using System.Xml.Schema;
+ 
 
 namespace MalbersAnimations.Controller
 {
@@ -16,8 +16,11 @@ namespace MalbersAnimations.Controller
         [HideInInspector] public int Editor_Tabs1;
 
         #region Components References
+#pragma warning disable CS0649 // Mark all non-serializable fields CS0649
         [SerializeField, RequiredField] private NavMeshAgent agent;                 //The NavMeshAgent
-        [ RequiredField] public MAnimal animal;                    //The Animal Script
+#pragma warning restore CS0649 
+
+        [RequiredField] public MAnimal animal;                    //The Animal Script
         #endregion
 
         #region Internal Variables
@@ -25,13 +28,13 @@ namespace MalbersAnimations.Controller
         protected Vector3 TargetLastPosition = MTools.NullVector;
 
         /// <summary>Stores the Remainin distance to the Target's Position</summary>
-        public float RemainingDistance { get; private set; }
+        public virtual float RemainingDistance { get; private set; }
 
         /// <summary>Stores the Remainin distance to the Target's Position</summary>
         protected float DefaultStopDistance;
 
         /// <summary>When Assigning a Target it will automatically start moving</summary>       
-        public bool MoveAgent  { get; set; }
+        public virtual bool MoveAgent  { get; set; }
         //{
         //    get => m_moveAgent;
         //    set
@@ -82,13 +85,12 @@ namespace MalbersAnimations.Controller
 
         #region Properties 
         /// <summary>is the Animal, Flying, swimming, On Free Mode?</summary>
-        public bool FreeMove { get; private set; }
+        public  bool FreeMove { get; private set; }
 
         /// <summary>Is the Animal Playing a mode</summary>
         public bool IsOnMode { get; private set; }
 
-
-
+         
         /// <summary>Has the animal Arrived to their current destination</summary>
         public bool HasArrived { get; internal set; }
         //{
@@ -102,9 +104,9 @@ namespace MalbersAnimations.Controller
         //private bool hasArriv;
 
 
-        public bool IsGrounded { get; private set; }
+        public virtual bool IsGrounded { get; private set; }
 
-        public bool IsMovingOffMesh { get; private set; }
+        public virtual bool IsMovingOffMesh { get; private set; }
 
         /// <summary>Is the Target a WayPoint?</summary>
         public IWayPoint IsWayPoint { get; private set; }
@@ -128,47 +130,50 @@ namespace MalbersAnimations.Controller
 
         public WayPointType pointType = WayPointType.Ground;
 
-        public WayPointType TargetType => pointType;
+        public virtual WayPointType TargetType => pointType;
 
 
         /// <summary>Reference of the Nav Mesh Agent</summary>
-        public NavMeshAgent Agent => agent;
+        public virtual NavMeshAgent Agent => agent;
        
 
         /// <summary>Current Stopping Distance for the Next Waypoint</summary>
-        public float StoppingDistance
+        public virtual float StoppingDistance
         {
             get => stoppingDistance;
             set => Agent.stoppingDistance = stoppingDistance = value;
         }
 
         /// <summary>Get the Position of this AI target</summary>
-        public Vector3 GetPosition() => Agent.transform.position;
+        public virtual Vector3 GetPosition() => Agent.transform.position;
 
 
         /// <summary>is the Target transform moving??</summary>
-        public bool TargetIsMoving { get; private set; }
+        public virtual bool TargetIsMoving { get; private set; }
 
 
         /// <summary> Is the Animal waiting x time to go to the Next waypoint</summary>
-        public bool IsWaiting { get; private set; }
+        public virtual bool IsWaiting { get; private set; }
 
         /// <summary>Destination Position to use on Agent.SetDestination()</summary>
-        public Vector3 DestinationPosition { get; private set; }
+        public virtual Vector3 DestinationPosition { get; private set; }
 
-        public Transform NextTarget { get; private set; }
-        public Transform Target => target;
+        public virtual Transform NextTarget { get; private set; }
+        public virtual Transform Target => target;
+
+        /// Height Diference from the Target and the Agent
+        public virtual float TargetHeight => Mathf.Abs(Target.position.y - Agent.transform.position.y);
 
         /// <summary>Update The Target Position from the Target. This should be false if the Position you want to go is different than the Target's position</summary>
-        public bool UpdateTargetPosition { get => updateTargetPosition; set => updateTargetPosition = value; }
+        public virtual bool UpdateTargetPosition { get => updateTargetPosition; set => updateTargetPosition = value; }
 
         #endregion
 
-        public void SetActive(bool value) => enabled = value;
+        public virtual void SetActive(bool value) => enabled = value;
 
 
         #region Unity Functions
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             if (animal == null) animal = this.FindComponent<MAnimal>();
 
@@ -179,7 +184,7 @@ namespace MalbersAnimations.Controller
             StartAgent();
         }
 
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             animal.OnStateChange.RemoveListener(OnState);           //Listen when the Animations changes..
             animal.OnModeStart.RemoveListener(OnModeStart);           //Listen when the Animations changes..
@@ -190,15 +195,16 @@ namespace MalbersAnimations.Controller
             StopAllCoroutines();
         }
 
-        void Update() { Updating(); }
+        protected virtual void Update() { Updating(); }
         #endregion
 
-        protected virtual void StartAgent()
+        public virtual void StartAgent()
         {
             Agent.updateRotation = false;                                       //The Animal will control the rotation . NOT THE AGENT
             Agent.updatePosition = false;                                       //The Animal will control the  postion . NOT THE AGENT
             DefaultStopDistance = StoppingDistance;                             //Store the Started Stopping Distance
             Agent.stoppingDistance = StoppingDistance;
+            OnGrounded(animal.Grounded);
 
             HasArrived = false;
             TargetIsMoving = false;
@@ -210,7 +216,7 @@ namespace MalbersAnimations.Controller
             InvokeRepeating("CheckMovingTarget", 0f, MovingTargetInterval);
         }
 
-        protected virtual void Updating()
+        public virtual void Updating()
         {
             if (IsMovingOffMesh) return;                                    //Do nothing while is moving ofmesh (THE Coroutine is in charge of the movement)
 
@@ -235,7 +241,7 @@ namespace MalbersAnimations.Controller
         }
 
         /// <summary> Check if the Target is moving </summary>
-        private void CheckMovingTarget()
+        public virtual void CheckMovingTarget()
         {
             if (target)
             {
@@ -246,13 +252,9 @@ namespace MalbersAnimations.Controller
                     Update_TargetPos();
             }
         }
-
-
-        /// Height Diference from the Target and the Agent
-        public float TargetHeight => Mathf.Abs(Target.position.y - Agent.transform.position.y);
-
+        
         /// <summary> Updates the Agents using he animation root motion </summary>
-        protected virtual void UpdateAgent()
+        public virtual void UpdateAgent()
         {
             if (Agent.pathPending || !Agent.isOnNavMesh)
                 return;    //Means is still calculating the path to go
@@ -308,7 +310,10 @@ namespace MalbersAnimations.Controller
         public virtual void SetTarget(Transform target, bool Move)
         {
             IsWaiting = false;
-            animal.Mode_Interrupt();             //In Case it was making any Mode;
+          
+            if (animal.IsPlayingMode)
+                animal.Mode_Interrupt();             //In Case it was making any Mode;
+
             this.target = target;
 
             IsAITarget = null; //Reset the AI Target
@@ -340,10 +345,9 @@ namespace MalbersAnimations.Controller
             }
         }
 
+        public virtual Vector3 GetTargetPosition() => IsAITarget != null ? IsAITarget.GetPosition() : target.position;
 
-        public Vector3 GetTargetPosition() => IsAITarget != null ? IsAITarget.GetPosition() : target.position;
-
-        public float GetTargetStoppingDistance() => IsAITarget != null ? IsAITarget.StopDistance() : DefaultStopDistance;
+        public virtual float GetTargetStoppingDistance() => IsAITarget != null ? IsAITarget.StopDistance() : DefaultStopDistance;
 
         /// <summary>Set the Target from  on the NextTargets Stored on the Waypoints or Zones</summary>
         public virtual void SetNextTarget()
@@ -365,7 +369,7 @@ namespace MalbersAnimations.Controller
         }
 
         /// <summary> Check if the Next Target is a Air Target</summary>
-        private void CheckAirTarget()
+        protected virtual void CheckAirTarget()
         {
             if (IsWayPoint != null && IsWayPoint.TargetType == WayPointType.Air)    //If the animal can fly, there's a new wayPoint & is on the Air
             {
@@ -404,7 +408,7 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Set the next Destination Position without having a target</summary>   
         public virtual void SetDestination(Vector3Var newDestination) => SetDestination(newDestination.Value);
-        public void SetDestination(Vector3 PositionTarget) => SetDestination(PositionTarget, true);
+        public virtual void SetDestination(Vector3 PositionTarget) => SetDestination(PositionTarget, true);
 
         /// <summary> Stop the Agent and the Animal</summary>
         public virtual void Stop()
@@ -426,7 +430,7 @@ namespace MalbersAnimations.Controller
 
 
         /// <summary>Check the Status of the Next Target</summary>
-        private void Arrive_Destination()
+        protected virtual void Arrive_Destination()
         {
             HasArrived = true;
             RemainingDistance = 0;
@@ -459,7 +463,7 @@ namespace MalbersAnimations.Controller
         }
 
 
-        public void MoveToTarget()
+        public virtual void MoveToTarget()
         {
             if (IsAITarget != null)
             {
@@ -475,10 +479,12 @@ namespace MalbersAnimations.Controller
 
 
         /// <summary>Resume the Agent component</summary>
-        public void ResumeAgent()
+        public virtual void ResumeAgent()
         {
             if (!FreeMove)
                 Agent.enabled = true;
+
+            //IsGrounded = animal.Grounded;
 
             if (!Agent.isOnNavMesh) return;                             //No nothing if we are not on a Nav mesh or the Agent is disabled
 
@@ -575,7 +581,7 @@ namespace MalbersAnimations.Controller
         }
 
         /// <summary>Called when the Animal Enter an Action, Attack, Damage or something similar</summary>
-        private void OnModeStart(int ModeID, int ability)
+        public virtual void OnModeStart(int ModeID, int ability)
         {
             Debuging("has Started a Mode: <B>" + animal.ActiveMode.ID.name + "</B>. Ability: <B>" + animal.ActiveMode.ActiveAbility.Name + "</B>");
 
@@ -585,21 +591,19 @@ namespace MalbersAnimations.Controller
             Agent.enabled = false;
         }
 
-        private void OnModeEnd(int ModeID, int ability)
+        public virtual void OnModeEnd(int ModeID, int ability)
         {
             IsOnMode = false;
 
             if (Agent.isOnOffMeshLink)
                 Agent.CompleteOffMeshLink();
 
-
             ResumeAgent();
         }
 
-        private void OnState(int stateID)
+        public virtual void OnState(int stateID)
         {
-            if (animal.ActiveStateID == StateEnum.Swim)
-                OnGrounded(true); //Force Grounded to true when is swimming the animal
+            if (animal.ActiveStateID == StateEnum.Swim)  OnGrounded(true); //Force Grounded to true when is swimming the animal *HACK*
         }
 
         /// <summary>Check when the Animal changes the Grounded State</summary>
@@ -607,15 +611,13 @@ namespace MalbersAnimations.Controller
         {
             IsGrounded = grounded;
 
-            //Checking if we are swimming
-
+            CheckAirTarget();        //Check again the Air Target in case it was a miss Grounded.
             if (animal.ActiveStateID == StateEnum.Swim) IsGrounded = true; //Force Grounded to true when is swimming the animal
 
             if (IsGrounded)
             {
                 if (!IsOnMode)
                 {
-                    CheckAirTarget();        //Check again the Air Target in case it was a miss Grounded.
                     Agent.enabled = true;
 
                     if (!Agent.isOnNavMesh)
@@ -630,7 +632,7 @@ namespace MalbersAnimations.Controller
 
                     FreeMove = false;
 
-                    ResumeAgent();
+                   if (Agent.isStopped) ResumeAgent();
                 }
             }
             else
@@ -642,7 +644,7 @@ namespace MalbersAnimations.Controller
                 animal.DeltaAngle = 0;
             }
         }
-        protected void FlyOffMesh(Transform target)
+        protected virtual void FlyOffMesh(Transform target)
         {
             ResetFlyingOffMesh();
 
@@ -650,17 +652,16 @@ namespace MalbersAnimations.Controller
             StartCoroutine(IFlyOffMesh);
         }
 
-        protected void ClimbOffMesh()
+        protected virtual void ClimbOffMesh()
         {
             if (IClimbOffMesh != null) StopCoroutine(IClimbOffMesh);
             IClimbOffMesh = C_Climb_OffMesh();
             StartCoroutine(IClimbOffMesh);
         }
 
-        public float StopDistance()
-        { return DefaultStopDistance; }
+        public virtual float StopDistance() => DefaultStopDistance;
 
-        private void ResetFlyingOffMesh()
+        protected virtual void ResetFlyingOffMesh()
         {
             if (IFlyOffMesh != null)
             {
@@ -671,7 +672,7 @@ namespace MalbersAnimations.Controller
         }
 
         /// <summary>Change to walking when the Animal is near the Target Radius (To Avoid going forward(by intertia) while stoping </summary>
-        private void CheckWalkDistance()
+        protected virtual void CheckWalkDistance()
         {
             if (IsGrounded && walkDistance > 0)
             {
@@ -688,7 +689,7 @@ namespace MalbersAnimations.Controller
             }
         }
 
-        protected IEnumerator C_WaitToNextTarget(float time, Transform NextTarget)
+        protected virtual IEnumerator C_WaitToNextTarget(float time, Transform NextTarget)
         {
             IsWaiting = true;
             Debuging("is waiting " + time.ToString("F2") + " seconds");
@@ -702,7 +703,7 @@ namespace MalbersAnimations.Controller
             SetTarget(NextTarget);
         }
 
-        internal IEnumerator C_FlyOffMesh(Transform target)
+        protected virtual IEnumerator C_FlyOffMesh(Transform target)
         {
             animal.State_Activate(StateEnum.Fly); //Set the State to Fly
             IsMovingOffMesh = true;
@@ -724,7 +725,7 @@ namespace MalbersAnimations.Controller
             IsMovingOffMesh = false;
         }
 
-        internal IEnumerator C_Climb_OffMesh()
+        protected virtual IEnumerator C_Climb_OffMesh()
         {
             animal.State_Activate(StateEnum.Climb); //Set the State to Climb
             IsMovingOffMesh = true;
@@ -744,15 +745,14 @@ namespace MalbersAnimations.Controller
             IsMovingOffMesh = false;
         }
 
+        protected virtual void Debuging(string Log) { if (debug) Debug.Log($"<B>{animal.name}:</B> " + Log); }
 
-        protected void Debuging(string Log) { if (debug) Debug.Log($"<B>{animal.name}:</B> " + Log); }
-
-        protected void Debuging(string Log, GameObject obj) { if (debug) Debug.Log($"<B>{animal.name}:</B> "+ Log, obj); }
+        protected virtual void Debuging(string Log, GameObject obj) { if (debug) Debug.Log($"<B>{animal.name}:</B> "+ Log, obj); }
 
 #if UNITY_EDITOR
 
 
-        private void Reset()
+        protected virtual void Reset()
         {
             agent = gameObject.FindComponent<NavMeshAgent>();
             animal = gameObject.FindComponent<MAnimal>();
@@ -766,7 +766,7 @@ namespace MalbersAnimations.Controller
             }
         }
 
-        void OnDrawGizmos()
+        protected virtual void OnDrawGizmos()
         {
             if (!debugGizmos) return;
             if (Agent == null) { return; }

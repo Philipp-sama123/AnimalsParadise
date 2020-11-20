@@ -3,7 +3,7 @@
 namespace MalbersAnimations.Scriptables
 {
     ///<summary>String Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple</summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/String")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/String", order = 1000)]
     public class StringVar : ScriptableVar
     {
         [SerializeField]
@@ -11,7 +11,17 @@ namespace MalbersAnimations.Scriptables
         private string value = "";
 
         /// <summary>Value of the String Scriptable variable</summary>
-        public virtual string Value { get => value; set => this.value = value; }
+        public virtual string Value
+        {
+            get => value;
+            set
+            {
+                this.value = value;
+#if UNITY_EDITOR
+                if (debug) Debug.Log($"<B>{name} -> [<color=green> {value} </color>] </B>");
+#endif
+            }
+        }
 
         public virtual void SetValue(StringVar var) => Value = var.Value;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MalbersAnimations.Scriptables
 {
     ///<summary>  Int Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple  </summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Integer")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Integer", order = 1000)]
     public class IntVar : ScriptableVar
     {
         /// <summary> The current value</summary>
@@ -19,12 +19,15 @@ namespace MalbersAnimations.Scriptables
             get => value;
             set
             {
-                if (this.value != value)                                //If the value is diferent change it
+                if (this.value != value)                   //If the value is different change it
                 {
                     this.value = value;
                     OnValueChanged?.Invoke(value);         //If we are using OnChange event Invoked
+#if UNITY_EDITOR
+                  if (debug)  Debug.Log($"<B>{name} -> [<color=yellow> {value} </color>] </B>");
+#endif
                 }
-            }
+}
         }
 
 

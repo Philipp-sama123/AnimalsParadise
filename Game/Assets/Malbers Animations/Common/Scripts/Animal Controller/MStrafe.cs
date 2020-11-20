@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using MalbersAnimations.Scriptables;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace MalbersAnimations.Controller
 {
     /// <summary>  Make the Calculation for Strafing with Camera or a Target </summary>
@@ -9,55 +13,45 @@ namespace MalbersAnimations.Controller
         public enum StrafeType { Camera, Target, }
 
         public StrafeType SType = StrafeType.Camera;
-        public BoolReference active;
-        public BoolReference Rotate;
         public BoolReference Normalize;
         public BoolReference UpdateAnimator = new BoolReference(true);
-        public FloatReference SmoothValue = new FloatReference(15f);
-        //public Vector3Reference Gravity = new Vector3Reference(new Vector3(0, -1, 0));
+
+        //public FloatReference RotMovement = new FloatReference(8);
+        //public FloatReference RotIdle = new FloatReference(0);
 
         #region Camera Stuff
         /// <summary>Camera Side to use on Strafing</summary>
         private float strafeAngle;
         private float Side;
         ///  /// <summary>Main Camera </summary>
-        public Transform MainCamera;
+        [SerializeField] private TransformReference mainCamera = new TransformReference();
+        [SerializeField] private TransformReference target = new TransformReference();
         #endregion
 
         private Animator Anim;
         private MAnimal animal;
 
-        public bool Active { set => active.Value = value; get => active.Value; }
 
-        public Transform Target;
         protected Vector3 Direction;
         public bool LeftSide { get; set; }
+        public float DeltaValue { get; private set; }
+        public Transform MainCamera { get => mainCamera.Value; set => mainCamera.Value = value; }
+        public Transform Target { get => target.Value; set => target.Value = value; }
 
         public string m_StrafeAngle = "StrafeAngle";
         private int hash_StrafeAngle;
 
         void OnEnable()
         {
-            Anim = gameObject.GetComponent<Animator>();                     //Catche the MainCamera
-            animal = gameObject.GetComponent<MAnimal>();                     //Catche the MainCamera
+            Anim = gameObject.FindComponent<Animator>();                     //Catche the MainCamera
+            animal = gameObject.FindComponent<MAnimal>();                     //Catche the MainCamera
             MainCamera = MTools.FindMainCamera().transform;
             hash_StrafeAngle = Animator.StringToHash(m_StrafeAngle);
-
-            animal.OnStrafe += SetActive;
         }
-
-        private void OnDisable()
-        {
-            animal.OnStrafe -= SetActive;
-        }
-
-        void SetActive(bool valu) => Active = valu;
-
-        public virtual void ToogleActive() => Active ^= true;
 
         #region Strafing
         /// <summary>Calculate the Strafe Angle using the Camera or a Target</summary>
-        protected virtual void LookDirection(float DeltaValue)
+        protected virtual void LookDirection()
         {
             Side = 0;
             Direction = transform.forward;
@@ -79,7 +73,7 @@ namespace MalbersAnimations.Controller
             var ForwardNormalized = Vector3.ProjectOnPlane(transform.forward, animal.UpVector).normalized;
             float NewHorizontalAngle = (Vector3.Angle(Direction, ForwardNormalized) * (LeftSide ? 1 : -1));     //Get the Normalized value for the look direction
 
-            strafeAngle = Mathf.Lerp(strafeAngle, NewHorizontalAngle, DeltaValue); //Smooth Swap between 1 and -1
+            strafeAngle = NewHorizontalAngle;
 
             if (Normalize) strafeAngle /= 180;
 
@@ -92,26 +86,78 @@ namespace MalbersAnimations.Controller
         // Update is called once per frame
         void OnAnimatorMove()
         {
-            float DeltaTime = Anim.updateMode == AnimatorUpdateMode.AnimatePhysics ? Time.fixedDeltaTime : Time.deltaTime;
-            float DeltaValue = SmoothValue <= 0 ? 1 : (DeltaTime * SmoothValue);
+            LookDirection();
 
-            if (Active)
+            if (animal.Strafe)
             {
-                LookDirection(DeltaValue);
-               
-                if (Rotate && animal.MovementDetected)
-                {
-                    var DesiredRot = transform.rotation * Quaternion.Euler(0, strafeAngle, 0);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRot, DeltaValue);
-                }
-            }
-            else
-            {
-                if (UpdateAnimator) Anim.SetFloat(hash_StrafeAngle, strafeAngle);
-                strafeAngle = Mathf.Lerp(strafeAngle, 0, DeltaValue); //Smooth Reset
-            }
+                DeltaValue = Mathf.Lerp(DeltaValue,
+                    animal.MovementDetected ? animal.ActiveState.MovementStrafe : animal.ActiveState.IdleStrafe,
+                    animal.DeltaTime * 5);
 
-            Debug.DrawRay(transform.position, Direction, Color.blue);
+                var DesiredRot = transform.rotation * Quaternion.Euler(0, strafeAngle, 0);
+                transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRot, DeltaValue);
+            }
         }
     }
+
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(MStrafe)), CanEditMultipleObjects]
+    public class MStrafeEd : Editor
+    {
+        private MStrafe M;
+
+        SerializedProperty updateAnimator, m_StrafeAngle, Target, MainCamera, SType, Normalize;
+
+        private void OnEnable()
+        {
+            M = ((MStrafe)target);
+            updateAnimator = serializedObject.FindProperty("UpdateAnimator");
+            Normalize = serializedObject.FindProperty("Normalize");
+            SType = serializedObject.FindProperty("SType");
+            MainCamera = serializedObject.FindProperty("mainCamera");
+            Target = serializedObject.FindProperty("target");
+            m_StrafeAngle = serializedObject.FindProperty("m_StrafeAngle");
+        }
+
+
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+
+            MalbersEditor.DrawDescription("Strafing Logic");
+
+            EditorGUI.BeginChangeCheck();
+
+            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.PropertyField(SType, new GUIContent("Use", "Use Camera or a Target to Calculate the Strafing"));
+            EditorGUILayout.PropertyField(MainCamera, new GUIContent("Main Camera", "Use the Main Camera for the Strafe Logic"));
+            EditorGUILayout.PropertyField(Target, new GUIContent("Target", "Use a Target for the Strafe Logic"));
+            EditorGUILayout.EndVertical();
+
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.PropertyField(updateAnimator, new GUIContent("Update Animator", "Update Animator with the Parameter"));
+
+            if (M.UpdateAnimator.Value)
+            {
+                EditorGUILayout.PropertyField(Normalize, new GUIContent("Normalize", "Normalize the Angle Value. Instead of -180 to 180 it will go from -1 to 1"));
+                EditorGUILayout.PropertyField(m_StrafeAngle, new GUIContent("Param Name", "Name of the Parameter on The Animator for the Strafing"));
+            }
+            EditorGUILayout.EndVertical();
+
+
+            EditorGUILayout.EndVertical();
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(target, "Strafe Inspector");
+            }
+
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+#endif
 }

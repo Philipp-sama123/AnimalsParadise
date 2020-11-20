@@ -24,15 +24,17 @@ namespace MalbersAnimations.Controller
 
             if (popupStyle == null)
             {
-                popupStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions"));
-                popupStyle.imagePosition = ImagePosition.ImageOnly;
+                popupStyle = new GUIStyle(GUI.skin.GetStyle("PaneOptions"))
+                {
+                    imagePosition = ImagePosition.ImageOnly
+                };
             }
 
             var height = EditorGUIUtility.singleLineHeight;
             var nameRect = new Rect(position.x, position.y, position.width / 2 - 90, height);
             var vectorRect = new Rect(position.width / 2 - 45, position.y, position.width / 2 , height);
             var multiplierRect = new Rect(position.width - 45, position.y, 50, height);
-            var button = new Rect(position.width + 8, position.y, 16, height);
+            var button = new Rect(position.width + 8, position.y, 18, height);
 
 
             // Calculate rect for configuration button

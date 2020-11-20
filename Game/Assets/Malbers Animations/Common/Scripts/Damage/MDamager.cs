@@ -123,7 +123,7 @@ namespace MalbersAnimations.Controller
         /// <summary>The Damagee does not have all the conditions to apply the Damage  </summary>
         public virtual bool IsInvalid(GameObject damagee)
         {
-            if (dontHitOwner && damagee.transform.IsChildOf(Owner)) return true;   //Dont hit yourself!
+            if (dontHitOwner && Owner != null && damagee.transform.IsChildOf(Owner)) return true;   //Dont hit yourself!
             if (!MTools.Layer_in_LayerMask(damagee.layer, Layer)) return true;            //Just hit what is on the HitMask Layer
             return false;
         }

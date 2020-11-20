@@ -87,11 +87,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputs:
-  - active:
+  - name: Jump
+    active:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    name: Jump
     type: 1
     input: InputValue
     key: 32
@@ -121,11 +121,11 @@ MonoBehaviour:
     OnPressedNormalized:
       m_PersistentCalls:
         m_Calls: []
-  - active:
+  - name: Sprint
+    active:
       UseConstant: 1
       ConstantValue: 1
       Variable: {fileID: 0}
-    name: Sprint
     type: 1
     input: InputValue
     key: 304
@@ -158,6 +158,51 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    DoubleTapTime: 0.3
+    LongPressTime: 0.5
+    OnInputPressed:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPressedNormalized:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Strafe
+    active:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    type: 1
+    input: InputValue
+    key: 9
+    GetPressed: 1
+    InputValue: 0
+    ToggleValue: 0
+    OnInputDown:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114485145315289786}
+          m_MethodName: Strafe_Toggle
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnInputUp:
+      m_PersistentCalls:
+        m_Calls: []
+    OnLongPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDoubleTap:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputChanged:
+      m_PersistentCalls:
+        m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
     OnInputPressed:
@@ -229,10 +274,7 @@ MonoBehaviour:
   ShowMovement: 0
   ShowGround: 1
   showGeneral: 1
-  hitLayer:
-    serializedVersion: 2
-    m_Bits: 1048576
-  triggerInteraction: 1
+  showGlobalVariables: 1
   CloneStates: 1
   states:
   - {fileID: 11400000, guid: a83d9b5b6bd80674499ec74611e5a09e, type: 2}
@@ -340,7 +382,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  MainCamera: {fileID: 0}
+  m_MainCamera:
+    UseConstant: 1
+    ConstantValue: {fileID: 0}
+    Variable: {fileID: 0}
   AdditiveRotation: {x: 0, y: 0, z: 0, w: 1}
   SmoothVertical:
     UseConstant: 1
@@ -369,6 +414,10 @@ MonoBehaviour:
   maxAngleSlope: 40
   Rotator: {fileID: 0}
   RootBone: {fileID: 0}
+  grounded:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   Anim: {fileID: 0}
   RB: {fileID: 0}
   StartWithMode:
@@ -379,6 +428,17 @@ MonoBehaviour:
   sleep:
     UseConstant: 1
     ConstantValue: 0
+    Variable: {fileID: 0}
+  OnStrafe:
+    m_PersistentCalls:
+      m_Calls: []
+  m_strafe:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  m_CanStrafe:
+    UseConstant: 1
+    ConstantValue: 1
     Variable: {fileID: 0}
   pivots:
   - name: Chest
@@ -468,6 +528,14 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 4
         Variable: {fileID: 0}
+      strafeSpeed:
+        UseConstant: 1
+        ConstantValue: 5
+        Variable: {fileID: 0}
+      lerpStrafe:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
     - name: Sprint
       nameHash: 361272146
       Vertical:
@@ -503,6 +571,14 @@ MonoBehaviour:
         ConstantValue: 1
         Variable: {fileID: 0}
       lerpAnimator:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      strafeSpeed:
+        UseConstant: 1
+        ConstantValue: 15
+        Variable: {fileID: 0}
+      lerpStrafe:
         UseConstant: 1
         ConstantValue: 4
         Variable: {fileID: 0}
@@ -557,6 +633,14 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 3
         Variable: {fileID: 0}
+      strafeSpeed:
+        UseConstant: 1
+        ConstantValue: 5
+        Variable: {fileID: 0}
+      lerpStrafe:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
     - name: Swim Sprint
       nameHash: 361272146
       Vertical:
@@ -595,6 +679,14 @@ MonoBehaviour:
         UseConstant: 1
         ConstantValue: 3
         Variable: {fileID: 0}
+      strafeSpeed:
+        UseConstant: 1
+        ConstantValue: 10
+        Variable: {fileID: 0}
+      lerpStrafe:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
   CustomSpeed: 0
   currentSpeedModifier:
     name: Defaut
@@ -632,6 +724,14 @@ MonoBehaviour:
       ConstantValue: 1
       Variable: {fileID: 0}
     lerpAnimator:
+      UseConstant: 1
+      ConstantValue: 4
+      Variable: {fileID: 0}
+    strafeSpeed:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    lerpStrafe:
       UseConstant: 1
       ConstantValue: 4
       Variable: {fileID: 0}
@@ -735,16 +835,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c40057955ac3324f9b900fad19f1651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delayed:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  RepeatTime:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
+  Delayed: 0
+  RepeatTime: 0
   Repeat: 0
-  desc: 
   onEnable:
     m_PersistentCalls:
       m_Calls:
@@ -772,6 +865,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  Description: 
+  ShowDescription: 0
 --- !u!114 &114421393901167316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,6 +1106,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1022,6 +1118,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1104,6 +1201,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1115,6 +1213,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1211,6 +1310,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1222,6 +1322,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

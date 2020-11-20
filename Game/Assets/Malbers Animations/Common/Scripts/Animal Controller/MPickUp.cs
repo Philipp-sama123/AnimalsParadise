@@ -14,8 +14,6 @@ namespace MalbersAnimations.Controller
     {
         [RequiredField, Tooltip("Trigger used to find Items that can be picked Up")]
         public Collider PickUpArea;
-        [SerializeField, Tooltip("Allows Picking Items without any Input")]
-        private BoolReference m_AutoPick = new BoolReference(false);
         [SerializeField, Tooltip("When an Item is Piked and Hold, the Pick Area will be hidden")]
         private BoolReference m_HidePickArea = new BoolReference(true);
         //public bool AutoPick { get => m_AutoPick.Value; set => m_AutoPick.Value = value; }
@@ -25,13 +23,13 @@ namespace MalbersAnimations.Controller
         public Vector3 PosOffset;
         public Vector3 RotOffset;
 
-        public Pickable FocusedItem;
-        public Pickable item;
+      
+
 
         // [Header("Events")]
         public BoolEvent CanPickUp = new BoolEvent();
         public GameObjectEvent OnItem = new GameObjectEvent();
-        public BoolEvent OnFocusedItem = new BoolEvent();
+        public GameObjectEvent OnFocusedItem = new GameObjectEvent();
         public IntEvent OnPicking = new IntEvent();
         public IntEvent OnDropping = new IntEvent();
 
@@ -46,7 +44,31 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Does the Animal is holding an Item</summary>
 
-        public bool Has_Item => item != null;
+        public bool Has_Item => Item != null;
+
+        [SerializeField] private Pickable item;
+        public Pickable Item
+        {
+            get => item;
+            set
+            {
+                item = value;
+             //   OnItem.Invoke(item != null ? item.gameObject : null);
+              //  Debug.Log("item: " + item);
+            }
+        }
+
+        [SerializeField] private Pickable focusedItem;
+        public Pickable FocusedItem
+        {
+            get => focusedItem;
+            set
+            {
+                focusedItem = value;
+                OnFocusedItem.Invoke(focusedItem != null ? focusedItem.gameObject : null);
+                CanPickUp.Invoke(focusedItem != null);
+            }
+        }
 
         private void Awake()
         {
@@ -70,10 +92,8 @@ namespace MalbersAnimations.Controller
         {
             AreaTrigger.OnTrigger_Enter.AddListener(_OnTriggerEnter);
             AreaTrigger.OnTrigger_Exit.AddListener(_OnTriggerExit);
-
-            if (Has_Item) PickUpItem();         //If the animal has an item at start then make all the stuff to pick it up
-
-            CanPickUp.Invoke(Has_Item);
+            
+            if (Has_Item)  PickUpItem();         //If the animal has an item at start then make all the stuff to pick it up
         }
 
         private void OnDisable()
@@ -90,11 +110,8 @@ namespace MalbersAnimations.Controller
             {
                 FocusedItem = newItem;
                 FocusedItem.OnFocused.Invoke(true);
-                OnFocusedItem.Invoke(FocusedItem);
-                CanPickUp.Invoke(true);
-
-                if (FocusedItem.AutoPick)
-                    TryPickUp();
+              
+                if (FocusedItem.AutoPick) TryPickUp();
             }
         }
 
@@ -108,14 +125,13 @@ namespace MalbersAnimations.Controller
                 {
                     FocusedItem.OnFocused.Invoke(false);
                     FocusedItem = null;
-                    CanPickUp.Invoke(false);
                 }
             }
         }
 
 
         public virtual void TryPickUpDrop()
-        { 
+        {
             if (character != null && character.IsPlayingAction) return; //Do not try if the Character is doing an action
 
             if (!Has_Item)
@@ -124,103 +140,90 @@ namespace MalbersAnimations.Controller
             }
             else
             {
-                if (item.DropReaction) //means that have Drop Animations
-                    TryDropAnimations();
-                else
-                    DropItem();
+                TryDrop();
             }
         }
 
-
-        private void TryPickUpAnimations()
+ 
+        private void TryDrop()
         {
-            if (character != null && !character.IsPlayingAction) //Try Picking UP WHEN THE CHARACTER IS NOT MAKING ANY ANIMATION
+            if (character != null && !character.IsPlayingAction && Item.DropReaction != null)
+                Item.DropReaction.TryReact(gameObject);
+
+            Invoke(nameof(DropItem), Item.DropDelay.Value);
+        }
+
+        private void Collectable()
+        {
+            if (Item && Item.Collectable)
             {
-                if (item.Align)
+                if (Item.DestroyOnPick)
                 {
-                    StartCoroutine(MTools.AlignLookAtTransform(transform, item.transform, item.AlignTime));
-                    StartCoroutine(MTools.AlignTransformRadius(transform, item.transform, item.AlignTime, item.AlignDistance * transform.localScale.y));
+                    Destroy(item.gameObject);
                 }
+                else
+                {
+                    Item.IsPicked = false;
+                }
+                item = null;
 
-                if (!item.PickReaction.TryReact(gameObject)) //Means if the animal does not have a pick up Animation that calls the PickUP method then It will do it manually
-                    PickUpItem();
+                PickUpArea.gameObject.SetActive(true);         //Enable the Pick up Area
+                AreaTrigger.ResetTrigger();
             }
-            else
-            {
-                PickUpItem();
-            }
-        }
-
-        private void TryDropAnimations()
-        {
-            if (character != null && !character.IsPlayingAction)
-            {
-                if (!item.DropReaction.TryReact(gameObject))
-                    DropItem();
-            }
-            else
-            {
-                DropItem();
-            }
-        }
-
-        public void ResetPickUp()
-        {
-            FocusedItem = null;
-
-            if (item) item.IsPicked = false;
-            item = null;
-
-            PickUpArea.gameObject.SetActive(true);         //Enable the Pick up Area
-            AreaTrigger.ResetTrigger();
         }
 
         public virtual void TryPickUp()
         {
             if (FocusedItem)
             {
-                item = FocusedItem;
+                if (character != null && !character.IsPlayingAction && FocusedItem.PickReaction != null) //Try Picking UP WHEN THE CHARACTER IS NOT MAKING ANY ANIMATION
+                {
+                    if (FocusedItem.Align)
+                    {
+                        StartCoroutine(MTools.AlignLookAtTransform(transform, FocusedItem.transform, FocusedItem.AlignTime));
+                        StartCoroutine(MTools.AlignTransformRadius(transform, FocusedItem.transform, FocusedItem.AlignTime, FocusedItem.AlignDistance * transform.localScale.y));
+                    }
+                    FocusedItem.PickReaction.TryReact(gameObject); //Means if the animal does not have a pick up Animation that calls the PickUP method then It will do it manually
+                }
 
-                if (item.PickReaction)
-                {
-                    TryPickUpAnimations();
-                }
-                else
-                {
-                    PickUpItem();
-                }
+                Invoke(nameof(PickUpItem), FocusedItem.PickDelay.Value); 
             }
         }
 
         /// <summary>Pick Up Logic. It can be called by the ANimator</summary>
         public void PickUpItem()
         {
-            item = FocusedItem;
+            if (Item == null) Item = FocusedItem; //Check for the Picked Item
 
-            if (item)
+            if (Item)
             {
-                item.Picker = gameObject; //Set on the Item who did the Picking
-                item.Pick();                                  //Tell the Item that it was picked
-                
-                OnPicking.Invoke(item.ID);                      //Invoke the Method
-                CanPickUp.Invoke(false);
-                OnItem.Invoke(item.gameObject);
+                Item.Picker = gameObject;                      //Set on the Item who did the Picking
+                Item.Pick();                                  //Tell the Item that it was picked
 
+                OnPicking.Invoke(Item.ID);                      //Invoke the Method
                 if (Holder)
                 {
-                    item.transform.parent = Holder;                 //Parent it to the Holder
-                    item.transform.localPosition = PosOffset;       //Offset the Position
-                    item.transform.localEulerAngles = RotOffset;    //Offset the Rotation
+                    Item.transform.parent = Holder;                 //Parent it to the Holder
+                    Item.transform.localPosition = PosOffset;       //Offset the Position
+                    Item.transform.localEulerAngles = RotOffset;    //Offset the Rotation
                 }
 
-               // FocusedItem.OnFocused.Invoke(false);
+                OnItem.Invoke(Item.gameObject);
                 FocusedItem = null;                             //Remove the Focused Item
-               
+
 
                 if (m_HidePickArea.Value)
                     PickUpArea.gameObject.SetActive(false);        //Disable the Pick Up Area
 
-               // Debug.Log("PickUpItem");
+                if (item.DestroyOnPick)
+                {
+                    PickUpArea.gameObject.SetActive(true);         //Enable the Pick up Area
+                    AreaTrigger.ResetTrigger();
+                    Destroy(item.gameObject);
+                    item = null;
+                }
+
+                Collectable();
             }
         }
 
@@ -228,13 +231,11 @@ namespace MalbersAnimations.Controller
         public virtual void DropItem()
         {
             if (Has_Item)
-            {
-                //Debug.Log("DropItem");
-              
-                item.Drop();                                 //Tell the item is being droped
-                OnDropping.Invoke(item.ID);                     //Invoke the method
+            { 
+                Item.Drop();                                 //Tell the item is being droped
+                OnDropping.Invoke(Item.ID);                     //Invoke the method
+                Item = null;                                    //Remove the Item
                 OnItem.Invoke(null);
-                item = null;                                    //Remove the Item
 
                 if (m_HidePickArea.Value)
                     PickUpArea.gameObject.SetActive(true);         //Enable the Pick up Area
@@ -267,7 +268,7 @@ namespace MalbersAnimations.Controller
     {
         private MonoScript script;
         private SerializedProperty
-            PickUpArea, FocusedItem, AutoPick, Holder, RotOffset, item, m_HidePickArea,
+            PickUpArea, FocusedItem,   Holder, RotOffset, item, m_HidePickArea, OnFocusedItem,
             PosOffset, CanPickUp, /*CanDrop,*/ OnDropping, OnPicking, ShowEvents, DebugRadius, OnItem, DebugColor;
 
         private void OnEnable()
@@ -281,7 +282,7 @@ namespace MalbersAnimations.Controller
             PosOffset = serializedObject.FindProperty("PosOffset");
             RotOffset = serializedObject.FindProperty("RotOffset");
 
-            FocusedItem = serializedObject.FindProperty("FocusedItem");
+            FocusedItem = serializedObject.FindProperty("focusedItem");
             item = serializedObject.FindProperty("item");
 
             CanPickUp = serializedObject.FindProperty("CanPickUp");
@@ -289,10 +290,13 @@ namespace MalbersAnimations.Controller
 
 
             OnPicking = serializedObject.FindProperty("OnPicking");
+            OnPicking = serializedObject.FindProperty("OnPicking");
             OnItem = serializedObject.FindProperty("OnItem");
             OnDropping = serializedObject.FindProperty("OnDropping");
+            OnFocusedItem = serializedObject.FindProperty("OnFocusedItem");
+
+
             ShowEvents = serializedObject.FindProperty("ShowEvents");
-            AutoPick = serializedObject.FindProperty("m_AutoPick");
             DebugColor = serializedObject.FindProperty("DebugColor");
             DebugRadius = serializedObject.FindProperty("DebugRadius");
         }
@@ -306,7 +310,6 @@ namespace MalbersAnimations.Controller
                 serializedObject.Update();
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 EditorGUILayout.PropertyField(PickUpArea);
-                EditorGUILayout.PropertyField(AutoPick);
                 EditorGUILayout.PropertyField(m_HidePickArea);
                 EditorGUILayout.EndVertical();
 
@@ -346,6 +349,7 @@ namespace MalbersAnimations.Controller
                     {
                         EditorGUILayout.PropertyField(CanPickUp, new GUIContent("On Can Pick Item"));
                         EditorGUILayout.PropertyField(OnItem, new GUIContent("On Item Picked"));
+                        EditorGUILayout.PropertyField(OnFocusedItem, new GUIContent("On Item Focused"));
                         EditorGUILayout.PropertyField(OnPicking);
                         EditorGUILayout.PropertyField(OnDropping);
                     }

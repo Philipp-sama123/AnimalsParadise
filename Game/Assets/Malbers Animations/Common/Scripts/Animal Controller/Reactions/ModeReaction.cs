@@ -58,10 +58,15 @@ namespace MalbersAnimations.Controller.Reactions
                     animal.Mode_TryActivate(ID, AbilityIndex);
                     animal.InputMode = mode;
                     animal.InputMode.InputValue = true;
-                    Debug.Log("ActivateContinuously");
                     break;
                 case Mode_Reaction.Stop:
                     animal.Mode_Stop();
+                    break;
+                case Mode_Reaction.EnableAbility:
+                    animal.Mode_Ability_Enable(ID, AbilityIndex, true);
+                    break;
+                case Mode_Reaction.DisableAbility:
+                    animal.Mode_Ability_Enable(ID, AbilityIndex, false);
                     break;
                 default:
                     break;
@@ -111,6 +116,10 @@ namespace MalbersAnimations.Controller.Reactions
                 case Mode_Reaction.Stop:
                     animal.Mode_Stop();
                     return true;
+                case Mode_Reaction.EnableAbility:
+                    return animal.Mode_Ability_Enable(ID, AbilityIndex, true);
+                case Mode_Reaction.DisableAbility:
+                    return animal.Mode_Ability_Enable(ID, AbilityIndex, false);
                 default:
                     return false;
             }
@@ -140,6 +149,10 @@ namespace MalbersAnimations.Controller.Reactions
             ResetActiveIndex,
             /// <summary>Force a Mode to be activated.. ignoring if another mode is playing</summary>
             ForceActivate,
+            /// <summary>Force a Mode to be activated.. ignoring if another mode is playing</summary>
+            EnableAbility,
+            /// <summary>Force a Mode to be activated.. ignoring if another mode is playing</summary>
+            DisableAbility,
         }
 
          
@@ -221,6 +234,20 @@ namespace MalbersAnimations.Controller.Reactions
                     fullName = reactionName + type.ToString();
                     ShowAction = false;
                     ShowAbilityIndex = false;
+                    break;
+                case Mode_Reaction.EnableAbility:
+                    description = "Enable an Ability on the Animal";
+                    if (ID && ID.ID == 4 && action == null)
+                        description += "\nPlease Select an Action";
+                    ShowAction = (ID && ID.ID == 4);
+                    ShowAbilityIndex = !ShowAction;
+                    break;
+                case Mode_Reaction.DisableAbility:
+                    description = "Disable an Ability on the Animal";
+                    if (ID && ID.ID == 4 && action == null)
+                        description += "\nPlease Select an Action";
+                    ShowAction = (ID && ID.ID == 4);
+                    ShowAbilityIndex = !ShowAction;
                     break;
                 default:
                     break;

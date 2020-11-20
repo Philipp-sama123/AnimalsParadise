@@ -26,6 +26,12 @@ MonoBehaviour:
       here:'
     linkText: "\u25BA\u25BADOWNLOAD ANIMAL CONTROLLER\u25C4\u25C4"
     url: https://assetstore.unity.com/packages/slug/148877?aid=1100lHT6
+  - heading: Scriptable Architecture
+    text: AC is heavily based on the Ryan Hipple talk about Game Architecture with
+      Scriptable Objects. I Highly recommend to check it out to have a better understanding
+      of how the Animal Controller works
+    linkText: Unite Austin 2017 - Game Architecture with Scriptable Objects
+    url: https://www.youtube.com/watch?v=raQ3iHhE_Kk&ab_channel=Unity
   - heading: DOCUMENTATION | MANUAL
     text: 'Here is a detailed documentation that explores all the available prefabs,
       scripts and components that make up the mechanics in this controller. Find what
@@ -33,6 +39,10 @@ MonoBehaviour:
     linkText: Manual
     url: https://malbersanimations.gitbook.io/animal-controller/
   - heading: Render Piplelines
+    text: 
+    linkText: Upgrading to URP
+    url: https://malbersanimations.gitbook.io/animal-controller/how-to/upgrade-to-urp
+  - heading: 
     text: Go to Tools -> Malbers Animations -> Upgrade Malbers Shaders to URPL
     linkText: 
     url: 

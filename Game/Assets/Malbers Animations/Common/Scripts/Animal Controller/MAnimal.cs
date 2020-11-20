@@ -35,6 +35,7 @@ namespace MalbersAnimations.Controller
         [HideInInspector] public bool ShowMovement = false;
         [HideInInspector] public bool ShowGround = true;
         [HideInInspector] public bool showGeneral = true;
+        [HideInInspector] public bool showGlobalVariables = true;
         #endregion  
 
 #if UNITY_EDITOR

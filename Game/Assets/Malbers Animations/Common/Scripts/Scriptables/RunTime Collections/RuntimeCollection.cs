@@ -10,7 +10,7 @@ namespace MalbersAnimations.Scriptables
         /// <summary>Ammount of object on the list</summary>
         public int Count => items.Count;
 
-        protected List<T> Items { get => items; set => items = value; }
+        public List<T> Items { get => items; set => items = value; }
 
         /// <summary> Clears the list of objects </summary>
         public void Clear() => items.Clear();
@@ -22,6 +22,8 @@ namespace MalbersAnimations.Scriptables
         public T Item_GetFirst() => items[0];
 
         public T Item_Get(string name) => items.Find(x => x.name == name);
+
+       
 
 
         /// <summary>Gets a rando first object of the list</summary>

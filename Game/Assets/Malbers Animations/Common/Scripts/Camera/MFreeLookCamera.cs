@@ -2,6 +2,7 @@
 using MalbersAnimations.Scriptables;
 using System.Collections;
 using UnityEngine.Events;
+using UnityEditor;
 
 /// <summary> This is the same Camera FreeLookCam of the Stardard Assets Modify to Fit My Needs  </summary>
 namespace MalbersAnimations
@@ -17,7 +18,7 @@ namespace MalbersAnimations
 
         [Space]
 
-        public Transform m_Target;                                  // The target object to follow
+        public TransformReference m_Target;                                  // The target object to follow
         public UpdateType updateType = UpdateType.FixedUpdate;      // stores the selected update type
         /// <summary>Stores the Update type when the game starts </summary>
         internal UpdateType defaultUpdate;
@@ -32,6 +33,8 @@ namespace MalbersAnimations
         [Header("Camera Input Axis")]
         public InputAxis Vertical = new InputAxis("Mouse Y", true, false);
         public InputAxis Horizontal = new InputAxis("Mouse X", true, false);
+
+        public Vector2Reference MovementAxis = new Vector2Reference();
         private IGravity TargetGravity;
 
         [Space]
@@ -65,10 +68,10 @@ namespace MalbersAnimations
 
         public Transform Target
         {
-            get => m_Target;
+            get => m_Target.Value;
             set
             {
-                m_Target = value;
+                m_Target.Value = value;
                 GetTargetGravity();
             }
         }
@@ -82,11 +85,11 @@ namespace MalbersAnimations
         public Transform Pivot { get; private set; }
 
 
-        /// <summary>Camera Horizontal Input Value</summary>
-        public float XCam { get; set; }
+        ///// <summary>Camera Horizontal Input Value</summary>
+        //public float XCam { get; set; }
 
-        /// <summary>Camera Vertical Input Value</summary>
-        public float YCam { get; set; }
+        ///// <summary>Camera Vertical Input Value</summary>
+        //public float YCam { get; set; }
 
         /// <summary> Stores the Current FOV of the Camera</summary>
         public float ActiveFOV { get; internal set; }
@@ -96,7 +99,7 @@ namespace MalbersAnimations
         protected void Awake()
         {
             Cam = GetComponentInChildren<Camera>();
-            CamT = GetComponentInChildren<Camera>().transform;
+            CamT = Cam.transform;
             Pivot = Cam.transform.parent;
 
             currentState = null;
@@ -130,7 +133,7 @@ namespace MalbersAnimations
                 OnStateChange.Invoke();
             }
 
-            //Debug.Log("Default");
+            MovementAxis = Vector2.zero;
         }
 
         void Start()
@@ -141,7 +144,7 @@ namespace MalbersAnimations
         void GetTargetGravity()
         {
             if (Target)
-                TargetGravity = Target?.GetComponentInChildren<IGravity>() ?? Target?.GetComponentInParent<IGravity>();
+                TargetGravity = Target.FindComponent<IGravity>();
         }
 
 
@@ -152,20 +155,20 @@ namespace MalbersAnimations
             Cam.fieldOfView = ActiveFOV = state.CamFOV;
             OnStateChange.Invoke();
 
-            Debug.Log("Set_State" + state.name);
+          //  Debug.Log("Set_State" + state.name);
         }
 
         #region Private Methods
         protected void FollowTarget(float deltaTime)
         {
-            if (m_Target == null) return;
+            if (Target == null) return;
 
-            transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime * m_MoveSpeed);  // Move the rig towards target position.
+            transform.position = Vector3.Lerp(transform.position, Target.position, deltaTime * m_MoveSpeed);  // Move the rig towards target position.
         }
 
         internal void UpdateState(FreeLookCameraState state)
         {
-            if (state == null) return;
+            if (state == null || !enabled) return;
 
             Pivot.localPosition = state.PivotPos;
             CamT.localPosition = state.CamPos;
@@ -183,14 +186,16 @@ namespace MalbersAnimations
         }
 
 
+        public virtual void SetInputAxis(Vector2 input) => MovementAxis.Value = input;
+
         private void HandleRotationMovement(float time)
         {
             if (Time.timeScale < float.Epsilon) return;
 
-            if (Horizontal.active) XCam = Horizontal.GetAxis;
-            if (Vertical.active) YCam = Vertical.GetAxis;
+            if (Horizontal.active) MovementAxis.x = Horizontal.GetAxis;
+            if (Vertical.active) MovementAxis.y = Vertical.GetAxis;
 
-            m_LookAngle += XCam * m_TurnSpeed;                                                     // Adjust the look angle by an amount proportional to the turn speed and horizontal input.
+            m_LookAngle += MovementAxis.x * m_TurnSpeed;                                                     // Adjust the look angle by an amount proportional to the turn speed and horizontal input.
 
             if (TargetGravity != null) m_UpVector = Vector3.Slerp(m_UpVector, TargetGravity.UpVector, time * 15);
             // transform.rotation = Quaternion.FromToRotation(transform.up, m_UpVector) * transform.rotation; //This Make it f
@@ -198,7 +203,7 @@ namespace MalbersAnimations
 
             m_TransformTargetRot = Quaternion.Euler(0f, m_LookAngle, 0f);                       // Rotate the rig (the root object) around Y axis only:
 
-            m_TiltAngle -= YCam * m_TurnSpeed;                                                 // on platforms with a mouse, we adjust the current angle based on Y mouse input and turn speed
+            m_TiltAngle -= MovementAxis.y * m_TurnSpeed;                                                 // on platforms with a mouse, we adjust the current angle based on Y mouse input and turn speed
             m_TiltAngle = Mathf.Clamp(m_TiltAngle, -m_TiltMin, m_TiltMax);                  // and make sure the new value is within the tilt range
 
             m_PivotTargetRot = Quaternion.Euler(m_TiltAngle, m_PivotEulers.y, m_PivotEulers.z); // Tilt input around X is applied to the pivot (the child of this object)
@@ -316,7 +321,7 @@ namespace MalbersAnimations
         #endregion
 
 
-        public virtual void Target_Set(Transform newTransform) => m_Target = DefaultTarget = newTransform;
+        public virtual void Target_Set(Transform newTransform) => Target = DefaultTarget = newTransform;
 
         public virtual void Target_Set_Temporal(Transform newTransform) => Target = newTransform;
 

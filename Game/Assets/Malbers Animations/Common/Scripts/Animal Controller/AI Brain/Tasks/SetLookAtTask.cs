@@ -71,7 +71,7 @@ namespace MalbersAnimations.Controller.AI
             return null;
         }
 
-        public override void ExitTask(MAnimalBrain brain, int index)
+        public override void ExitAIState(MAnimalBrain brain, int index)
         {
             if (DisableOnExit)
             {

@@ -11,14 +11,14 @@ namespace MalbersAnimations.Controller.AI
         public VarType varType = VarType.Bool;
 
 
-        [Space, Hide("showBoolValue", true)]
+        [ContextMenuItem("Create Bool", "CreateBoolVar"), Hide("showBoolValue", true),]
         public BoolVar Bool;
-        [Space, Hide("showIntValue", true)]
+        [ContextMenuItem("Create Int", "CreateIntVar"), Hide("showIntValue", true)]
         public IntVar Int;
-        [Space, Hide("showFloatValue", true)]
+        [ContextMenuItem("Create Float", "CreateFloatVar"), Hide("showFloatValue", true)]
         public FloatVar Float;
 
-        [Hide("showBoolValue", true,true)]
+        [Space(15), Hide("showBoolValue", true, true)]
         public ComparerInt compare;
 
         [Hide("showBoolValue", true)]
@@ -62,27 +62,19 @@ namespace MalbersAnimations.Controller.AI
             switch (varType)
             {
                 case VarType.Bool:
-                    return Bool != null ? Bool.Value == boolValue : false;
+                    return Bool != null && Bool.Value == boolValue;
                 case VarType.Int:
-                    return Int != null ? CompareInteger(Int.Value) : false;
+                    return Int != null && CompareInteger(Int.Value);
                 case VarType.Float:
-                    return Float != null ? CompareFloat(Float.Value) : false;
+                    return Float != null && CompareFloat(Float.Value);
                 default:
                     return false;
             }
         }
 
-        public override void FinishDecision(MAnimalBrain brain, int Index)
-        {
-            //Reset all variables
-            Bool = null;
-            Int = null;
-            Float = null;
-        }
 
         public enum VarType { Bool, Int, Float }
         public enum BoolType { True, False }
-
 
         public bool CompareInteger(int IntValue)
         {
@@ -100,7 +92,6 @@ namespace MalbersAnimations.Controller.AI
                     return false;
             }
         }
-
         public bool CompareFloat(float IntValue)
         {
             switch (compare)
@@ -117,5 +108,13 @@ namespace MalbersAnimations.Controller.AI
                     return false;
             }
         }
+
+#if UNITY_EDITOR
+        private void CreateIntVar() => Int = (IntVar)MTools.CreateScriptableAsset(typeof(IntVar));
+
+        private void CreateFloat() => Float = (FloatVar)MTools.CreateScriptableAsset(typeof(FloatVar));
+
+        private void CreateBoolVar() => Bool = (BoolVar)MTools.CreateScriptableAsset(typeof(BoolVar));
+#endif
     }
 }

@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using MalbersAnimations.Scriptables;
-using MalbersAnimations.Utilities;
 using MalbersAnimations.Events;
-using System;
 using UnityEngine.AI;
+using MalbersAnimations.Scriptables;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace MalbersAnimations.Controller.AI
 {
@@ -19,31 +20,29 @@ namespace MalbersAnimations.Controller.AI
         public Transform Eyes;
         /// <summary>Time needed to make a new transition. Necesary to avoid Changing to multiple States in the same frame</summary>
         [Tooltip("Time needed to make a new transition. Necesary to avoid Changing to multiple States in the same frame")]
-        public float TransitionCoolDown = 0.2f;
-        /// <summary>Last Time the Animal make a new transition</summary>
-        private float TransitionLastTime;
+        public FloatReference TransitionCoolDown = new FloatReference(0.2f);
 
-        /// <summary>Last Time the Animal  started a transition</summary>
-        public float StateLastTime { get; set; }
-
-        [Space]
         /// <summary>Reference AI State for the animal</summary>
         public MAIState currentState;
 
         ///// <summary>Reference of an Empty State</summary>
         public MAIState remainInState;
 
-
         [Space, Tooltip("Removes all AI Components when the Animal Dies. (Brain, AiControl, Agent)")]
         public bool RemoveAIOnDeath = true;
         public bool debug = true;
 
-        [Space]
-        [Header("Events")]
+
         public IntEvent OnTaskStarted = new IntEvent();
         public IntEvent OnDecisionSucceded = new IntEvent();
+        public IntEvent OnAIStateChanged = new IntEvent();
 
 
+        /// <summary>Last Time the Animal make a new transition</summary>
+        private float TransitionLastTime;
+
+        /// <summary>Last Time the Animal  started a transition</summary>
+        public float StateLastTime { get; set; }
 
         /// <summary>Tasks Local Vars (1 Int,1 Bool,1 Float)</summary>
         internal BrainVars[] TasksVars;
@@ -63,19 +62,17 @@ namespace MalbersAnimations.Controller.AI
 
         #region Target References
         /// <summary>Reference for the Current Target the Animal is using</summary>
-        public Transform Target 
-        { 
-            get => target; 
-            set 
-            { target = value;
-               // Debug.Log(value);
-            }
-        }
-        private Transform target;
+        public Transform Target { get; set; }
+        //{ 
+        //    get => target; 
+        //    set 
+        //    { target = value;
+        //    }
+        //}
+        //private Transform target;
 
         /// <summary>Reference for the Target the Animal Component</summary>
         public MAnimal TargetAnimal { get; set; }
-
 
         public Vector3 AgentPosition => AIMovement.Agent.transform.position;
         public NavMeshAgent Agent => AIMovement.Agent;
@@ -100,14 +97,14 @@ namespace MalbersAnimations.Controller.AI
 
         /// <summary>Time Elapsed for the State Decisions</summary>
         [HideInInspector] public float[] DecisionsTimeElapsed;// { get; set; }
-    
+
         #endregion
 
 
         void Awake()
         {
             if (AIMovement == null) AIMovement = this.FindComponent<MAnimalAIControl>();
-            var AnimalStatscomponent = GetComponent<Stats>();
+            var AnimalStatscomponent = this.FindComponent<Stats>();
             if (AnimalStatscomponent) AnimalStats = AnimalStatscomponent.stats_D;
 
             AgentHeight = transform.lossyScale.y * AIMovement.Agent.height;
@@ -116,8 +113,16 @@ namespace MalbersAnimations.Controller.AI
         void Start()
         {
             Animal.isPlayer.Value = false; //If is using a brain... disable that he is the main player
-            StartNewState(currentState);
 
+            if (currentState)
+            {
+                StartNewState(currentState); 
+            }
+            else
+            {
+                enabled = false;
+                return;
+            }
             AIMovement.AutoNextTarget = false;
 
             LastWayPoint = null;
@@ -127,7 +132,7 @@ namespace MalbersAnimations.Controller.AI
         }
 
 
-        void Update() { currentState.Update_State(this); }
+        void Update() { currentState?.Update_State(this); }
 
         public virtual void TransitionToState(MAIState nextState, bool decisionValue, MAIDecision decision)
         {
@@ -159,22 +164,23 @@ namespace MalbersAnimations.Controller.AI
             }
         }
 
-        void StartNewState(MAIState newState)
+        public virtual void StartNewState(MAIState newState)
         {
             StateLastTime = Time.time;      //Store the last time the Animal made a transition
 
-            if (currentState != newState)
+            if (currentState != null && currentState != newState)
             {
-                currentState.Finish_Tasks(this);                    //Finish all the Task on the Current State
-                currentState.Finish_Decisions(this);                    //Finish all the Decisions on the Current State
+                currentState.Finish_Tasks(this);                 //Finish all the Task on the Current State
+                currentState.Finish_Decisions(this);             //Finish all the Decisions on the Current State
             }
 
             currentState = newState;                            //Set a new State
 
             PrepareVarsOnNewState();
 
-            currentState.Start_Taks(this);                      //Start all Tasks on the new State
-            currentState.Prepare_Decisions(this);                      //Start all Tasks on the new State
+            OnAIStateChanged.Invoke(currentState.ID);
+            currentState.Start_AIState(this);                      //Start all Tasks on the new State
+            currentState.Prepare_Decisions(this);               //Start all Tasks on the new State
 
 
             foreach (var tasks in currentState.tasks)         //Invoke the Task Events in case anyone wants to listen
@@ -232,7 +238,7 @@ namespace MalbersAnimations.Controller.AI
         /// <summary>Removes the Target on the Animal</summary>
         public void RemoveTarget() => AIMovement.SetTarget(null, false);
 
-        public virtual bool OnAnimatorBehaviourMessage(string message, object value) => 
+        public virtual bool OnAnimatorBehaviourMessage(string message, object value) =>
             this.InvokeWithParams(message, value);
 
         #region Event Listeners
@@ -263,13 +269,13 @@ namespace MalbersAnimations.Controller.AI
         #region SelfAnimal Event Listeners
         void OnAnimalStateChange(int state)
         {
-            currentState.OnAnimalStateEnter(this, Animal.ActiveState);
-            currentState.OnAnimalStateExit(this, Animal.LastState);
+            currentState?.OnAnimalStateEnter(this, Animal.ActiveState);
+            currentState?.OnAnimalStateExit(this, Animal.LastState);
 
             if (state == StateEnum.Death) //meaning this animal has died
             {
                 for (int i = 0; i < currentState.tasks.Length; i++)         //Exit the Current Tasks
-                    currentState.tasks[i].ExitTask(this, i);
+                    currentState.tasks[i].ExitAIState(this, i);
 
                 enabled = false;
 
@@ -283,9 +289,9 @@ namespace MalbersAnimations.Controller.AI
         }
 
 
-        void OnAnimalStanceChange(int stance) { currentState.OnAnimalStanceChange(this, Animal.Stance); }
-        void OnAnimalModeStart(int mode, int ability) { currentState.OnAnimalModeStart(this, Animal.ActiveMode); }
-        void OnAnimalModeEnd(int mode, int ability) { currentState.OnAnimalModeEnd(this, Animal.ActiveMode); }
+        void OnAnimalStanceChange(int stance) => currentState.OnAnimalStanceChange(this, Animal.Stance);
+        void OnAnimalModeStart(int mode, int ability) => currentState.OnAnimalModeStart(this, Animal.ActiveMode);
+        void OnAnimalModeEnd(int mode, int ability) => currentState.OnAnimalModeEnd(this, Animal.ActiveMode);
         #endregion
 
         #region TargetAnimal Event Listeners
@@ -295,15 +301,9 @@ namespace MalbersAnimations.Controller.AI
             currentState.OnTargetAnimalStateExit(this, Animal.LastState);
         }
 
-        private void OnTargetArrived(Transform target)
-        {
-            currentState.OnTargetArrived(this, target);
-        }
+        private void OnTargetArrived(Transform target) => currentState.OnTargetArrived(this, target);
 
-        private void OnPositionArrived(Vector3 position)
-        {
-            currentState.OnPositionArrived(this, position);
-        }
+        private void OnPositionArrived(Vector3 position) => currentState.OnPositionArrived(this, position);
 
         private void OnTargetSet(Transform target)
         {
@@ -338,15 +338,10 @@ namespace MalbersAnimations.Controller.AI
 
 
 #if UNITY_EDITOR
-
-
         void Reset()
         {
             remainInState = MTools.GetInstance<MAIState>("Remain in State");
             AIMovement = this.FindComponent<MAnimalAIControl>();
-
-            Animal.isPlayer.Value = false; //Make sure this animal is not the Main Player
-
 
             if (AIMovement)
             {
@@ -355,21 +350,27 @@ namespace MalbersAnimations.Controller.AI
                 AIMovement.UpdateTargetPosition = false;
                 AIMovement.MoveAgentOnMovingTarget = false;
                 AIMovement.LookAtTargetOnArrival = false;
+
+                if (Animal) Animal.isPlayer.Value = false; //Make sure this animal is not the Main Player
+
+            }
+            else
+            {
+                Debug.LogWarning("There's AI Control in this GameObject");
             }
         }
 
-
-        void OnDrawGizmosSelected()
+        void OnDrawGizmos()
         {
             if (isActiveAndEnabled && currentState && Eyes)
             {
                 Gizmos.color = currentState.GizmoStateColor;
                 Gizmos.DrawWireSphere(Eyes.position, 0.2f);
 
-                if (currentState && debug)
+                if (currentState != null  && currentState.tasks != null && debug)
                 {
-                    foreach (var act in currentState.tasks)
-                        act?.DrawGizmos(this);
+                    foreach (var task in currentState.tasks)
+                        task?.DrawGizmos(this);
 
                     foreach (var tran in currentState.transitions)
                         tran?.decision?.DrawGizmos(this);
@@ -380,7 +381,7 @@ namespace MalbersAnimations.Controller.AI
     }
 
     public enum Affected { Self, Target }
-    public enum ExecuteTask { OnStart, OnUpdate,OnExit }
+    public enum ExecuteTask { OnStart, OnUpdate, OnExit }
 
     public struct BrainVars
     {
@@ -391,4 +392,57 @@ namespace MalbersAnimations.Controller.AI
         public MonoBehaviour MonoValue;
         public Component ComponentValue;
     }
+
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(MAnimalBrain)), CanEditMultipleObjects]
+    public class MAnimalBrainEditor : Editor
+    {
+        SerializedProperty AIMovement, Eyes, debug, TransitionCoolDown, RemoveAIOnDeath,
+            currentState, remainInState, OnTaskStarted, OnDecisionSucceded, OnAIStateChanged;
+        private void OnEnable()
+        {
+            AIMovement = serializedObject.FindProperty("AIMovement");
+            Eyes = serializedObject.FindProperty("Eyes");
+            TransitionCoolDown = serializedObject.FindProperty("TransitionCoolDown");
+            RemoveAIOnDeath = serializedObject.FindProperty("RemoveAIOnDeath");
+            currentState = serializedObject.FindProperty("currentState");
+            remainInState = serializedObject.FindProperty("remainInState");
+
+            OnTaskStarted = serializedObject.FindProperty("OnTaskStarted");
+            OnDecisionSucceded = serializedObject.FindProperty("OnDecisionSucceded");
+            OnAIStateChanged = serializedObject.FindProperty("OnAIStateChanged");
+            debug = serializedObject.FindProperty("debug");
+        }
+
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField("References", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(AIMovement, new GUIContent("AI Control"));
+            EditorGUILayout.PropertyField(Eyes);
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField("AI States", EditorStyles.boldLabel);
+            MTools.DrawScriptableObject(currentState, false);
+            EditorGUILayout.PropertyField(remainInState);
+            EditorGUILayout.PropertyField(TransitionCoolDown);
+            EditorGUILayout.PropertyField(RemoveAIOnDeath);
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.LabelField("Events", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(OnAIStateChanged);
+            EditorGUILayout.PropertyField(OnTaskStarted);
+            EditorGUILayout.PropertyField(OnDecisionSucceded);
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.PropertyField(debug);
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+#endif
 }

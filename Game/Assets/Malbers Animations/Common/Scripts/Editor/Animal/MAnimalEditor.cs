@@ -1,5 +1,4 @@
 ﻿using MalbersAnimations.Scriptables;
-using MalbersAnimations.Utilities;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -24,14 +23,19 @@ namespace MalbersAnimations.Controller
 
 
         SerializedProperty
-            S_StateList, S_PivotsList, Height, S_Mode_List, Editor_Tabs1, Editor_Tabs2, StartWithMode, OnEnterExitStances,  OnEnterExitStates, RB, Anim, 
+            S_StateList, S_PivotsList, Height, S_Mode_List, Editor_Tabs1, Editor_Tabs2, StartWithMode, OnEnterExitStances, OnEnterExitStates, RB, Anim,
             m_Vertical, m_Horizontal, m_IDFloat, m_ModeStatus, m_State, m_StateStatus, m_LastState, m_Mode, m_Grounded, m_Movement, m_Random, m_MdeFloat,
-            m_SpeedMultiplier, m_UpDown, currentStance, defaultStance, m_Stance, m_Slope, m_Type, m_StateTime, m_DeltaAngle, m_Strafe,
-            lockInput, lockMovement, Rotator, AlignLoop, animalType, RayCastRadius, MainCamera, sleep, m_gravityTime, RootBone,
+            m_SpeedMultiplier, m_UpDown, currentStance, defaultStance, m_Stance, m_Slope, m_Type, m_StateTime, m_DeltaAngle, m_StrafeString,
+            lockInput, lockMovement, Rotator, AlignLoop, animalType, RayCastRadius, MainCamera, sleep, m_gravityTime, RootBone, showGlobalVariables,
 
-            alwaysForward, triggerInteraction, AnimatorSpeed, OnMovementLocked, OnInputLocked, OnSprintEnabled, OnGrounded, OnStanceChange, OnStateChange, OnModeStart, OnModeEnd,
-            OnSpeedChange, OnAnimationChange, GroundLayer, maxAngleSlope, AlignPosLerp, AlignRotLerp, m_gravity, m_gravityPower,  useCameraUp,
-             useSprintGlobal, hitLayer, SmoothVertical, TurnMultiplier, UpDownLerp, rootMotion, Player, OverrideStartState, CloneStates, S_Speed_List, UseCameraInput,
+            //rootMotion, grounded, m_sprint,
+
+           /* strafeRotMovement, strafeRotIdle, */ m_CanStrafe, m_strafe, OnStrafe,
+
+
+            alwaysForward,  AnimatorSpeed, OnMovementLocked, OnInputLocked, OnSprintEnabled, OnGrounded, OnStanceChange, OnStateChange, OnModeStart, OnModeEnd,
+            OnSpeedChange, OnAnimationChange, GroundLayer, maxAngleSlope, AlignPosLerp, AlignRotLerp, m_gravity, m_gravityPower, useCameraUp, ground_Changes_Gravity,
+             useSprintGlobal,  SmoothVertical, TurnMultiplier, UpDownLerp, Player, OverrideStartState, CloneStates, S_Speed_List, UseCameraInput,
             LockUpDownMovement, LockHorizontalMovement, LockForwardMovement;
 
         //EditorStuff
@@ -47,14 +51,28 @@ namespace MalbersAnimations.Controller
             sleep = serializedObject.FindProperty("sleep");
             S_Mode_List = serializedObject.FindProperty("modes");
 
+            ground_Changes_Gravity = serializedObject.FindProperty("ground_Changes_Gravity");
+
             SelectedMode = serializedObject.FindProperty("SelectedMode");
             ShowMovement = serializedObject.FindProperty("ShowMovement");
             ShowGround = serializedObject.FindProperty("ShowGround");
+            showGlobalVariables = serializedObject.FindProperty("showGlobalVariables");
+
+            m_CanStrafe = serializedObject.FindProperty("m_CanStrafe");
+            m_strafe = serializedObject.FindProperty("m_strafe");
+            OnStrafe = serializedObject.FindProperty("OnStrafe");
+
+            //strafeRotMovement = serializedObject.FindProperty("strafeRotMovement");
+            //strafeRotIdle = serializedObject.FindProperty("strafeRotIdle");
+
+            //  rootMotion = serializedObject.FindProperty("rootMotion");
+            //  m_sprint = serializedObject.FindProperty("sprint");
+            //  grounded = serializedObject.FindProperty("grounded");
 
 
             alwaysForward = serializedObject.FindProperty("alwaysForward");
 
-            MainCamera = serializedObject.FindProperty("MainCamera");
+            MainCamera = serializedObject.FindProperty("m_MainCamera");
             ShowAnimParametersOptional = serializedObject.FindProperty("ShowAnimParametersOptional");
             ShowAnimParameters = serializedObject.FindProperty("ShowAnimParameters");
 
@@ -63,12 +81,10 @@ namespace MalbersAnimations.Controller
             currentStance = serializedObject.FindProperty("currentStance");
             defaultStance = serializedObject.FindProperty("defaultStance");
 
-            hitLayer = serializedObject.FindProperty("hitLayer");
-            triggerInteraction = serializedObject.FindProperty("triggerInteraction");
+          
             RB = serializedObject.FindProperty("RB");
             Anim = serializedObject.FindProperty("Anim");
 
-            // mainCamera = serializedObject.FindProperty("MainCamera");
             UseCameraInput = serializedObject.FindProperty("useCameraInput");
             useCameraUp = serializedObject.FindProperty("useCameraUp");
             StartWithMode = serializedObject.FindProperty("StartWithMode");
@@ -96,7 +112,7 @@ namespace MalbersAnimations.Controller
             m_Movement = serializedObject.FindProperty("m_Movement");
             m_Random = serializedObject.FindProperty("m_Random");
             m_MdeFloat = serializedObject.FindProperty("m_ModePower");
-            m_Strafe = serializedObject.FindProperty("m_Strafe");
+            m_StrafeString = serializedObject.FindProperty("m_Strafe");
             m_SpeedMultiplier = serializedObject.FindProperty("m_SpeedMultiplier");
             m_UpDown = serializedObject.FindProperty("m_UpDown");
             m_Stance = serializedObject.FindProperty("m_Stance");
@@ -141,7 +157,6 @@ namespace MalbersAnimations.Controller
             SmoothVertical = serializedObject.FindProperty("SmoothVertical");
             TurnMultiplier = serializedObject.FindProperty("TurnMultiplier");
             UpDownLerp = serializedObject.FindProperty("UpDownLerp");
-            rootMotion = serializedObject.FindProperty("rootMotion");
             Player = serializedObject.FindProperty("isPlayer");
             OverrideStartState = serializedObject.FindProperty("OverrideStartState");
             CloneStates = serializedObject.FindProperty("CloneStates");
@@ -313,9 +328,7 @@ namespace MalbersAnimations.Controller
             EditorGUILayout.PropertyField(Anim, new GUIContent("Animator"));
             EditorGUILayout.PropertyField(RB, new GUIContent("RigidBody"));
             EditorGUILayout.PropertyField(MainCamera, new GUIContent("Main Camera"));
-            EditorGUILayout.LabelField("Animator", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(rootMotion, G_rootMotion); 
-            EditorGUILayout.PropertyField(AnimatorSpeed,G_AnimatorSpeed);
+          
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
@@ -327,14 +340,20 @@ namespace MalbersAnimations.Controller
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.LabelField("Inputs", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Lock Inputs", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(sleep, new GUIContent("Sleep", "Disable internally the Controller wihout disabling the component"));
             EditorGUILayout.PropertyField(lockInput, G_LockInput);
             EditorGUILayout.PropertyField(lockMovement, G_lockMovement);
+            EditorGUILayout.PropertyField(LockForwardMovement, new GUIContent("Lock Forward"));
+            EditorGUILayout.PropertyField(LockHorizontalMovement, new GUIContent("Lock Horizontal"));
+            EditorGUILayout.PropertyField(LockUpDownMovement, new GUIContent("Lock UpDown"));
             EditorGUILayout.EndVertical();
             
             ShowAnimParam();
         }
+
+
+      
 
         private void ShowAnimParam()
         {
@@ -373,7 +392,7 @@ namespace MalbersAnimations.Controller
                     EditorGUILayout.PropertyField(m_DeltaAngle);
                     EditorGUILayout.PropertyField(m_Random);
                     EditorGUILayout.PropertyField(m_MdeFloat);
-                    EditorGUILayout.PropertyField(m_Strafe);
+                    EditorGUILayout.PropertyField(m_StrafeString);
                 }
             }
             EditorGUILayout.EndVertical();
@@ -385,18 +404,18 @@ namespace MalbersAnimations.Controller
             EditorGUILayout.LabelField("Events", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(OnMovementLocked);
             EditorGUILayout.PropertyField(OnInputLocked);
-            EditorGUILayout.PropertyField(OnSprintEnabled);
+            EditorGUILayout.PropertyField(OnSprintEnabled, new GUIContent("On Sprint"));
             EditorGUILayout.PropertyField(OnGrounded);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(OnStanceChange);
             EditorGUILayout.PropertyField(OnStateChange);
+            EditorGUILayout.PropertyField(OnStrafe);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(OnModeStart);
             EditorGUILayout.PropertyField(OnModeEnd);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(OnSpeedChange);
             EditorGUILayout.PropertyField(OnAnimationChange);
-           // EditorGUILayout.PropertyField(OnMainPlayer);
             EditorGUILayout.EndVertical();
         }
 
@@ -504,6 +523,7 @@ namespace MalbersAnimations.Controller
                 var SelectedMode = S_Mode_List.GetArrayElementAtIndex(Index);
 
                 var Input = SelectedMode.FindPropertyRelative("Input");
+                var active = SelectedMode.FindPropertyRelative("active");
                 var CoolDown = SelectedMode.FindPropertyRelative("CoolDown");
                 var AbilityIndex = SelectedMode.FindPropertyRelative("m_AbilityIndex");
                 var OnAbilityIndex = SelectedMode.FindPropertyRelative("OnAbilityIndex");
@@ -524,6 +544,7 @@ namespace MalbersAnimations.Controller
                 if (showGeneral.boolValue)
                 {
                     EditorGUI.indentLevel++;
+                   // EditorGUILayout.PropertyField(active);
                     EditorGUILayout.PropertyField(Input);
                     //EditorGUILayout.PropertyField(animationTag);
                     EditorGUILayout.PropertyField(ignoreLowerModes, new GUIContent("Ignore Lower", "It will play this mode even if another Lower Priority Mode is playing"));
@@ -635,8 +656,10 @@ namespace MalbersAnimations.Controller
 
                     drawHeaderCallback = rect =>
                     {
-                        var IDRect = new Rect(rect);
-                        IDRect.height = EditorGUIUtility.singleLineHeight;
+                        var IDRect = new Rect(rect)
+                        {
+                            height = EditorGUIUtility.singleLineHeight
+                        };
 
                         var NameRect = new Rect(IDRect);
 
@@ -764,13 +787,12 @@ namespace MalbersAnimations.Controller
 
              EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(S_PivotsList,true);
+            EditorGUILayout.PropertyField(S_PivotsList,true);
             EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             {
-
                 MalbersEditor.Foldout(ShowMovement, "Movement", true);
                 if (ShowMovement.boolValue)
                 {
@@ -781,27 +803,21 @@ namespace MalbersAnimations.Controller
 
 
                     EditorGUILayout.PropertyField(useCameraUp, new GUIContent("Use Camera Up", "Uses the Camera Up Vector to move UP or Down while flying or Swiming UnderWater. if this is false the Animal will need an UPDOWN Input to move higher or lower"));
-                    EditorGUILayout.PropertyField(useSprintGlobal, G_useSprintGlobal);
                     EditorGUILayout.PropertyField(SmoothVertical, G_SmoothVertical);
+                    EditorGUILayout.PropertyField(useSprintGlobal, G_useSprintGlobal);
+                    EditorGUILayout.Space();
                     EditorGUILayout.PropertyField(TurnMultiplier, G_TurnMultiplier);
                     EditorGUILayout.PropertyField(UpDownLerp, G_UpDownLerp);
-                    EditorGUILayout.Space();
+                    EditorGUILayout.PropertyField(AnimatorSpeed, G_AnimatorSpeed);
 
-                    EditorGUILayout.LabelField("Lock Movement Axis", EditorStyles.boldLabel);
-                    EditorGUILayout.PropertyField(LockForwardMovement, new GUIContent("Lock Forward"));
-                    EditorGUILayout.PropertyField(LockHorizontalMovement, new GUIContent("Lock Horizontal"));
-                    EditorGUILayout.PropertyField(LockUpDownMovement, new GUIContent("Lock UpDown"));
+                    // EditorGUILayout.Space();
                 }
             }
             EditorGUILayout.EndVertical();
 
 
-            //EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            //{
-            //    EditorGUILayout.PropertyField(hitLayer, new GUIContent("Hit Layer", "What the Animal can hit using the Attack Triggers"));
-            //    EditorGUILayout.PropertyField(triggerInteraction, new GUIContent("Hit Triggers?", "Does the Attack Triggers Interact with triggers?"));
-            //}
-            //EditorGUILayout.EndVertical();
+            ShowStrafingVars();
+         
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             {
@@ -815,17 +831,41 @@ namespace MalbersAnimations.Controller
                     EditorGUILayout.PropertyField(AlignRotLerp, G_AlignRotLerp);
                     EditorGUILayout.PropertyField(RayCastRadius, G_RayCastRadius);
                     EditorGUILayout.PropertyField(AlignLoop, G_AlignLoop);
-                  
-
                 }
             }
             EditorGUILayout.EndVertical();
+
+
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.LabelField("Gravity", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(m_gravity, G_gravityDirection);
             EditorGUILayout.PropertyField(m_gravityPower, G_GravityForce);
             EditorGUILayout.PropertyField(m_gravityTime, G_GravityCycle);
+            EditorGUILayout.PropertyField(ground_Changes_Gravity, new GUIContent("Ground Changes Gravity","The Ground will change the gravity direction, allowing the animals to move in any surface"));
+            EditorGUILayout.EndVertical();
+
+        }
+
+
+        private void ShowStrafingVars()
+        {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(m_CanStrafe, G_CanStrafe);
+            if (GUILayout.Button("?", GUILayout.Width(20)))
+            {
+                Application.OpenURL("https://malbersanimations.gitbook.io/animal-controller/strafing");
+            }
+            EditorGUILayout.EndHorizontal();
+
+
+            if (m.CanStrafe)
+            { 
+                EditorGUILayout.PropertyField(m_strafe, G_Strafe);
+            }
+
+            
             EditorGUILayout.EndVertical();
 
         }
@@ -837,8 +877,8 @@ namespace MalbersAnimations.Controller
 
             EditorGUI.LabelField(name, "   Speed Sets");
 
-            Rect R_2 = new Rect(rect.width - 7, rect.y + 2, 18, EditorGUIUtility.singleLineHeight - 3);
-            Rect R_3 = new Rect(rect.width + 13, rect.y + 2, 18, EditorGUIUtility.singleLineHeight - 3);
+            Rect R_2 = new Rect(rect.width - 8, rect.y, 22, EditorGUIUtility.singleLineHeight - 3);
+            Rect R_3 = new Rect(rect.width + 15, rect.y, 22, EditorGUIUtility.singleLineHeight - 3);
 
 
             if (GUI.Button(R_2, new GUIContent("+", "New Speed Set"), EditorStyles.miniButton))
@@ -966,8 +1006,8 @@ namespace MalbersAnimations.Controller
             r.x += 13;
             EditorGUI.LabelField(r, new GUIContent("     States [Double clic to modify them]", "States are the common things the Animals can do but they cannot overlap each other"));
 
-            Rect R_2 = new Rect(rect.width - 15, rect.y, 25, EditorGUIUtility.singleLineHeight - 3);
-            Rect R_3 = new Rect(rect.width + 8, rect.y, 25, EditorGUIUtility.singleLineHeight - 3);
+            Rect R_2 = new Rect(rect.width - 8, rect.y, 22, EditorGUIUtility.singleLineHeight - 3);
+            Rect R_3 = new Rect(rect.width + 15, rect.y, 22, EditorGUIUtility.singleLineHeight - 3);
 
 
             if (GUI.Button(R_2, new GUIContent("+", "Creates and adds a new State"), EditorStyles.miniButton))
@@ -1150,7 +1190,7 @@ namespace MalbersAnimations.Controller
                 var activeRect1 = new Rect(rect.x, rect.y, 20, rect.height);
                 var IDRect = new Rect(rect.x + 40, rect.y, rect.width - 90, EditorGUIUtility.singleLineHeight);
                 
-                var IDVal = new Rect(activeRect.width + 9, activeRect.y - 1, 35, activeRect.height);
+                var IDVal = new Rect(activeRect.width + 9, activeRect.y + 2, 35, activeRect.height);
 
                 active.boolValue = EditorGUI.Toggle(activeRect1, GUIContent.none, active.boolValue);
               
@@ -1164,7 +1204,7 @@ namespace MalbersAnimations.Controller
                     EditorGUI.LabelField(IDVal, m.modes[index].ID.ID.ToString(), style);
                 }
 
-                var priorityRect = new Rect(activeRect.width + 42, activeRect.y - 1, 25, activeRect.height);
+                var priorityRect = new Rect(activeRect.width + 42, activeRect.y - 2, 25, activeRect.height);
 
                 EditorGUI.LabelField(priorityRect, "│" + (S_Mode_List.arraySize - index - 1));
 
@@ -1294,10 +1334,8 @@ namespace MalbersAnimations.Controller
         readonly GUIContent G_AbilityIndex = new GUIContent("Active", "Active Ability Index \n(if set to -99 it will Play a Random Ability )\n(if set to 0 it wont play anything)");
         readonly GUIContent G_DefaultIndex = new GUIContent("Default", "Default Ability Index to return to when exiting the mode \n(if set to -99 it will Play a Random Ability )");
         readonly GUIContent G_ResetToDefault = new GUIContent("R", "Reset to Default:\nWhen Exiting the Mode\nthe Active Index will reset\nto the Default");
-        //readonly GUIContent G_Abilities = new GUIContent("Abilities", "All the abilities inluded in this Mode");
         readonly GUIContent G_CloneStates = new GUIContent("Clone States", "Creates instances of the States so they cannot be overwriten by other animal using the same scriptable objects");
         readonly GUIContent G_Height = new GUIContent("Height", "Distance from Animal Hip to the ground");
-        //readonly GUIContent G_Calculate_H = new GUIContent("C", "Calculate the Height of the Animal, the Chest or Hip Pivot must be setted");
         readonly GUIContent G_GroundLayer = new GUIContent("Ground Layer", "Layers the Animal considers ground");
         readonly GUIContent G_maxAngleSlope = new GUIContent("Max Angle Slope", "If the Terrain slope angle is greater than this value, the animal will fall");
         readonly GUIContent G_AlignPosLerp = new GUIContent("Align Pos Lerp", "Smoothness value to Snap to ground while Grounded");
@@ -1309,7 +1347,15 @@ namespace MalbersAnimations.Controller
         readonly GUIContent G_GravityForce = new GUIContent("Force", "Force of the Gravity, by Default it 9.8");
         readonly GUIContent G_GravityCycle = new GUIContent("Start Gravity Cycle", "Start the gravity with an extra time to push the animal down.... higher values stronger Gravity");
 
-        readonly GUIContent G_useSprintGlobal = new GUIContent("Use Sprint", "Can the Animal Sprint?");
+        readonly GUIContent G_useSprintGlobal = new GUIContent("Can Sprint", "Can the Animal Sprint?");
+        readonly GUIContent G_CanStrafe = new GUIContent("Can Strafe", "Can the Animal Strafe?");
+        readonly GUIContent G_Strafe = new GUIContent("Strafe", "Enables Strafing on the Animal.\nStrafing requires new sets of Strafe Animations, make sure you have proper animations to Use this feature");
+        
+
+        //readonly GUIContent G_sprint = new GUIContent("Sprint", " Sprint value of the Animal. Sprint allows increase 1 speed modifier");
+        //readonly GUIContent G_Grounded = new GUIContent("Grounded", " Grounded value of the Animal. if True the animal will aling itself with the Terrain");
+
+
         readonly GUIContent G_SmoothVertical = new GUIContent("Smooth Vertical", "Used for Joysticks to increase the speed by the Stick Pressure");
         readonly GUIContent G_TurnMultiplier = new GUIContent("Turn Multiplier", "Global turn multiplier to increase rotation on the animal");
         readonly GUIContent G_UpDownLerp = new GUIContent("Up Down Lerp", "Lerp Value for the UpDown Axis");

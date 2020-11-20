@@ -8,7 +8,7 @@ namespace MalbersAnimations.Controller
 {
     public class PointClick : MonoBehaviour
     {
-        [RequiredField] public PointClickData pointClickData;
+        [CreateScriptableAsset] public PointClickData pointClickData;
         public GameObject PointUI;
         public float radius = 0.2f;
         private const float navMeshSampleDistance = 4f;

@@ -17,7 +17,7 @@ namespace MalbersAnimations.Controller.AI
         public virtual void UpdateTask(MAnimalBrain brain, int index) { }
 
         /// <summary>While a AI State Ends, run this Code</summary>
-        public virtual void ExitTask(MAnimalBrain brain, int index) { }
+        public virtual void ExitAIState(MAnimalBrain brain, int index) { }
 
         public virtual void OnTargetArrived(MAnimalBrain brain, Transform target, int index) { }
 

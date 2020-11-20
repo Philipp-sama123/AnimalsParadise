@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MalbersAnimations.Scriptables;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ namespace MalbersAnimations.Events
     /// The list of listeners that this event will notify if it is Invoked. 
     /// Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple
     /// </summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Event", fileName = "New Event Asset")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Event", fileName = "New Event Asset", order = 1000)]
     public class MEvent : ScriptableObject
     {
         /// <summary>The list of listeners that this event will notify if it is raised.</summary>
@@ -34,7 +35,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
 
         }
 
@@ -52,7 +53,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
 
         }
 
@@ -61,7 +62,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
 
         }
 
@@ -70,7 +71,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value.Value);
 
-            if (debug) Debug.Log($"{name} Invoke({value.Value})");
+            DebugEvent(value.Value);
 
         }
 
@@ -92,17 +93,21 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(val);
 
-            if (debug) Debug.Log($"{name} Invoke({value.Value})");
+            DebugEvent(value);
 
+        }
+
+        private void DebugEvent(object value)
+        {
+            if (debug) Debug.Log($"<B>{name}</B> - Invoke({value})");
         }
 
         public virtual void Invoke(GameObject value)
         {
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
-
-            if (debug) Debug.Log($"{name} Invoke({value})");
-
+          
+            DebugEvent(value);
         }
 
         public virtual void Invoke(Transform value)
@@ -110,7 +115,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
         }
 
         public virtual void Invoke(Vector3 value)
@@ -118,7 +123,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
         }
 
         public virtual void Invoke(Vector2 value)
@@ -126,8 +131,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
         }
 
         public virtual void Invoke(Component value)
@@ -135,7 +139,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
         }
 
 
@@ -144,7 +148,7 @@ namespace MalbersAnimations.Events
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            if (debug) Debug.Log($"{name} Invoke({value})");
+            DebugEvent(value);
         }
 
         public virtual void RegisterListener(MEventItemListener listener)

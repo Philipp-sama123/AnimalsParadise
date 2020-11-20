@@ -87,7 +87,7 @@ namespace MalbersAnimations.Controller.AI
         }
             
 
-        public override void ExitTask(MAnimalBrain brain, int index)
+        public override void ExitAIState(MAnimalBrain brain, int index)
         {
             if (Play == ExecuteTask.OnExit) //If the animal is in range of the Target
                 StateActivate(brain);

@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 #if UNITY_EDITOR
 using UnityEditorInternal;
@@ -20,9 +20,8 @@ namespace MalbersAnimations.Utilities
             anim = GetComponent<Animator>();                    //Get the reference for the animator
 
             if (_audioSource == null)                           //if there's no audio source add one..
-            {
                 _audioSource = gameObject.AddComponent<AudioSource>();
-            }
+
             _audioSource.volume = 0;
         }
 
@@ -43,9 +42,9 @@ namespace MalbersAnimations.Utilities
         {
             if (e.animatorClipInfo.weight < 0.1) return; // if is too small the weight of the animation clip do nothing
 
-            EventSound SoundEvent = m_EventSound.Find(item => item.name == e.stringParameter);
+            var SoundEvent = m_EventSound.Find(item => item.name == e.stringParameter && item.active == true);
 
-            if (SoundEvent != null && SoundEvent.active)
+            if (SoundEvent != null)
             {
                 SoundEvent.VolumeWeight = e.animatorClipInfo.weight;
 
@@ -65,40 +64,105 @@ namespace MalbersAnimations.Utilities
             }
         }
 
+        public virtual void PlaySound(string sound)
+        {
+            var SoundEvent = m_EventSound.Find(item => item.name == sound && item.active == true);
+            
+            if (SoundEvent != null)
+            {
+                SoundEvent.VolumeWeight = 1;
+
+                if (_audioSource.isPlaying)                                         //If the Audio is already Playing play the one that has more weight
+                {
+                    if (SoundEvent.volume > _audioSource.volume)
+                        SoundEvent.PlayAudio(_audioSource);
+                }
+                else
+                {
+                    SoundEvent.PlayAudio(_audioSource);
+                }
+            }
+        }
+
+        public virtual void PlaySoundForever(string sound)
+        {
+            var SoundEvent = m_EventSound.Find(item => item.name == sound && item.active == true);
+
+            if (SoundEvent != null)
+            {
+                SoundEvent.VolumeWeight = 1;
+
+                StartCoroutine(C_Playforever(SoundEvent));
+            }
+        }
+
+        public virtual void StopPlaying(string sound)
+        {
+            var SoundEvent = m_EventSound.Find(item => item.name == sound && item.active == true);
+
+            if (SoundEvent != null && SoundEvent.source != null)
+            {
+                if (SoundEvent.source.isPlaying)
+                    SoundEvent.source.Stop();
+            }
+
+            StopAllCoroutines();
+        }
+
+        IEnumerator C_Playforever(  EventSound E_sound)
+        {
+            if (E_sound.interval <= 0)
+            {
+                yield return null;
+            }
+            else
+            {
+                var timeInterval = new WaitForSeconds(E_sound.interval);
+                while (true)
+                {
+                    E_sound.PlayAudio(_audioSource);
+                    yield return timeInterval;
+                }
+            }
+
+            yield return null;
+        }
 
 
-        public virtual bool OnAnimatorBehaviourMessage(string message, object value)
-        { return this.InvokeWithParams(message, value); }
+        public virtual bool OnAnimatorBehaviourMessage(string message, object value) => this.InvokeWithParams(message, value);
     }
 
     [System.Serializable]
     public class EventSound
     {
         public string name = "Name Here";
-        public AudioClip[] Clips;
         public float volume = 1;
         public float pitch = 1;
         public bool active = true;
+        public float interval = 0f;
+        public AudioSource source;
+        public AudioClip[] Clips;
 
         protected float volumeWeight = 1;
 
         public float VolumeWeight
         {
-            set { volumeWeight = value; }
-            get { return volumeWeight; }
+            set=>volumeWeight = value;  
+            get => volumeWeight;  
         }
 
         public void PlayAudio(AudioSource audio)
         {
-            if (audio == null) return;                              //Do nothing if the audio is empty
+            if (source == null) source = audio;
+            if (source == null) return;                            //Do nothing if the audio is empty
             if (Clips == null || Clips.Length == 0) return;         //Do nothing if there's no clips 
 
-            audio.spatialBlend = 1;                                 //Set the sound to 3D
+            source.spatialBlend = 1;                                 //Set the sound to 3D
 
-            audio.clip = Clips[Random.Range(0, Clips.Length)];      //Set a random clip to the audio Source
-            audio.pitch *= pitch;                                   //Depending the animator speed modify the pitch
-            audio.volume = Mathf.Clamp01(volume * VolumeWeight);    //Depending the weight of the animation clip modify the volume
-            audio.Play();                                           //Play the Audio
+            source.clip = Clips[Random.Range(0, Clips.Length)];      //Set a random clip to the audio Source
+            source.pitch *= pitch;                                   //Depending the animator speed modify the pitch
+            source.volume = Mathf.Clamp01(volume * VolumeWeight);    //Depending the weight of the animation clip modify the volume
+            source.Play();                                           //Play the Audio
         }
     }
 
@@ -144,9 +208,11 @@ namespace MalbersAnimations.Utilities
                         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                         {
                             SerializedProperty Element = m_EventSound.GetArrayElementAtIndex(list.index);
-                            EditorGUILayout.LabelField("►" + M.m_EventSound[list.index].name + "◄", EditorStyles.boldLabel);
+                            EditorGUILayout.LabelField("[" + M.m_EventSound[list.index].name + "]", EditorStyles.boldLabel);
                             EditorGUI.indentLevel++;
+                            EditorGUILayout.PropertyField(Element.FindPropertyRelative("interval"));
                             EditorGUILayout.PropertyField(Element.FindPropertyRelative("Clips"), new GUIContent("Clips", "AudioClips"), true);
+                            EditorGUILayout.PropertyField(Element.FindPropertyRelative("source"), new GUIContent("Internal Source", "AudioSource"));
                             EditorGUI.indentLevel--;
                         }
                         EditorGUILayout.EndVertical();
@@ -154,11 +220,7 @@ namespace MalbersAnimations.Utilities
 
                     EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                     {
-                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_audioSource"), new GUIContent("Audio", "AudioSource"), true);
-                        if (M._audioSource == null)
-                        {
-                            EditorGUILayout.HelpBox("If Audio is empty, this script will create an audiosource at runtime", MessageType.Info);
-                        }
+                        EditorGUILayout.PropertyField(serializedObject.FindProperty("_audioSource"), new GUIContent("Global Source", "AudioSource"), true);
                     }
                     EditorGUILayout.EndVertical();
 

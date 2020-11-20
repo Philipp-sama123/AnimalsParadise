@@ -12,9 +12,9 @@ namespace MalbersAnimations
         public bool Enable => gameObject.activeInHierarchy && enabled;
 
         public string Description = "";
-        [HideInInspector] public bool editDescription = false;
-        [ContextMenu("Edit Description")]
-        internal void EditDescription() => editDescription ^= true;
+        [HideInInspector] public bool ShowDescription = false;
+        [ContextMenu("Show Description")]
+        internal void EditDescription() => ShowDescription ^= true;
     }
 
 
@@ -23,7 +23,8 @@ namespace MalbersAnimations
     [UnityEditor.CustomEditor(typeof(VarListener))]
     public class VarListenerEditor : UnityEditor.Editor
     {
-        private UnityEditor.SerializedProperty value, Description, Index, ShowEvents, editDescription;
+        private UnityEditor.SerializedProperty value, Description, Index, ShowEvents, ShowDescription;
+        private GUIStyle style;
 
         void OnEnable()    { SetEnable(); }
 
@@ -31,7 +32,7 @@ namespace MalbersAnimations
         {
             value = serializedObject.FindProperty("value");
             Description = serializedObject.FindProperty("Description");
-            editDescription = serializedObject.FindProperty("editDescription");
+            ShowDescription = serializedObject.FindProperty("ShowDescription");
             Index = serializedObject.FindProperty("ID");
             ShowEvents = serializedObject.FindProperty("ShowEvents");
         }
@@ -41,10 +42,22 @@ namespace MalbersAnimations
         {
             serializedObject.Update();
 
-            if (editDescription.boolValue)
-                UnityEditor.EditorGUILayout.PropertyField(Description);
-            else
-             if (!string.IsNullOrEmpty(Description.stringValue)) MalbersEditor.DrawDescription(Description.stringValue);
+
+
+            if (ShowDescription.boolValue)
+            {
+                if (style == null)
+                    style = new GUIStyle(UnityEditor.EditorStyles.helpBox)
+                    {
+                        fontSize = 12,
+                        fontStyle = FontStyle.Bold,
+                    };
+
+                UnityEditor.EditorGUILayout.BeginVertical(MalbersEditor.StyleBlue);
+                Description.stringValue = UnityEditor.EditorGUILayout.TextArea(Description.stringValue, style);
+                UnityEditor.EditorGUILayout.EndVertical();
+            }
+
 
             UnityEditor.EditorGUILayout.BeginHorizontal(UnityEditor.EditorStyles.helpBox);
             UnityEditor.EditorGUILayout.PropertyField(value, GUILayout.MinWidth(60));

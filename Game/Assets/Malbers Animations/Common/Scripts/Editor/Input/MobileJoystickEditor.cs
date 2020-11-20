@@ -67,10 +67,9 @@ namespace MalbersAnimations
                         }
                         EditorGUILayout.EndHorizontal();
 
-                        EditorGUILayout.PropertyField(deathpoint, new GUIContent("Death Point", "If the Axis Magnitude is lower than this value then the Axis will zero out"));
+                        EditorGUILayout.PropertyField(deathpoint); 
                         EditorGUILayout.PropertyField(sensitivityX);
                         EditorGUILayout.PropertyField(sensitivityY);
-
                     }
                 }
                 EditorGUILayout.EndVertical();

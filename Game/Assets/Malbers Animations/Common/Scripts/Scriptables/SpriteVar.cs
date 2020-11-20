@@ -3,7 +3,7 @@
 namespace MalbersAnimations.Scriptables
 {
     ///<summary>  Prefab Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple </summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Sprite Var")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Sprite Var", order =2000)]
     public class SpriteVar : ScriptableVar
     {
         [SerializeField] private Sprite value;
@@ -45,7 +45,7 @@ namespace MalbersAnimations.Scriptables
 
         public Sprite Value
         {
-            get => UseConstant ? ConstantValue : Variable.Value;
+            get => UseConstant ? ConstantValue : (Variable != null ? Variable.Value : null);
             set
             {
                 if (UseConstant)

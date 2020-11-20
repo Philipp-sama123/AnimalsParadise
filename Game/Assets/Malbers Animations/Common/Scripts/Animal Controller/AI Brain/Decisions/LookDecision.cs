@@ -17,7 +17,6 @@ namespace MalbersAnimations.Controller.AI
     [CreateAssetMenu(menuName = "Malbers Animations/Pluggable AI/Decision/Look", order = 5)]
     public class LookDecision : MAIDecision
     {
-
         /// <summary>Range for Looking forward and Finding something</summary>
         [Space, Tooltip("Range for Looking forward and Finding something")]
         public FloatReference LookRange = new FloatReference(15);
@@ -56,27 +55,24 @@ namespace MalbersAnimations.Controller.AI
         public int ZoneID;
 
         [Tooltip("Mode Zone Index")]
-        public int ZoneModeIndex = -1;
+        public int ZoneModeAbility = -1;
 
         public Color debugColor = new Color(0, 0, 0.7f, 0.3f);
 
-        public override bool Decide(MAnimalBrain brain, int index)
-        {
-            return Look_For(brain);
-        }
+        public override bool Decide(MAnimalBrain brain, int index) => Look_For(brain);
 
 
         private bool Look_For(MAnimalBrain brain)
         {
             switch (lookFor)
             {
-                case LookFor.AnimalPlayer:      return LookForAnimalPlayer(brain);
-                case LookFor.Tags:              return LookForTags(brain);
-                case LookFor.UnityTags:         return LookForUnityTags(brain);
-                case LookFor.Zones:             return LookForZones(brain);
-                case LookFor.GameObject:        return LookForGameObject(brain);
-                case LookFor.ClosestWayPoint:   return LookForClosestWaypoint(brain);
-                case LookFor.Target:            return LookForTarget(brain);
+                case LookFor.AnimalPlayer: return LookForAnimalPlayer(brain);
+                case LookFor.Tags: return LookForTags(brain);
+                case LookFor.UnityTags: return LookForUnityTags(brain);
+                case LookFor.Zones: return LookForZones(brain);
+                case LookFor.GameObject: return LookForGameObject(brain);
+                case LookFor.ClosestWayPoint: return LookForClosestWaypoint(brain);
+                case LookFor.Target: return LookForTarget(brain);
                 default: return false;
             }
         }
@@ -91,9 +87,9 @@ namespace MalbersAnimations.Controller.AI
 
         private bool IsInFieldOfView(MAnimalBrain brain, Vector3 TargetCenter, Transform target)
         {
-            var result = LookAngle <= 0 || LookRange <= 0 || ObstacleLayer == 0;
+            var result = LookAngle <= 0 && LookRange <= 0 && ObstacleLayer == 0;
 
-            if (result)
+            if (result) //Fast Result
             {
                 if (AssignTarget) brain.AIMovement.SetTarget(target, MoveToTarget);
                 else if (RemoveTarget) brain.RemoveTarget();
@@ -104,6 +100,7 @@ namespace MalbersAnimations.Controller.AI
             var Direction_to_Target = (TargetCenter - brain.Eyes.position);
             var Distance_to_Target = Vector3.Distance(TargetCenter, brain.Eyes.position);
 
+
             if (Distance_to_Target < LookRange) //Check if whe are inside the Look Radius
             {
                 Vector3 EyesForward = Vector3.ProjectOnPlane(brain.Eyes.forward, brain.Animal.UpVector);
@@ -111,7 +108,7 @@ namespace MalbersAnimations.Controller.AI
                 if (Vector3.Dot(Direction_to_Target.normalized, EyesForward) > Mathf.Cos(LookAngle * 0.5f * Mathf.Deg2Rad)) //Mean is in Range:
                 {
                     //Need a RayCast to see if there's no obstacle in front of the Animal OBSTACLE LAYER
-                    if (Physics.Raycast(brain.Eyes.position, Direction_to_Target, out RaycastHit hit, Distance_to_Target * 0.9f, ObstacleLayer, QueryTriggerInteraction.Ignore))
+                    if (ObstacleLayer != 0 && Physics.Raycast(brain.Eyes.position, Direction_to_Target, out RaycastHit hit, Distance_to_Target * 0.9f, ObstacleLayer, QueryTriggerInteraction.Ignore))
                     {
                         if (brain.debug)
                         {
@@ -134,7 +131,7 @@ namespace MalbersAnimations.Controller.AI
                 else if (RemoveTarget) brain.RemoveTarget();
             }
             return result;
-        } 
+        }
 
         public bool LookForZones(MAnimalBrain brain)
         {
@@ -145,15 +142,17 @@ namespace MalbersAnimations.Controller.AI
 
             foreach (var zone in AllZones)
             {
-                if (zone.zoneType == zoneType && ZoneID < 1 || zone.GetID == ZoneID)
+                if (zone.zoneType == zoneType && ZoneID > 0 && zone.GetID == ZoneID)
                 {
-                    if (zone.zoneType == ZoneType.Mode && ZoneModeIndex != -1 && zone.ModeIndex != ZoneModeIndex) continue;  //IMPORTANT! Search for an Specific Mode Zone like Sleep)
-
-                    if (MinimumDistance(zone.transform.position, brain.Eyes.position, out float Distance, minDistance))
-                    {
-                        minDistance = Distance;
-                        FoundZone = zone;
-                    }
+                    if (zone.zoneType == ZoneType.Mode)
+                        if (ZoneModeAbility == -1 || zone.ModeIndex == ZoneModeAbility)
+                        {
+                            if (MinimumDistance(zone.transform.position, brain.Eyes.position, out float Distance, minDistance))
+                            {
+                                minDistance = Distance;
+                                FoundZone = zone;
+                            }
+                        }
                 }
             }
 
@@ -179,7 +178,7 @@ namespace MalbersAnimations.Controller.AI
                 }
             }
 
-         
+
 
             if (FoundTagHolder)
                 return IsInFieldOfView(brain, FoundTagHolder.transform.position, FoundTagHolder.transform);  //Find if is inside the Field of view
@@ -274,7 +273,7 @@ namespace MalbersAnimations.Controller.AI
             {
                 Color c = debugColor;
                 c.a = 1f;
-                
+
                 Vector3 EyesForward = Vector3.ProjectOnPlane(brain.Eyes.forward, brain.Animal.UpVector);
 
                 Vector3 rotatedForward = Quaternion.Euler(0, -LookAngle * 0.5f, 0) * EyesForward;
@@ -327,7 +326,7 @@ namespace MalbersAnimations.Controller.AI
             MoveToTarget = serializedObject.FindProperty("MoveToTarget");
             debugColor = serializedObject.FindProperty("debugColor");
             ZoneID = serializedObject.FindProperty("ZoneID");
-            ZoneModeIndex = serializedObject.FindProperty("ZoneModeIndex");
+            ZoneModeIndex = serializedObject.FindProperty("ZoneModeAbility");
         }
 
 
@@ -335,19 +334,19 @@ namespace MalbersAnimations.Controller.AI
         {
             serializedObject.Update();
 
-            EditorGUILayout.BeginVertical(StyleBlue);
-            EditorGUILayout.HelpBox("Look Decision for the AI Brain", MessageType.None);
-            EditorGUILayout.EndVertical();
+            //EditorGUILayout.BeginVertical(StyleBlue);
+            //EditorGUILayout.HelpBox("Look Decision for the AI Brain", MessageType.None);
+            //EditorGUILayout.EndVertical();
 
-                EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.ObjectField("Script", script, typeof(MonoScript), false);
-                EditorGUI.EndDisabledGroup();
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ObjectField("Script", script, typeof(MonoScript), false);
+            EditorGUI.EndDisabledGroup();
 
             EditorGUI.BeginChangeCheck();
 
-                //   EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            //   EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-                {
+            {
                 EditorGUILayout.PropertyField(Description);
                 EditorGUILayout.PropertyField(MessageID);
                 EditorGUILayout.PropertyField(send);

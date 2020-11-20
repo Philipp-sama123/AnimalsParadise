@@ -30,16 +30,18 @@ namespace MalbersAnimations.Utilities
         private QueryTriggerInteraction m_Triggers = QueryTriggerInteraction.Ignore;
 
         [SerializeField, Tooltip("Forced a Target on the Aiming Logic. Calculate the Aim from the Aim Origin to a Target")]
-        private Transform m_AimTarget;
+        private TransformReference m_AimTarget = new TransformReference();
 
         [Tooltip("Transform Helper that stores the position of the Hit")]
-        public Transform m_AimPositon;
+        public TransformReference m_AimPositon = new TransformReference();
 
         [SerializeField, Tooltip("Set a Transform Hierarchy to Ignore on the Aim Ray")]
-        private Transform m_Ignore;
+        private TransformReference m_Ignore = new TransformReference();
 
         [SerializeField, Tooltip("Camera Reference used for calculatin the Aim logic from the Camera Center.")]
-        private Camera m_camera;
+        private TransformReference m_camera  =new TransformReference();
+        private Camera cam;
+
         [SerializeField, Tooltip("Default screen center")]
         private Vector2Reference m_screenCenter = new Vector2Reference(0.5f, 0.5f);
 
@@ -69,12 +71,10 @@ namespace MalbersAnimations.Utilities
         private int hitcount;
         #endregion
 
-        private Transform _t;
-
         #region Properties
 
         /// <summary>Main Camera</summary>
-        public Camera MainCamera { get => m_camera; set => m_camera = value; }
+        public Transform MainCamera { get => m_camera.Value; set => m_camera.Value = value; }
 
         /// <summary>Sets the Aim Origin Transform </summary>
         public Transform AimOrigin
@@ -92,7 +92,7 @@ namespace MalbersAnimations.Utilities
         private Transform defaultOrigin;
 
         /// <summary>Set a Extra Transform to Ignore it (Used in case of the Mount for the Rider)</summary>
-        public Transform IgnoreTransform { get => m_Ignore; set => m_Ignore = value; }
+        public Transform IgnoreTransform { get => m_Ignore.Value; set => m_Ignore.Value = value; }
 
         /// <summary>Direction the GameObject is Aiming</summary>
         public Vector3 AimDirection => (AimPoint - AimOrigin.position).normalized;
@@ -140,7 +140,7 @@ namespace MalbersAnimations.Utilities
                         CalculateAngles();
                         enabled = true;
                         OnAiming.Invoke(true);
-                        if (m_AimPositon) m_AimPositon.gameObject.SetActive(true); //Hide the Helper
+                        if (AimPositon) AimPositon.gameObject.SetActive(true); //Hide the Helper
                     }
                 }
             }
@@ -155,12 +155,14 @@ namespace MalbersAnimations.Utilities
             OnAimSide.Invoke(0);
             enabled = false;
             OnAiming.Invoke(false);
-            if (m_AimPositon) m_AimPositon.gameObject.SetActive(false); //Hide the Helper
+            if (AimPositon) AimPositon.gameObject.SetActive(false); //Hide the Helper
         }
 
         /// <summary>Limit the Aiming via Angle limit Which means the Aiming is Active but should not be used</summary>
         public bool Limited { get; set; }
 
+        private readonly float delay = 0.5f;
+        private float CurrentTimedelay;
 
         private bool aimingSide;
         /// <summary>Check if the camera is in the right:true or Left: False side of the Character </summary>
@@ -169,24 +171,23 @@ namespace MalbersAnimations.Utilities
             get => aimingSide;
             private set
             {
-                if (value != aimingSide) //If the values are Different
+                if (MTools.ElapsedTime(CurrentTimedelay, delay))
                 {
-                    if (AimSide == (AimSide)(~0))           // Meaning is set to Aimm in Both Sides
-                        OnAimSide.Invoke(value ? 1 : -1);
-                    //else if (AimSide == 0)                  // Meaning is NOT AIMINT TO ANY SIDE 
-                    //    OnAimSide.Invoke(0);
-                    else if ((AimSide & AimSide.Left) == AimSide.Left)
-                        OnAimSide.Invoke(-1);
-                    else if ((AimSide & AimSide.Right) == AimSide.Right)
-                        OnAimSide.Invoke(1);
+                    if (value != aimingSide) //If the values are Different
+                    {
+                        if (AimSide == (AimSide)(~0))           // Meaning is set to Aimm in Both Sides
+                            OnAimSide.Invoke(value ? 1 : -1);
+                        else if ((AimSide & AimSide.Left) == AimSide.Left)
+                            OnAimSide.Invoke(-1);
+                        else if ((AimSide & AimSide.Right) == AimSide.Right)
+                            OnAimSide.Invoke(1);
+
+                        CurrentTimedelay = Time.time;
+                    }
+                    aimingSide = value;
                 }
-                aimingSide = value;
             }
         }
-
-        /// <summary>Main Camera Transform</summary>
-        public Transform MainCameraT { get; private set; }
-
 
         /// <summary> Last Raycast stored for calculating the Aim</summary>
         private RaycastHit aimHit;
@@ -211,7 +212,8 @@ namespace MalbersAnimations.Utilities
         }
 
         /// <summary>Forced Target on the Aiming Logic</summary>
-        public Transform AimTarget { get => m_AimTarget; set => m_AimTarget = value; }
+        public Transform AimTarget { get => m_AimTarget.Value; set => m_AimTarget.Value = value; }
+        public Transform AimPositon { get => m_AimPositon.Value; set => m_AimPositon.Value = value; }
 
         /// <summary>Layer to Aim and Hit</summary>
         public LayerMask Layer { get => m_aimLayer.Value; set => m_aimLayer.Value = value; }
@@ -228,11 +230,16 @@ namespace MalbersAnimations.Utilities
 
         void Awake()
         {
-            m_camera = MTools.FindMainCamera();
-            if (m_camera) MainCameraT = m_camera.transform;
-
-            _t = transform;
-
+            if (MainCamera == null)
+            {
+                cam = MTools.FindMainCamera();
+                MainCamera = cam.transform;
+            }
+            else
+            {
+                cam = MainCamera.GetComponent<Camera>();
+            }
+            
             if (AimOrigin)
                 defaultOrigin = AimOrigin;
             else
@@ -250,9 +257,9 @@ namespace MalbersAnimations.Utilities
             AimingSide = aimingSide;
             GetAimDirection(0, true);
             CalculateAngles();
-            OnAiming.Invoke(true);
+          //  OnAiming.Invoke(true);
 
-            if (m_AimPositon) m_AimPositon.gameObject.SetActive(false);
+            if (AimPositon) AimPositon.gameObject.SetActive(false);
         }
 
 
@@ -297,15 +304,15 @@ namespace MalbersAnimations.Utilities
         {
             float aiminginSide = 0;
 
-            if (m_camera)
+            if (MainCamera)
             {
-                aiminginSide = Vector3.Dot((AimOrigin.position - AimPoint).normalized, _t.right);
+                aiminginSide = Vector3.Dot((AimOrigin.position - AimPoint).normalized, transform.right);
                 if (AimTarget)
-                    return IsLeft(MainCameraT.position, AimTarget.position, _t.position);
+                    return IsLeft(MainCamera.position, AimTarget.position, transform.position);
             }
             else if (AimTarget)
             {
-                aiminginSide = Vector3.Dot((AimOrigin.position - AimPoint).normalized, _t.right);
+                aiminginSide = Vector3.Dot((AimOrigin.position - AimPoint).normalized, transform.right);
             }
          
             return aiminginSide > 0;                                                                    //Get the Camera Side Left/Right
@@ -324,7 +331,7 @@ namespace MalbersAnimations.Utilities
                 DirectionFromTarget(out aimHit);
                 RawPoint = aimHit.point;
             }
-            else if (m_camera)
+            else if (MainCamera)
             {
                 DirectionFromCamera(out aimHit);
                 RawPoint = aimHit.point;
@@ -338,10 +345,10 @@ namespace MalbersAnimations.Utilities
 
             AimPoint = isRaw ? RawPoint : Vector3.Lerp(AimPoint, RawPoint, t);
 
-            if (m_AimPositon != null)
+            if (AimPositon != null)
             {
-                m_AimPositon.position = AimPoint;
-                m_AimPositon.up = isRaw ? aimHit.normal : Vector3.Lerp(m_AimPositon.up, aimHit.normal, t);
+                AimPositon.position = AimPoint;
+                AimPositon.up = isRaw ? aimHit.normal : Vector3.Lerp(AimPositon.up, aimHit.normal, t);
             } 
         }
 
@@ -360,7 +367,7 @@ namespace MalbersAnimations.Utilities
         {
             GetCenterScreen();
 
-            Ray ray = m_camera.ScreenPointToRay(ScreenCenter);
+            Ray ray = cam.ScreenPointToRay(ScreenCenter);
 
             hit = new RaycastHit()
             {
@@ -384,7 +391,7 @@ namespace MalbersAnimations.Utilities
                     if (rHit.transform.root == IgnoreTransform) continue;                      //Dont Hit anything the Ignore
                     if (rHit.transform.root == AimOrigin.root) continue;                       //Dont Hit anything in this hierarchy
 
-                    if (Vector3.Distance(MainCameraT.position, rHit.point) < Vector3.Distance(MainCameraT.position, AimOrigin.position)) continue; //If I hit something behind me skip
+                    if (Vector3.Distance(MainCamera.position, rHit.point) < Vector3.Distance(MainCamera.position, AimOrigin.position)) continue; //If I hit something behind me skip
 
                     if (hit.distance > rHit.distance) hit = rHit;
                 }
@@ -418,7 +425,7 @@ namespace MalbersAnimations.Utilities
                     if (rHit.transform.root == IgnoreTransform) continue;                      //Dont Hit anything the Ignore
                     if (rHit.transform.root == AimOrigin.root) continue;                       //Dont Hit anything in this hierarchy
 
-                    if (Vector3.Distance(MainCameraT.position, rHit.point) < Vector3.Distance(MainCameraT.position, AimOrigin.position)) continue; //If I hit something behind me skip
+                    if (Vector3.Distance(MainCamera.position, rHit.point) < Vector3.Distance(MainCamera.position, AimOrigin.position)) continue; //If I hit something behind me skip
 
                     if (hit.distance > rHit.distance) hit = rHit;
                 }
@@ -484,10 +491,15 @@ namespace MalbersAnimations.Utilities
 #if UNITY_EDITOR
         void Reset()
         {
-            m_camera = MTools.FindMainCamera();
-            if (m_camera) MainCameraT = m_camera.transform;
-            _t = transform;
-
+            if (MainCamera == null)
+            {
+                cam = MTools.FindMainCamera();
+                MainCamera = cam.transform;
+            }
+            else
+            {
+                cam = MainCamera.GetComponent<Camera>();
+            }
 
 
             MEvent FollowUITransform = MTools.GetInstance<MEvent>("Follow UI Transform");

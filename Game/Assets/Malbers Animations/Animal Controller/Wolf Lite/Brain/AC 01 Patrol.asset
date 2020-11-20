@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e33e187dc72d4a48aaede99913c6393, type: 3}
   m_Name: AC 01 Patrol
   m_EditorClassIdentifier: 
+  ID:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   tasks:
   - {fileID: 11400000, guid: 58326c1b0efbfa14c8ffe0af6b85a03c, type: 2}
   - {fileID: 11400000, guid: 8540c4d94938435448d9a7fcf9f6132b, type: 2}
@@ -24,3 +28,5 @@ MonoBehaviour:
     trueState: {fileID: 11400000, guid: 9b3eaacb39b446b479c279f480a9942a, type: 2}
     falseState: {fileID: 11400000, guid: 2ecb231e39609524b9fd193fb84c5f26, type: 2}
   GizmoStateColor: {r: 0, g: 1, b: 0.1323154, a: 1}
+  CreateTaskAsset: 1
+  CreateDecisionAsset: 1

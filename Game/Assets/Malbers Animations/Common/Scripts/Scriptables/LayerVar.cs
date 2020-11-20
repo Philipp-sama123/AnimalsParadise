@@ -3,14 +3,24 @@
 namespace MalbersAnimations.Scriptables
 {
     ///<summary> Layer Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple</summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Layer Mask")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Layer Mask", order = 2000)]
     public class LayerVar : ScriptableVar
     {
         /// <summary>The current value</summary>
         [SerializeField] private LayerMask value = 0;
 
         /// <summary>Value of the Layer Scriptable variable </summary>
-        public virtual LayerMask Value { get => value; set => this.value = value; }
+        public virtual LayerMask Value
+        {
+            get => value;
+            set
+            {
+                this.value = value;
+#if UNITY_EDITOR
+                if (debug) Debug.Log($"<B>{name} -> [<color=black> {value} </color>] </B>");
+#endif
+            }
+        }
 
         public static implicit operator int(LayerVar reference) => reference.Value;
     }

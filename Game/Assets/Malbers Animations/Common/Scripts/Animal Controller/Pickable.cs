@@ -12,7 +12,7 @@ namespace MalbersAnimations.Controller
 {
     public class Pickable : MonoBehaviour , ICollectable
     {
-        public enum CollectType { Collectable, Hold, OneUse } //For different types of collectable items? FOR ANOTHER UPDATE
+      //  public enum CollectType { Collectable, Hold, OneUse } //For different types of collectable items? FOR ANOTHER UPDATE
 
         public bool Align = true;
         public bool AlignPos = true;
@@ -21,10 +21,13 @@ namespace MalbersAnimations.Controller
 
         /// <summary> The Character has Pick Animations</summary>
         public MReaction PickReaction;
-        
+        public FloatReference PickDelay = new FloatReference(0);
+
         /// <summary> The Character has Drop Animations</summary>
         public MReaction DropReaction;
-
+        public FloatReference DropDelay = new FloatReference(0);
+        public BoolReference m_Collectable = new BoolReference(false);
+        public BoolReference m_DestroyOnPick = new BoolReference(false);
 
         public FloatReference m_Value = new FloatReference(1f); //Not done yet
         public BoolReference m_AutoPick = new BoolReference(false); //Not done yet
@@ -38,29 +41,21 @@ namespace MalbersAnimations.Controller
         public GameObjectEvent OnPicked = new GameObjectEvent();
         public GameObjectEvent OnDropped = new GameObjectEvent();
 
-        private Rigidbody rb;
+        [SerializeField] private Rigidbody rb;
         [RequiredField] public Collider m_collider;
-
-        /// <summary>Return all Pickable objects on the active scene</summary>
-        public static List<Pickable> AllPickables;
-
 
         /// <summary>Is this Object being picked </summary>
         public bool IsPicked { get; set; }
         public float Value { get => m_Value.Value; set => m_Value.Value = value; }
         public bool AutoPick { get => m_AutoPick.Value; set => m_AutoPick.Value = value; }
+        public bool Collectable { get => m_Collectable.Value; set => m_Collectable.Value = value; }
+        public bool DestroyOnPick { get => m_DestroyOnPick.Value; set => m_DestroyOnPick.Value = value; }
         public int ID { get => m_ID.Value; set => m_ID.Value = value; }
 
-
-        private void OnEnable()
-        {
-            if (AllPickables == null) AllPickables = new List<Pickable>();
-            AllPickables.Add(this);
-        }
+ 
 
         private void OnDisable()
         {
-            AllPickables.Remove(this);
             OnFocused.Invoke(false);
         }
 
@@ -78,8 +73,16 @@ namespace MalbersAnimations.Controller
 
             m_collider.enabled = false;
             IsPicked = true;
-
             OnPicked.Invoke(Picker);
+
+            //if (Collectable)
+            //{
+            //    IsPicked = false;
+            //    if (DestroyOnPick)
+            //    {
+            //        Destroy(gameObject);
+            //    }
+            //}
         }
 
         public virtual void Drop()
@@ -113,6 +116,7 @@ namespace MalbersAnimations.Controller
         private void Reset()
         {
             m_collider = GetComponent<Collider>();
+            rb = GetComponent<Rigidbody>();
 #if UNITY_EDITOR
             var TryPickUp = MTools.GetInstance<MEvent>("Try Pick Up");
 
@@ -134,8 +138,8 @@ namespace MalbersAnimations.Controller
     public class PickableEditor : Editor
     {
         private SerializedProperty //   PickAnimations, PickUpMode, PickUpAbility, DropMode, DropAbility,DropAnimations, 
-            Align, AlignTime, AlignDistance, AlignPos, PickReaction, DropReacion, m_AutoPick,
-            OnFocused, OnPicked, OnDropped, ShowEvents, FloatID, IntID, m_collider, Collectable;
+            Align, AlignTime, AlignDistance, AlignPos, PickReaction, DropReacion, m_AutoPick, DropDelay, PickDelay,rb,
+            OnFocused, OnPicked, OnDropped, ShowEvents, FloatID, IntID, m_collider, m_Collectable, m_DestroyOnPick;
 
         private Pickable m;
 
@@ -144,7 +148,12 @@ namespace MalbersAnimations.Controller
             m = (Pickable)target;
 
             PickReaction = serializedObject.FindProperty("PickReaction");
+            rb = serializedObject.FindProperty("rb");
             DropReacion = serializedObject.FindProperty("DropReaction");
+            PickDelay = serializedObject.FindProperty("PickDelay");
+            DropDelay = serializedObject.FindProperty("DropDelay");
+            m_Collectable = serializedObject.FindProperty("m_Collectable");
+            m_DestroyOnPick = serializedObject.FindProperty("m_DestroyOnPick");
 
 
             Align = serializedObject.FindProperty("Align");
@@ -170,7 +179,12 @@ namespace MalbersAnimations.Controller
                 serializedObject.Update();
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 EditorGUILayout.PropertyField(m_collider);
+                EditorGUILayout.PropertyField(rb,new GUIContent("Rigid Body"));
                 EditorGUILayout.PropertyField(m_AutoPick, new GUIContent("Auto Pick", "The Item will be Picked Automatically"));
+                EditorGUILayout.PropertyField(m_Collectable, new GUIContent("Collectable", "The Item will Picked by the Pickable and it will be stored"));
+
+                if (m.Collectable)
+                EditorGUILayout.PropertyField(m_DestroyOnPick, new GUIContent("Destroy", "The Item will be destroyed after is picked"));
                 //EditorGUILayout.PropertyField(Collectable, new GUIContent("Item Type", "The Type of logic this item will apply when is picked"));
                 EditorGUI.BeginDisabledGroup(true);
                 EditorGUILayout.ToggleLeft("Is Picked", m.IsPicked);
@@ -188,7 +202,9 @@ namespace MalbersAnimations.Controller
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
                 EditorGUILayout.PropertyField(PickReaction, new GUIContent("Pick Reaction", "The Reaction will be applied to the Character when it can pick"));
+                EditorGUILayout.PropertyField(PickDelay, new GUIContent("Pick Delay", "Delay time after Calling the Pick Action"));
                 EditorGUILayout.PropertyField(DropReacion, new GUIContent("Drop Reaction ", "The Reaction will be applied to the Character when it can drop an Item"));
+                EditorGUILayout.PropertyField(DropDelay, new GUIContent("Drop Delay", "Delay time after Calling the Drop Action"));
                 EditorGUILayout.EndVertical();
 
 

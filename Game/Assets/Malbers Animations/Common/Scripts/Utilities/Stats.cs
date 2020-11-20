@@ -37,7 +37,15 @@ namespace MalbersAnimations
                     break;
                 }
                 stat.InitializeStat(this);
-                stats_D.Add(stat.ID, stat); //Convert them to Dictionary
+
+                if (!stats_D.ContainsKey(stat.ID)) //Added by SkillManiacs 2020/10
+                {
+                    stats_D.Add(stat.ID, stat); //Convert them to Dictionary
+                }
+                else
+                {
+                    stats_D[stat.ID] = stat; //Replace it
+                }
             }
         }
 
@@ -755,4 +763,6 @@ namespace MalbersAnimations
             MaxValue
         }
     }
+
+ 
 }

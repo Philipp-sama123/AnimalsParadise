@@ -82,6 +82,7 @@ ModelImporter:
     100152: R_CG
     100154: //RootNode
     100156: Steve_Body
+    100158: Root
     400000: Box001
     400002: Ear
     400004: EyeBrows
@@ -161,6 +162,7 @@ ModelImporter:
     400152: R_CG
     400154: //RootNode
     400156: Steve_Body
+    400158: Root
     2100000: The guy
     2100002: No Name
     2300000: Box001

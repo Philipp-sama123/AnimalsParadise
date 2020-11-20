@@ -3,7 +3,7 @@
 namespace MalbersAnimations.Scriptables
 {
     ///<summary>  Float Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple </summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Color")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Color", order = 2000)]
     public class ColorVar : ScriptableVar
     {
         /// <summary>The current value </summary>
@@ -13,7 +13,13 @@ namespace MalbersAnimations.Scriptables
         public virtual Color Value
         {
             get => value;
-            set => this.value = value;
+            set
+            {
+                this.value = value;
+#if UNITY_EDITOR
+                if (debug) Debug.Log($"<B>{name} -> [<color=black> {value} </color>] </B>");
+#endif
+            }
         }
 
         public virtual void SetValue(ColorVar var) => Value = var.Value;

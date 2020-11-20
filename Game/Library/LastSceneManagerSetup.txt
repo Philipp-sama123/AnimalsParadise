@@ -1,5 +1,6 @@
 sceneSetups:
-- path: Assets/SandboxLevel.unity
+- path: Assets/Malbers Animations/Animals Packs/01 Forest Pack/_Forest Pack (AC)/Boar
+    AC/1 - Demos/5 - Boar Callbacks.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

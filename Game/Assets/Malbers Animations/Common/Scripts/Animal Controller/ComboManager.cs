@@ -94,9 +94,10 @@ namespace MalbersAnimations.Controller
           //  Debug.Log("COMBO RESTART");
         }
 
-        public virtual void SetBranch(int value)  
-        { Branch = value; }
-        
+        public virtual void SetBranch(int value) => Branch = value;
+        public virtual void Combo_Disable(int index) => combos[index].Active = false;
+        public virtual void Combo_Enable(int index) => combos[index].Active = true;
+
 
         [HideInInspector] public int selectedCombo = -1;
     }

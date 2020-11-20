@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MalbersAnimations.Utilities
 {
-    [CreateAssetMenu(menuName = "Malbers Animations/Bone Preset")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Preset/Bone Preset")]
     public class BonePreset : ScriptableObject
     {
         [Header("Smooth BlendShapes")]

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: 'Check if an Item can be picked for UI
 
-    Bool = True An animal Can pick up an Item'
+    Bool = True An animal
+    Can pick up an Item'
+  debug: 0

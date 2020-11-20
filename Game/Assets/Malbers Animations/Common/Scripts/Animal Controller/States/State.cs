@@ -1,13 +1,8 @@
-﻿using MalbersAnimations.Events;
-using MalbersAnimations.Scriptables;
-using System;
+﻿using MalbersAnimations.Scriptables;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+ 
 
 namespace MalbersAnimations.Controller
 {
@@ -54,6 +49,15 @@ namespace MalbersAnimations.Controller
         public List<StateID> QueueFrom = new List<StateID>();
         public List<TagModifier> TagModifiers = new List<TagModifier>();
 
+        [Space,Tooltip("Can straffing be used with this State?")]
+        public bool CanStrafe;
+        [Hide("CanStrafe",true,false),Tooltip("Strafe Multiplier when movement is detected. This will make the Character be aligned to the Strafe Direction Quickly")]
+        public float MovementStrafe = 1f;
+        [Hide("CanStrafe",true, false), Tooltip("Strafe Multiplier when there's no movement. This will make the Character be aligned to the Strafe Direction Quickly")]
+        public float IdleStrafe = 1f;
+        
+
+
         [Space,Tooltip("Try States will try to activate evert X AnimatorMove frame")]
         public IntReference TryLoop = new IntReference(1);
         [Tooltip("if True, the state will execute another frame of logic while entering the other state ")]
@@ -62,12 +66,14 @@ namespace MalbersAnimations.Controller
         public bool ExitOnMain = true;
 
 
+
+        [Space]
         public bool debug = true;
 
         #region Properties
 
         /// <summary>Status of the State... Int value to change animations within the state</summary>
-        public int Status { get; set; }
+        public int StateStatus { get; set; }
         /// <summary>Priority of the State.  Higher value more priority</summary>
         public int Priority { get; internal set; }
 
@@ -147,7 +153,7 @@ namespace MalbersAnimations.Controller
         public virtual void AwakeState()
         {
             MainTagHash = Animator.StringToHash(ID.name);                       //Store the Main Tag at Awake
-            Status = 0;
+            StateStatus = 0;
 
             foreach (var mod in TagModifiers)
             {
@@ -265,7 +271,7 @@ namespace MalbersAnimations.Controller
 
 
         /// <summary>Status Value of the State</summary>
-        public void SetStatus(int value) => animal.State_SetStatus(Status = value);
+        public void SetStatus(int value) => animal.State_SetStatus(StateStatus = value);
 
         public virtual void ActivateQueued()
         {
@@ -528,18 +534,18 @@ namespace MalbersAnimations.Controller
 
 #if UNITY_EDITOR
 
-    [CustomPropertyDrawer(typeof(AnimalModifier))]
-    public class AnimalModifierDrawer : PropertyDrawer
+    [UnityEditor.CustomPropertyDrawer(typeof(AnimalModifier))]
+    public class AnimalModifierDrawer : UnityEditor.PropertyDrawer
     {
 
         private float Division;
         int activeProperties;
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        public override void OnGUI(Rect position, UnityEditor.SerializedProperty property, GUIContent label)
         {
-            EditorGUI.BeginProperty(position, label, property);
+            UnityEditor.EditorGUI.BeginProperty(position, label, property);
 
-            GUI.Box(position, GUIContent.none, EditorStyles.helpBox);
+            GUI.Box(position, GUIContent.none, UnityEditor.EditorStyles.helpBox);
 
             position.x += 2;
             position.width -= 2;
@@ -548,10 +554,10 @@ namespace MalbersAnimations.Controller
             position.height -= 2;
 
 
-            var indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 0;
+            var indent = UnityEditor.EditorGUI.indentLevel;
+            UnityEditor.EditorGUI.indentLevel = 0;
 
-            var height = EditorGUIUtility.singleLineHeight;
+            var height = UnityEditor.EditorGUIUtility.singleLineHeight;
 
             #region Serialized Properties
             var modify = property.FindPropertyRelative("modify");
@@ -579,14 +585,14 @@ namespace MalbersAnimations.Controller
             foldout.width = 10;
             foldout.x += 10;
 
-            EditorGUIUtility.labelWidth = 16;
-            EditorGUIUtility.labelWidth = 0;
+            UnityEditor.EditorGUIUtility.labelWidth = 16;
+            UnityEditor.EditorGUIUtility.labelWidth = 0;
 
 
 #if UNITY_2018_1_OR_NEWER
-            modify.intValue = (int)(modifier)EditorGUI.EnumFlagsField(line, label, (modifier)(modify.intValue));
+            modify.intValue = (int)(modifier)UnityEditor.EditorGUI.EnumFlagsField(line, label, (modifier)(modify.intValue));
 #else
-            modify.intValue = (int)(modifier)EditorGUI.EnumMaskField(line, label, (modifier)(modify.intValue));
+            modify.intValue = (int)(modifier)UnityEditor.EditorGUI.EnumMaskField(line, label, (modifier)(modify.intValue));
 #endif
 
 
@@ -611,10 +617,10 @@ namespace MalbersAnimations.Controller
             if (Modify(ModifyValue, modifier.CustomRotation))
                 DrawProperty(ref line, CustomRotation, new GUIContent("Custom Rot", "Custom Rotation: \nEnable/Disable the Custom Rotations (Used in Fly, Climb, UnderWater, Swim), This will disable Orient to Ground"));
 
-            EditorGUI.BeginDisabledGroup(CustomRotation.boolValue || !Grounded.boolValue);
+            UnityEditor.EditorGUI.BeginDisabledGroup(CustomRotation.boolValue || !Grounded.boolValue);
             if (Modify(ModifyValue, modifier.OrientToGround))
                 DrawProperty(ref line, OrientToGround, new GUIContent("Orient Ground", "Orient to Ground:\nEnable/Disable the Rotation Alignment while grounded. (If False the Animal will be aligned with the Up Vector)"));
-            EditorGUI.EndDisabledGroup();
+            UnityEditor.EditorGUI.EndDisabledGroup();
 
             if (Modify(ModifyValue, modifier.IgnoreLowerStates))
                 DrawProperty(ref line, IgnoreLowerStates, new GUIContent("Ignore Lower States", "States below will not be able to try to activate themselves"));
@@ -638,11 +644,11 @@ namespace MalbersAnimations.Controller
             if (Modify(ModifyValue, modifier.FreeMovement))
                 DrawProperty(ref line, FreeMovement, new GUIContent("Free Move", "Free Movement:\nEnable/Disable the Free Movement... This allow to Use the Pitch direction vector and the Rotator Transform"));
 
-            EditorGUI.indentLevel = indent;
-            EditorGUI.EndProperty();
+            UnityEditor.EditorGUI.indentLevel = indent;
+            UnityEditor.EditorGUI.EndProperty();
         }
 
-        private void DrawProperty(ref Rect rect, SerializedProperty property, GUIContent content)
+        private void DrawProperty(ref Rect rect, UnityEditor.SerializedProperty property, GUIContent content)
         {
             Rect splittedLine = rect;
             splittedLine.width = Division - 1;
@@ -650,12 +656,12 @@ namespace MalbersAnimations.Controller
             splittedLine.x += (Division * (activeProperties % 3)) + 1;
 
             // property.boolValue = GUI.Toggle(splittedLine, property.boolValue, content, EditorStyles.miniButton);
-            property.boolValue = EditorGUI.ToggleLeft(splittedLine, content, property.boolValue);
+            property.boolValue = UnityEditor.EditorGUI.ToggleLeft(splittedLine, content, property.boolValue);
 
             activeProperties++;
             if (activeProperties % 3 == 0)
             {
-                rect.y += EditorGUIUtility.singleLineHeight + 2;
+                rect.y += UnityEditor.EditorGUIUtility.singleLineHeight + 2;
             }
         }
 
@@ -665,7 +671,7 @@ namespace MalbersAnimations.Controller
             return ((modify & (int)modifier) == (int)modifier);
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        public override float GetPropertyHeight(UnityEditor.SerializedProperty property, GUIContent label)
         {
             int activeProperties = 0;
 

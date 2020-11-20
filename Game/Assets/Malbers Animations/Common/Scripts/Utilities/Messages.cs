@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using MalbersAnimations.Scriptables;
 
 #if UNITY_EDITOR
 using UnityEditorInternal;
@@ -134,7 +135,28 @@ namespace MalbersAnimations.Utilities
         }
     }
 
+    [System.Serializable]
+    public class MesssageItem
+    {
+        public string message;
+        public TypeMessage typeM;
+        public bool boolValue;
+        public int intValue;
+        public float floatValue;
+        public string stringValue;
+        public IntVar intVarValue;
+        public Transform transformValue;
 
+        public float time;
+        public bool sent;
+        public bool Active = true;
+
+        public MesssageItem()
+        {
+            message = string.Empty;
+            Active = true;
+        }
+    }
 
 
 

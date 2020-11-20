@@ -161,7 +161,7 @@ namespace MalbersAnimations.Controller
             else
                 UseCameraInput = DefaultCameraInput;
 
-            ground_Changes_Gravity = value;
+            ground_Changes_Gravity.Value = value;
         }
         /// <summary>Aling with no lerp to the Gravity Direction</summary>
         public void AlignGravity()
@@ -239,10 +239,10 @@ namespace MalbersAnimations.Controller
         #endregion
 
         #region States
-        /// <summary> Set the Parameter Float ID to a value and pass it also to the Animator </summary>
+        /// <summary> Set the StateFloat value and pass it  to the StateFloat parameter on the  Animator </summary>
         public void State_SetFloat(float value) => SetFloatParameter(hash_StateFloat, State_float = value);
 
-        /// <summary>Find an old State and replace it for  a new one at RunTime </summary>
+        /// <summary>Find an old State and replace it for  a new one at Runtime </summary>
         public void State_Replace(State NewState)
         {
             if (CloneStates)
@@ -289,6 +289,7 @@ namespace MalbersAnimations.Controller
         /// <summary>Returns if the Animal has a state by its name</summary>
         public bool HasState(string statename) => states.Find(s => s.name == statename) != null;
 
+        /// <summary>Returns if the Animal has a state by its name</summary>
         public virtual void State_SetStatus(int status) => SetOptionalAnimParameter(hash_StateStatus, status);
 
         public virtual void State_Enable(StateID ID) => State_Enable(ID.ID);
@@ -328,7 +329,9 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Try to Activate a State direclty from the Animal Script </summary>
         public virtual void State_Activate(StateID ID) => State_Activate(ID.ID);
+
        
+        /// <summary>Try to Activate a State by its ID, Checking the necessary conditions for activation</summary>
         public virtual bool State_TryActivate(int ID)
         {
             State NewState = State_Get(ID);
@@ -464,7 +467,7 @@ namespace MalbersAnimations.Controller
             if (mode != null) Mode_ForceActivate(ModeID.ID, mode.AbilityIndex);
         }
 
-        public bool Mode_ForceActivate(int ModeID, int AbilityIndex)
+        public virtual bool Mode_ForceActivate(int ModeID, int AbilityIndex)
         {
             var mode = Mode_Get(ModeID);
 
@@ -477,8 +480,7 @@ namespace MalbersAnimations.Controller
         }
 
 
-        /// <summary>
-        /// Returns True and Activate  the mode in case ir can be Activated, if not it will return false</summary>
+        /// <summary>  Returns True and Activate  the mode in case ir can be Activated, if not it will return false</summary>
         public bool Mode_TryActivate(int ModeID, int AbilityIndex = -1)
         {
             var mode = Mode_Get(ModeID);
@@ -519,40 +521,34 @@ namespace MalbersAnimations.Controller
         {
             SetModeStatus(Int_ID.Interrupted);//Means the Mode is interrupted
             if (IsPlayingMode) ModeStatus = MStatus.Interrupted;
+
+            //Debug.Log("Mode Interrupt");
         }
 
-
+        /// <summary>Deactivate all modes</summary>
         public virtual void Mode_DisableAll()
         {
-            foreach (var mod in modes)
-                mod.Disable();
+            foreach (var mod in modes)  mod.Disable();
+        }
+
+        /// <summary>Reactivate all modes</summary>
+        public virtual void Mode_EnableAll()
+        {
+            foreach (var mod in modes) mod.Enable();
         }
 
         /// <summary>Disable a Mode by his ID</summary>
         public virtual void Mode_Disable(ModeID id) => Mode_Disable((int)id);
 
         /// <summary>Disable a Mode by his ID</summary>
-        public virtual void Mode_Disable(int id)
-        {
-            var mod = Mode_Get(id);
-            if (mod != null)
-            {
-                mod.Disable();
-            }
-        }
+        public virtual void Mode_Disable(int id) => Mode_Get(id)?.Disable();
 
 
         /// <summary>Enable a Mode by his ID</summary>
         public virtual void Mode_Enable(ModeID id) => Mode_Enable(id.ID);
 
         /// <summary>Enable a Mode by his ID</summary>
-        public virtual void Mode_Enable(int id)
-        {
-            var newMode = Mode_Get(id);
-            if (newMode != null)
-                newMode.Active = true;
-        }
-
+        public virtual void Mode_Enable(int id) => Mode_Get(id)?.Enable();
 
         /// <summary>Pin a mode to Activate later</summary>
         public virtual void Mode_Pin(ModeID ID)
@@ -563,14 +559,8 @@ namespace MalbersAnimations.Controller
 
             Pin_Mode = null; //Important! Clean the Pin Mode 
 
-            if (pin == null)
-                Debug.LogWarning("There's no " + ID.name + "Mode");
-            else if (pin.Active)
-                Pin_Mode = pin;
+            if (pin != null && pin.Active) Pin_Mode = pin;
         }
-
-    
-
 
         /// <summary>Pin an Ability on the Pin Mode to Activate later</summary>
         public virtual void Mode_Pin_Ability(int AbilityIndex)
@@ -581,11 +571,43 @@ namespace MalbersAnimations.Controller
         }
 
 
+        /// <summary>Enable/Disables an Ability on a mode, Returns true if the Method succeeded</summary>
+        public virtual bool Mode_Ability_Enable(int ModeID, int AbilityID, bool enable)
+        {
+            var mode = Mode_Get(ModeID);
+            if (mode != null)
+            {
+                var ability = mode.GetAbility(AbilityID);
+                if (ability != null)
+                {
+                    ability.Active = enable;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>Pin an Ability on the Pin Mode to Activate later</summary>
+        public virtual void Mode_Pin_Ability_Enable(int AbilityIndex)
+        {
+            if (AbilityIndex == 0) return;
+            var ability = Pin_Mode?.GetAbility(AbilityIndex);
+            if (ability != null) ability.Active = true;
+        }
+
+        /// <summary>Pin an Ability on the Pin Mode to Activate later</summary>
+        public virtual void Mode_Pin_Disable_Ability(int AbilityIndex)
+        {
+            if (AbilityIndex == 0) return;
+            var ability = Pin_Mode?.GetAbility(AbilityIndex);
+            if (ability != null) ability.Active = false;
+        }
+
+
         /// <summary>Changes  Pinned Mode Status in all the Abilities</summary>
         public virtual void Mode_Pin_Status(int aMode)
         {
             if (Pin_Mode != null)
-            //   Pin_Mode.Global.Status = (AbilityStatus)aMode;
             {
                 foreach (var ab in Pin_Mode.Abilities)
                     ab.Properties.Status = (AbilityStatus)aMode;
@@ -596,7 +618,6 @@ namespace MalbersAnimations.Controller
         public virtual void Mode_Pin_Time(float time)
         {
             if (Pin_Mode != null)
-                //Pin_Mode.Global.HoldByTime = time;
                 foreach (var ab in Pin_Mode.Abilities)
                     ab.Properties.HoldByTime = time;
         }
@@ -625,7 +646,7 @@ namespace MalbersAnimations.Controller
         #region Movement
 
 
-        public virtual void Strafe_Toogle() => Strafe ^= true;
+        public virtual void Strafe_Toggle() => Strafe ^= true;
 
 
         /// <summary>Gets the movement from the Input Script or AI</summary>

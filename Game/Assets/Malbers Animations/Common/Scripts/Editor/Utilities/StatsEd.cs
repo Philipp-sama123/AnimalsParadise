@@ -7,8 +7,7 @@ using UnityEngine;
 
 namespace MalbersAnimations
 {
-    [CanEditMultipleObjects]
-    [CustomEditor(typeof(Stats))]
+    [CanEditMultipleObjects,CustomEditor(typeof(Stats))]
     public class StatsEd : Editor
     {
         private ReorderableList list;

@@ -5,7 +5,7 @@ namespace MalbersAnimations
 {
     public enum AnimCycle { None, Loop, Repeat, PingPong }
 
-    [CreateAssetMenu(menuName = "Malbers Animations/Anim Transform")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Anim Transform", order = 2000)]
     public class TransformAnimation : ScriptableObject
     {
         public enum AnimTransType { TransformAnimation, MountTriggerAdjustment }
@@ -111,4 +111,6 @@ namespace MalbersAnimations
             yield return null;
         }
     }
+
+   
 }

@@ -269,7 +269,9 @@ namespace MalbersAnimations.Controller
         public bool MoveWithDirection { private set; get; }
 
         /// <summary>Main Camera on the Game</summary>
-        public Transform MainCamera;
+        public TransformReference m_MainCamera = new TransformReference();
+
+        public Transform MainCamera => m_MainCamera.Value;
 
         /// <summary> Additive Position Modifications for the  animal (Terrian Snapping, Speed Modifiers Positions, etc)</summary>
         public Vector3 AdditivePosition//;
@@ -344,6 +346,7 @@ namespace MalbersAnimations.Controller
         /// <summary> If true it will keep the Controller smooth push of the movement stick</summary>
         public bool UseSmoothVertical { get => SmoothVertical.Value; set => SmoothVertical.Value = value; }
 
+        // [SerializeField] private BoolReference sprint = new BoolReference(false);
         private bool sprint;
         /// <summary>Sprint Input</summary>
         public bool Sprint
@@ -355,8 +358,6 @@ namespace MalbersAnimations.Controller
 
                 if (sprint != NewSprint) // Only invoke when the values are different
                 {
-                    if (ActiveStateID.ID == 0 && NewSprint) return; // Do not change on Idle
-
                     sprint = NewSprint;
 
                     OnSprintEnabled.Invoke(sprint);
@@ -421,16 +422,16 @@ namespace MalbersAnimations.Controller
         public float TerrainSlope { get; private set; }
 
 
-        private bool grounded;
+       [SerializeField] private BoolReference grounded = new BoolReference(false);
         /// <summary> Is the Animal on a surface, when True the Raycasting for the Ground is Applied</summary>
         public bool Grounded
         {
-            get => grounded;
+            get => grounded.Value;
             internal set
             {
-                if (grounded != value)
+                if (grounded.Value != value)
                 {
-                    grounded = value;
+                    grounded.Value = value;
 
                     if (!value)
                     {
@@ -441,9 +442,9 @@ namespace MalbersAnimations.Controller
                         ResetGravityValues();
                         ResetExternalForce();
                     }
-                    SetBoolParameter(hash_Grounded, Grounded);
+                    SetBoolParameter(hash_Grounded, grounded.Value);
                 }
-                OnGrounded.Invoke(grounded);
+                OnGrounded.Invoke(value);
                 // Debug.Log("Grounded: " + value);
             }
         }
@@ -636,20 +637,30 @@ namespace MalbersAnimations.Controller
 
         public Mode Pin_Mode { get; private set; }
 
-        public Action<bool> OnStrafe;
+        #endregion
 
-        private bool strafe;
+      
+
+        #region Strafe
+        public BoolEvent OnStrafe = new BoolEvent();
+
+        [SerializeField] private BoolReference m_strafe = new BoolReference(false);
+        [SerializeField] private BoolReference m_CanStrafe = new BoolReference(false);
+
         public bool Strafe
         {
-            get => strafe;
+            get => m_CanStrafe.Value && m_strafe.Value && ActiveState.CanStrafe;
             set
             {
-                strafe = value;
-                OnStrafe?.Invoke(strafe);
-                SetOptionalAnimParameter(hash_Strafe, value);
+                if (sleep) return;
+
+                m_strafe.Value = value && m_CanStrafe.Value && ActiveState.CanStrafe;
+                OnStrafe.Invoke(m_strafe.Value);
+                SetOptionalAnimParameter(hash_Strafe, m_strafe.Value);
             }
         }
 
+        public bool CanStrafe { get => m_CanStrafe.Value; set => m_CanStrafe.Value = value; }
         #endregion
 
         #region Pivots
@@ -721,15 +732,20 @@ namespace MalbersAnimations.Controller
         {
             get
             {
-                Vector3 forward = DirectionalSpeed;
-                var SpeedModPos = CurrentSpeedModifier.position;
+                Vector3 TargetDir = DirectionalSpeed * SmoothZY;
 
-                forward = forward * SmoothZY * (UseAdditivePos ? 1 : 0);
+                var SpeedModPos = Strafe ? CurrentSpeedModifier.strafeSpeed : CurrentSpeedModifier.position;
+
+                if (Strafe)
+                    TargetDir = ((Forward * VerticalSmooth) + (Right * HorizontalSmooth) + (Up * UpDownSmooth));
+
+                TargetDir *= (UseAdditivePos ? 1 : 0);
 
                 #region Decrease half when going backwards
-                if (VerticalSmooth < 0)
+
+                if (VerticalSmooth < 0 && !Strafe)
                 {
-                    forward *= 0.5f;  //Decrease half when going backwards
+                    TargetDir *= 0.5f;  //Decrease half when going backwards
 
                     if (CurrentSpeedSet != null)
                         SpeedModPos = CurrentSpeedSet[0].position;
@@ -737,9 +753,9 @@ namespace MalbersAnimations.Controller
                 #endregion
 
 
-                if (forward.magnitude > 1) forward.Normalize();
+                if (TargetDir.magnitude > 1) TargetDir.Normalize();
 
-                var ts = forward * SpeedModPos * ScaleFactor * DeltaTime;
+                var ts = TargetDir * SpeedModPos * ScaleFactor * DeltaTime;
 
                 return ts;
             }
@@ -882,12 +898,13 @@ namespace MalbersAnimations.Controller
         public Vector3 UpVector => -m_gravityDir.Value;
 
         /// <summary>if True the gravity will be the Negative Ground Normal Value</summary>
-        private bool ground_Changes_Gravity;
+        public BoolReference ground_Changes_Gravity =  new BoolReference(false);
 
         #endregion
 
         #region Advanced Parameters
         public BoolReference rootMotion = new BoolReference(true);
+
         /// <summary> Raudius for the Sphere Cast</summary>
         public FloatReference rayCastRadius = new FloatReference(0.05f);
 
@@ -921,12 +938,12 @@ namespace MalbersAnimations.Controller
             set
             {
                // Debug.Log(value);
-
                 useSprintGlobal.Value = value;
-
                 Sprint = sprint; //Update the Sprint value 
             }
         }
+        /// <summary>Enable Disable the Global Sprint (SAME AS USE SPRINT)</summary>
+        public bool CanSprint { get => UseSprint; set => UseSprint = value; }
 
         /// <summary>Locks Input on the Animal, Ingore inputs like Jumps, Attacks , Actions etc</summary>
         public bool LockInput

@@ -31,7 +31,7 @@ namespace MalbersAnimations.Controller
                 foreach (var comp in AllComponents)
                 {
                     if (comp == animal) continue;
-                    comp.enabled = false;
+                    if (comp != null)comp.enabled = false;
                 }
             }
 

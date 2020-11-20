@@ -57,12 +57,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1417802782832420692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.14509805}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -75,6 +76,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &1417802782832420691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,8 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invertX: 0
-  deathpoint: 0
   invertY: 0
+  deathpoint: 0
   sensitivityX: 0.05
   sensitivityY: 0.05
   pressed:
@@ -109,8 +111,8 @@ MonoBehaviour:
   OnAxisChange:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: b44110dcbf690f24a8b7e30ef52ec965, type: 2}
-        m_MethodName: MobileMovement
+      - m_Target: {fileID: 11400000, guid: 774c7acaf3bb1304fb314cd4bd618fcb, type: 2}
+        m_MethodName: Invoke
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -156,16 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c40057955ac3324f9b900fad19f1651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delayed:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  RepeatTime:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
+  Delayed: 0
+  RepeatTime: 0
   Repeat: 0
-  desc: 
   onEnable:
     m_PersistentCalls:
       m_Calls:
@@ -181,7 +176,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   Description: 
-  editDescription: 0
+  ShowDescription: 0
 --- !u!1 &1417802783179537422
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,12 +231,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1417802783179537422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.514151, g: 0.88269275, b: 1, a: 0.5647059}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -254,3 +250,4 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

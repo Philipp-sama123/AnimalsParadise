@@ -11,7 +11,7 @@ namespace MalbersAnimations
         /// <summary>Direction Vector Stored of the Aiming Logic</summary>
         Vector3 AimDirection { get; }
 
-        Camera MainCamera { get; }
+        Transform MainCamera { get; }
 
         /// <summary>Check if the Character is in the (Right:true) or (Left: False) side of the Target </summary>
         bool AimingSide { get; }

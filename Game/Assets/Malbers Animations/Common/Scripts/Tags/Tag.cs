@@ -7,7 +7,7 @@ using UnityEditor;
 namespace MalbersAnimations
 {
     /// <summary>Tags for Malbers</summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Tag")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Tag", fileName = "New Tag", order = 1000)]
     public class Tag : IDs
     {
         /// <summary> Re Calculate the ID on enable</summary>

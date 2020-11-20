@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &104532507739266262
+--- !u!1 &439878926305421041
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,1396 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 104532507738767670}
-  - component: {fileID: 104532507748658848}
-  - component: {fileID: 7992103996852189059}
-  - component: {fileID: 2371604990275241451}
-  - component: {fileID: 2519877181895144938}
-  - component: {fileID: 7871356041299646315}
-  - component: {fileID: 7132396470789681728}
-  m_Layer: 20
-  m_Name: Steve
-  m_TagString: Animal
+  - component: {fileID: 6997226017569333732}
+  - component: {fileID: 2738683389237953239}
+  m_Layer: 0
+  m_Name: '- Attack Triggers -'
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &104532507738767670
+--- !u!4 &6997226017569333732
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104532507739266262}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 439878926305421041}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.08129668, y: 0.99542964, z: -0.0036337562}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2809848784545293885}
-  - {fileID: 2349087942246794009}
-  - {fileID: 2349087942246794011}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  - {fileID: 1816342308597577559}
+  - {fileID: 1816342308845485962}
+  - {fileID: 1816342308052423354}
+  m_Father: {fileID: 5170218139084480737}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &104532507748658848
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104532507739266262}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b196ed9ff855f684e9f7d9f27bc2ba30, type: 3}
-  m_Controller: {fileID: 9100000, guid: a312cd1b91cd8c04d8f3d9245a877406, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 1
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!54 &7992103996852189059
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104532507739266262}
-  serializedVersion: 2
-  m_Mass: 5
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 2
---- !u!114 &2371604990275241451
+--- !u!114 &2738683389237953239
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104532507739266262}
+  m_GameObject: {fileID: 439878926305421041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12fd74a46159fd04b9a3d3d643cdb50f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e0b5b9d4af0f31439aabd6b5de7b49e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputs:
-  - name: Sprint
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: Sprint
-    key: 304
-    GetPressed: 0
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2519877181895144938}
-          m_MethodName: set_Sprint
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Speed --
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: SpeedDown
-    key: 49
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2519877181895144938}
-          m_MethodName: SpeedDown
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Speed ++
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: SpeedUp
-    key: 50
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2519877181895144938}
-          m_MethodName: SpeedUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Attack1
-    active:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    type: 1
-    input: Attack1
-    key: 323
-    GetPressed: 0
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Combo1
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: InputValue
-    key: 323
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7132396470789681728}
-          m_MethodName: Activate_XXYY
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7132396470789681728}
-          m_MethodName: Activate_XXYY
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Combo2
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: InputValue
-    key: 324
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7132396470789681728}
-          m_MethodName: Activate_XXYY
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 100
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7132396470789681728}
-          m_MethodName: Activate_XXYY
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 100
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Action
-    active:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    type: 1
-    input: Action
-    key: 101
-    GetPressed: 0
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Jump
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: Jump
-    key: 32
-    GetPressed: 0
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Equip LH
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: InputValue
-    key: 51
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: Equip_Weapon_from_Holster
-          m_Mode: 3
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 1
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Aim
-    active:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    type: 1
-    input: InputValue
-    key: 324
-    GetPressed: 0
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_MethodName: Active_Set
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Dodge
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: Dodge
-    key: 306
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  - name: Crouch
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: Crouch
-    key: 99
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2519877181895144938}
-          m_MethodName: Stance_Toggle
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 11400000, guid: fb28eb0d24b07c44c94e9a2d720ab7ec,
-              type: 2}
-            m_ObjectArgumentAssemblyTypeName: MalbersAnimations.StanceID, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  showInputEvents: 0
-  OnInputEnabled:
-    m_PersistentCalls:
-      m_Calls: []
-  OnInputDisabled:
-    m_PersistentCalls:
-      m_Calls: []
-  IgnoreOnPause:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  PlayerID: Player0
-  Horizontal:
-    active: 1
-    name: Horizontal
-    raw: 1
-    input: Horizontal
-    OnAxisValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  Vertical:
-    active: 1
-    name: Vertical
-    raw: 1
-    input: Vertical
-    OnAxisValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  UpDown:
-    active: 0
-    name: UpDown
-    raw: 1
-    input: UpDown
-    OnAxisValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
---- !u!114 &2519877181895144938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104532507739266262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ee1fbf4dd84c7d4faf7900812b348a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showPivots: 1
-  PivotPosDir: 0
-  showStates: 1
-  ModeShowEvents: 1
-  Editor_Tabs1: 3
-  Editor_Tabs2: 4
-  SelectedMode: 1
-  debugStates: 0
-  debugModes: 0
-  ShowAnimParametersOptional: 1
-  ShowAnimParameters: 1
-  debugGizmos: 1
-  ShowMovement: 1
-  ShowGround: 1
-  showGeneral: 1
-  CloneStates: 1
-  states:
-  - {fileID: 11400000, guid: 94bb3c1bfa0653544bbad344b1f5dfed, type: 2}
-  - {fileID: 11400000, guid: cd1aea9665ab7f04ab186387c5cbf9a3, type: 2}
-  - {fileID: 11400000, guid: bea993cc3a8d8d1478062ff3c565a109, type: 2}
-  - {fileID: 11400000, guid: c324fedf8501a3a42aca718e999e59dd, type: 2}
-  - {fileID: 11400000, guid: 0dd70bb1db46a3649ba8d123c6e0ecf0, type: 2}
-  OnEnterExitStates: []
-  OnEnterExitStances:
-  - ID: {fileID: 11400000, guid: 87ae38bfe93fc3f449ecd25863e2a6fe, type: 2}
-    OnEnter:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11400000, guid: b403c117a8e587043a347e95f7c40399, type: 2}
-          m_MethodName: Modify
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 7871356041299646315}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.CapsuleCollider, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnExit:
-      m_PersistentCalls:
-        m_Calls: []
-  - ID: {fileID: 11400000, guid: fb28eb0d24b07c44c94e9a2d720ab7ec, type: 2}
-    OnEnter:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11400000, guid: 3d65dd7f7cf74e34da067c7080c552e1, type: 2}
-          m_MethodName: Modify
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 7871356041299646315}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.CapsuleCollider, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnExit:
-      m_PersistentCalls:
-        m_Calls: []
-  OverrideStartState: {fileID: 0}
-  isPlayer:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  groundLayer:
-    UseConstant: 1
-    ConstantValue:
-      serializedVersion: 2
-      m_Bits: 1
-    Variable: {fileID: 0}
-  height: 1.48
-  currentStance: 0
-  defaultStance:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  AnimatorSpeed:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  alwaysForward:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  lockForwardMovement:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  lockHorizontalMovement:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  lockUpDownMovement:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  MovementAxis: {x: 0, y: 0, z: 0}
-  MovementAxisRaw: {x: 0, y: 0, z: 0}
-  MovementAxisSmoothed: {x: 0, y: 0, z: 0}
-  useCameraInput:
-    UseConstant: 0
-    ConstantValue: 1
-    Variable: {fileID: 11400000, guid: fdfd7981b65561c448d8cfcfddccdc82, type: 2}
-  useCameraUp:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  MainCamera: {fileID: 0}
-  AdditiveRotation: {x: 0, y: 0, z: 0, w: 0}
-  SmoothVertical:
-    UseConstant: 0
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 7ea1a63ddd7caaf41a8b7b2e5fcb5e18, type: 2}
-  TurnMultiplier:
-    UseConstant: 0
-    ConstantValue: 2
-    Variable: {fileID: 11400000, guid: e48d7c5d72ee7fe47bee7b78e710ce18, type: 2}
-  UpDownLerp:
-    UseConstant: 1
-    ConstantValue: 10
-    Variable: {fileID: 0}
-  AlignPosLerp:
-    UseConstant: 1
-    ConstantValue: 15
-    Variable: {fileID: 0}
-  AlignRotLerp:
-    UseConstant: 1
-    ConstantValue: 15
-    Variable: {fileID: 0}
-  AlignLoop:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  maxAngleSlope: 45
-  Rotator: {fileID: 0}
-  RootBone: {fileID: 0}
-  Anim: {fileID: 104532507748658848}
-  RB: {fileID: 7992103996852189059}
-  StartWithMode:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  modes:
-  - active: 1
-    ignoreLowerModes: 0
-    Input: Attack1
-    ID: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
-    modifier: {fileID: 0}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Punch Left
-      Index:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Properties:
-        Status: 0
-        HoldByTime:
-          UseConstant: 1
-          ConstantValue: 0
-          Variable: {fileID: 0}
-        affect: 1
-        affectStates:
-        - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
-        - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
-        TransitionFrom: 
-        ShowEvents: 0
-        OnEnter:
-          m_PersistentCalls:
-            m_Calls: []
-        OnExit:
-          m_PersistentCalls:
-            m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Punch Right
-      Index:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      Properties:
-        Status: 0
-        HoldByTime:
-          UseConstant: 1
-          ConstantValue: 0
-          Variable: {fileID: 0}
-        affect: 1
-        affectStates:
-        - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
-        - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
-        TransitionFrom: 
-        ShowEvents: 0
-        OnEnter:
-          m_PersistentCalls:
-            m_Calls: []
-        OnExit:
-          m_PersistentCalls:
-            m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Kick
-      Index:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      Properties:
-        Status: 0
-        HoldByTime:
-          UseConstant: 1
-          ConstantValue: 0
-          Variable: {fileID: 0}
-        affect: 1
-        affectStates:
-        - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
-        - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
-        TransitionFrom: 
-        ShowEvents: 0
-        OnEnter:
-          m_PersistentCalls:
-            m_Calls: []
-        OnExit:
-          m_PersistentCalls:
-            m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Flip Kick
-      Index:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      Properties:
-        Status: 0
-        HoldByTime:
-          UseConstant: 1
-          ConstantValue: 0
-          Variable: {fileID: 0}
-        affect: 1
-        affectStates:
-        - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
-        - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
-        TransitionFrom: 
-        ShowEvents: 0
-        OnEnter:
-          m_PersistentCalls:
-            m_Calls: []
-        OnExit:
-          m_PersistentCalls:
-            m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 1
-    allowMovement: 1
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls: []
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    showGeneral: 1
-    showIndex: 1
-    showProperties: 1
-  - active: 1
-    ignoreLowerModes: 0
-    Input: Dodge
-    ID: {fileID: 11400000, guid: 7888596ce3530b145bc15622fac8a6c4, type: 2}
-    modifier: {fileID: 0}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Dodge
-      Index:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Properties:
-        Status: 0
-        HoldByTime:
-          UseConstant: 1
-          ConstantValue: 0
-          Variable: {fileID: 0}
-        affect: 1
-        affectStates:
-        - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
-        - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
-        TransitionFrom: 
-        ShowEvents: 0
-        OnEnter:
-          m_PersistentCalls:
-            m_Calls: []
-        OnExit:
-          m_PersistentCalls:
-            m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 1
-    allowMovement: 1
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11400000, guid: 19a5bf7a1aaf8be4c877533855b91078, type: 2}
-          m_MethodName: Modify
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 7871356041299646315}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.CapsuleCollider, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    showGeneral: 1
-    showIndex: 1
-    showProperties: 1
-  sleep:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  pivots:
-  - name: Chest
-    position: {x: 0, y: 1.5, z: 0}
-    dir: {x: 0, y: -1, z: 0}
-    multiplier: 1.75
-    interval: 1
-    EditorModify: 0
-    EditorDisplay: 0
-    PivotColor: {r: 0, g: 0, b: 1, a: 1}
-  - name: Water
-    position: {x: 0, y: 1.5, z: 0}
-    dir: {x: 0, y: -1, z: 0}
-    multiplier: 0.05
-    interval: 1
-    EditorModify: 0
-    EditorDisplay: 0
-    PivotColor: {r: 0, g: 0, b: 1, a: 1}
-  Pivot_Hip:
-    name: 
-    position: {x: 0, y: 0, z: 0}
-    dir: {x: 0, y: 0, z: 0}
-    multiplier: 0
-    interval: 0
-    EditorModify: 0
-    EditorDisplay: 0
-    PivotColor: {r: 0, g: 0, b: 0, a: 0}
-  Pivot_Chest:
-    name: 
-    position: {x: 0, y: 0, z: 0}
-    dir: {x: 0, y: 0, z: 0}
-    multiplier: 0
-    interval: 0
-    EditorModify: 0
-    EditorDisplay: 0
-    PivotColor: {r: 0, g: 0, b: 0, a: 0}
-  speedSets:
-  - name: Ground
-    states:
-    - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
-    - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
-    stances: []
-    StartVerticalIndex:
-      UseConstant: 1
-      ConstantValue: 2
-      Variable: {fileID: 0}
-    TopIndex:
-      UseConstant: 1
-      ConstantValue: 2
-      Variable: {fileID: 0}
-    Speeds:
-    - name: Walk
-      nameHash: -1516408343
-      Vertical:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      position:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      lerpPosition:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      lerpPosAnim:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      rotation:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      lerpRotation:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      lerpRotAnim:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      animator:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      lerpAnimator:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      strafeSpeed:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-    - name: Run
-      nameHash: 1306841709
-      Vertical:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      position:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      lerpPosition:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      lerpPosAnim:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      rotation:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      lerpRotation:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      lerpRotAnim:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      animator:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      lerpAnimator:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      strafeSpeed:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-    - name: Sprint
-      nameHash: -1985798199
-      Vertical:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      position:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      lerpPosition:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      lerpPosAnim:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      rotation:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      lerpRotation:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      lerpRotAnim:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      animator:
-        UseConstant: 1
-        ConstantValue: 1.2
-        Variable: {fileID: 0}
-      lerpAnimator:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      strafeSpeed:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-  CustomSpeed: 0
-  currentSpeedModifier:
-    name: Default
-    nameHash: -728703673
-    Vertical:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    position:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    lerpPosition:
-      UseConstant: 1
-      ConstantValue: 4
-      Variable: {fileID: 0}
-    lerpPosAnim:
-      UseConstant: 1
-      ConstantValue: 4
-      Variable: {fileID: 0}
-    rotation:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    lerpRotation:
-      UseConstant: 1
-      ConstantValue: 4
-      Variable: {fileID: 0}
-    lerpRotAnim:
-      UseConstant: 1
-      ConstantValue: 4
-      Variable: {fileID: 0}
-    animator:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    lerpAnimator:
-      UseConstant: 1
-      ConstantValue: 4
-      Variable: {fileID: 0}
-    strafeSpeed:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-  m_gravityDir:
-    UseConstant: 1
-    ConstantValue: {x: 0, y: -1, z: 0}
-    Variable: {fileID: 0}
-  m_gravityPower:
-    UseConstant: 1
-    ConstantValue: 9.8
-    Variable: {fileID: 0}
-  m_gravityTime:
-    UseConstant: 1
-    ConstantValue: 10
-    Variable: {fileID: 0}
-  rootMotion:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  rayCastRadius:
-    UseConstant: 1
-    ConstantValue: 0.05
-    Variable: {fileID: 0}
-  animalType:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  lockInput:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  lockMovement:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
-  useSprintGlobal:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  currentAnimTag: 0
-  platform: {fileID: 0}
-  OnAnimationChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnInputLocked:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMovementLocked:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSprintEnabled:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGrounded:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnModeStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnModeEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStanceChange:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSpeedChange:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Vertical: Vertical
-  m_Horizontal: Horizontal
-  m_UpDown: UpDown
-  m_Grounded: Grounded
-  m_Movement: Movement
-  m_State: State
-  m_StateStatus: StateStatus
-  m_StateFloat: StateFloat
-  m_LastState: LastState
-  m_StateTime: StateTime
-  m_SpeedMultiplier: SpeedMultiplier
-  m_Mode: Mode
-  m_ModeStatus: ModeStatus
-  m_ModePower: ModePower
-  m_Stance: Stance
-  m_Slope: Slope
-  m_Type: Type
-  m_Random: Random
-  m_DeltaAngle: DeltaAngle
-  m_Strafe: Strafe
---- !u!136 &7871356041299646315
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104532507739266262}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 1.5
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.16, z: 0}
---- !u!114 &7132396470789681728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 104532507739266262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 408f0460a69d76f4b89139b3979c69f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Branch: 0
-  combos:
-  - Mode: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
-    Name: Combo Melee
-    m_Active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    Sequence:
-    - Activation:
-        minValue: 0
-        maxValue: 0
-      PreviewsAbility: 0
-      Ability: 1
-      Branch: 0
-      Used: 0
-      OnSequencePlay:
-        m_PersistentCalls:
-          m_Calls: []
-    - Activation:
-        minValue: 0.4
-        maxValue: 0.85
-      PreviewsAbility: 1
-      Ability: 2
-      Branch: 0
-      Used: 0
-      OnSequencePlay:
-        m_PersistentCalls:
-          m_Calls: []
-    - Activation:
-        minValue: 0.4
-        maxValue: 1
-      PreviewsAbility: 2
-      Ability: 3
-      Branch: 0
-      Used: 0
-      OnSequencePlay:
-        m_PersistentCalls:
-          m_Calls: []
-    - Activation:
-        minValue: 0.4
-        maxValue: 1
-      PreviewsAbility: 2
-      Ability: 4
-      Branch: 1
-      Used: 0
-      OnSequencePlay:
-        m_PersistentCalls:
-          m_Calls: []
-  selectedCombo: 0
+  text: Steve Attack Triggers are Child of this GameObject
 --- !u!1 &1212033057293259958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,6 +137,507 @@ Transform:
   m_Father: {fileID: 2349087942246793935}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 32.054, y: 91.83401, z: -90.76401}
+--- !u!1 &1816342308052423357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816342308052423354}
+  - component: {fileID: 1816342308052423352}
+  - component: {fileID: 1816342308052423355}
+  - component: {fileID: 6960508967462851715}
+  m_Layer: 2
+  m_Name: Attack Trigger RKick
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816342308052423354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308052423357}
+  m_LocalRotation: {x: 0.49983546, y: 0.51258355, z: 0.49842834, w: 0.48886797}
+  m_LocalPosition: {x: 0.19957832, y: -0.5003982, z: 0.012516029}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6997226017569333732}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -7.6480002}
+--- !u!114 &1816342308052423352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308052423357}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4977ce6c4031944a4d6d786517e86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 3
+  m_Active:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  m_hitLayer:
+    UseConstant: 0
+    ConstantValue:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  triggerInteraction: 1
+  m_Owner: {fileID: 0}
+  dontHitOwner:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  interact:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  react:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  ignoreDamageeM:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  statModifier:
+    ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
+    modify: 3
+    Value:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+  m_cChance:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  cMultiplier:
+    UseConstant: 1
+    ConstantValue: 2
+    Variable: {fileID: 0}
+  m_Force:
+    UseConstant: 1
+    ConstantValue: 50
+    Variable: {fileID: 0}
+  forceMode: 0
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  Trigger: {fileID: 1816342308052423355}
+  SelfStatEnter:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  SelfStatExit:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  EnemyStatExit:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  OnAttackBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  debug: 1
+  DebugColor: {r: 1, g: 0.25, b: 0, a: 0.15}
+  Editor_Tabs1: 0
+--- !u!65 &1816342308052423355
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308052423357}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.52144337, y: 0.2949623, z: 0.27554438}
+  m_Center: {x: -0.30000004, y: 0.030841418, z: 1.4395142e-10}
+--- !u!1773428102 &6960508967462851715
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308052423357}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0.19957832, y: -0.5003982, z: 0.012516029}
+  m_RotationAtRest: {x: -1.2758083, y: 91.441765, z: 89.80128}
+  m_TranslationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: -5.6100116}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 2349087942246793981}
+    weight: 1
+--- !u!1 &1816342308597577558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816342308597577559}
+  - component: {fileID: 1816342308597577557}
+  - component: {fileID: 1816342308597577556}
+  - component: {fileID: 5502188248577444168}
+  m_Layer: 2
+  m_Name: Attack Trigger LHand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816342308597577559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308597577558}
+  m_LocalRotation: {x: -0.68615144, y: -0.28745583, z: 0.31800488, w: 0.58773994}
+  m_LocalPosition: {x: -0.26426554, y: 0.24735653, z: -0.015791632}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6997226017569333732}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816342308597577557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308597577558}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4977ce6c4031944a4d6d786517e86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 2
+  m_Active:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  m_hitLayer:
+    UseConstant: 0
+    ConstantValue:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  triggerInteraction: 1
+  m_Owner: {fileID: 0}
+  dontHitOwner:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  interact:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  react:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  ignoreDamageeM:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  statModifier:
+    ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
+    modify: 3
+    Value:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+  m_cChance:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  cMultiplier:
+    UseConstant: 1
+    ConstantValue: 2
+    Variable: {fileID: 0}
+  m_Force:
+    UseConstant: 1
+    ConstantValue: 50
+    Variable: {fileID: 0}
+  forceMode: 0
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  Trigger: {fileID: 1816342308597577556}
+  SelfStatEnter:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  SelfStatExit:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  EnemyStatExit:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  OnAttackBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  debug: 1
+  DebugColor: {r: 1, g: 0.25, b: 0, a: 0.15}
+  Editor_Tabs1: 0
+--- !u!65 &1816342308597577556
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308597577558}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.35, y: 0.2, z: 0.2}
+  m_Center: {x: -0.35, y: 0, z: 0}
+--- !u!1773428102 &5502188248577444168
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308597577558}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: -0.361, y: 0.12999988, z: -0.0010000244}
+  m_RotationAtRest: {x: -38.589207, y: -97.85838, z: 100.605865}
+  m_TranslationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 2349087942246793867}
+    weight: 1
+--- !u!1 &1816342308845485965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1816342308845485962}
+  - component: {fileID: 1816342308845485960}
+  - component: {fileID: 1816342308845485963}
+  - component: {fileID: 5930383943548042378}
+  m_Layer: 2
+  m_Name: Attack Trigger RHand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1816342308845485962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308845485965}
+  m_LocalRotation: {x: -0.31800488, y: -0.5877406, z: 0.6861517, w: 0.28745404}
+  m_LocalPosition: {x: 0.4268582, y: 0.24735749, z: -0.01579056}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6997226017569333732}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816342308845485960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308845485965}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4977ce6c4031944a4d6d786517e86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 1
+  m_Active:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  m_hitLayer:
+    UseConstant: 0
+    ConstantValue:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
+  triggerInteraction: 1
+  m_Owner: {fileID: 0}
+  dontHitOwner:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  interact:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  react:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  ignoreDamageeM:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  statModifier:
+    ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
+    modify: 3
+    Value:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+  m_cChance:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  cMultiplier:
+    UseConstant: 1
+    ConstantValue: 2
+    Variable: {fileID: 0}
+  m_Force:
+    UseConstant: 1
+    ConstantValue: 50
+    Variable: {fileID: 0}
+  forceMode: 0
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  Trigger: {fileID: 1816342308845485963}
+  SelfStatEnter:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  SelfStatExit:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  EnemyStatExit:
+    ID: {fileID: 0}
+    modify: 0
+    Value:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+  OnAttackBegin:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  debug: 1
+  DebugColor: {r: 1, g: 0.25, b: 0, a: 0.15}
+  Editor_Tabs1: 0
+--- !u!65 &1816342308845485963
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308845485965}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.35, y: 0.2, z: 0.2}
+  m_Center: {x: -0.35, y: 0, z: 0}
+--- !u!1773428102 &5930383943548042378
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816342308845485965}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0.4268582, y: 0.24735749, z: -0.01579056}
+  m_RotationAtRest: {x: 38.58938, y: -82.14172, z: 100.605934}
+  m_TranslationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 2349087942246793945}
+    weight: 1
 --- !u!1 &2349087942246506113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,6 +1021,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1882,6 +1033,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -1948,6 +1100,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1959,6 +1112,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -2025,6 +1179,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2036,6 +1191,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -3098,6 +2254,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3109,6 +2266,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -3527,8 +2685,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2349087942246793983}
-  m_Father: {fileID: 104532507738767670}
-  m_RootOrder: 1
+  m_Father: {fileID: 5170218139084480737}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2349087942246506363
 GameObject:
@@ -3558,8 +2716,8 @@ Transform:
   m_LocalPosition: {x: -0.000028243065, y: 0, z: 0.002120819}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 104532507738767670}
-  m_RootOrder: 2
+  m_Father: {fileID: 5170218139084480737}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &2349087942234936221
 SkinnedMeshRenderer:
@@ -3575,6 +2733,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3586,6 +2745,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -3599,7 +2759,7 @@ SkinnedMeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
-  m_Quality: 0
+  m_Quality: 4
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 4300010, guid: b196ed9ff855f684e9f7d9f27bc2ba30, type: 3}
@@ -3663,85 +2823,118 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.010415494, y: -0.018692076, z: 0.000028133392}
     m_Extent: {x: 0.94808286, y: 0.1816513, z: 0.6498014}
   m_DirtyAABB: 0
---- !u!1 &2404411685082048701
-GameObject:
+--- !u!1001 &5082108461214730889
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2809848784545293885}
-  - component: {fileID: 2439692666489691379}
-  - component: {fileID: 277826930315792486}
-  m_Layer: 20
-  m_Name: Camera Target
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2809848784545293885
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 988888284928624, guid: 5150b221c7eed6c42a7b46ee90209efa, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: b196ed9ff855f684e9f7d9f27bc2ba30, type: 3}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95444453729787666, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_Name
+      value: Steve
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874199087313736309, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874199087313736309, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874199087313736309, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874199087313736309, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874199087313736309, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7663677266465750855, guid: 5150b221c7eed6c42a7b46ee90209efa,
+        type: 3}
+      propertyPath: onEnable.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 370390862567856380}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5150b221c7eed6c42a7b46ee90209efa, type: 3}
+--- !u!4 &370390862567856380 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4874199087313736309, guid: 5150b221c7eed6c42a7b46ee90209efa,
+    type: 3}
+  m_PrefabInstance: {fileID: 5082108461214730889}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2404411685082048701}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.46, z: -0.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 104532507738767670}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2439692666489691379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &5170218139084480737 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 92051908111329896, guid: 5150b221c7eed6c42a7b46ee90209efa,
+    type: 3}
+  m_PrefabInstance: {fileID: 5082108461214730889}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2404411685082048701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b4de088e089c164bb239be84964ea4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UseColliders: 0
-  gizmoType: 1
-  debugSize: 0.05
-  DebugColor: {r: 1, g: 0.25988027, b: 0, a: 1}
-  DrawAxis: 0
-  AxisSize: 0.65
---- !u!114 &277826930315792486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2404411685082048701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c40057955ac3324f9b900fad19f1651, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Delayed: 0
-  RepeatTime: 0
-  Repeat: 0
-  desc: 
-  onEnable:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 774c7acaf3bb1304fb314cd4bd618fcb, type: 2}
-        m_MethodName: Invoke
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2809848784545293885}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  Description: 
-  editDescription: 0

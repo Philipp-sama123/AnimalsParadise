@@ -214,9 +214,9 @@ namespace MalbersAnimations.Controller
                 if (Animal.debugModes) Debug.LogWarning("There's no Abilities Please set a list of Abilities");
                 return false;
             }
-             
+
             int NewIndex = (AbilityIndex == -99) ? Abilities[Random.Range(0, Abilities.Count)].Index.Value : AbilityIndex; //Set the Index of the Ability for the Mode, Check for Random
-            var newAbility = Abilities.Find(item => item.Index == NewIndex);
+            var newAbility = GetAbility(NewIndex);
 
             if (newAbility == null)
             {
@@ -224,12 +224,12 @@ namespace MalbersAnimations.Controller
                 return false;
             }
 
-            if (!newAbility.active.Value)
+            if (!newAbility.Active)
             {
                 if (Animal.debugModes) Debug.Log($"The Animation: {newAbility.Name} is disabled. The mode cannot be activated");
                 return false;
             }
-            if (StateCanInterrupt(Animal.ActiveState.ID,newAbility)) return false; //Check if the States can block the mode
+            if (StateCanInterrupt(Animal.ActiveState.ID, newAbility)) return false; //Check if the States can block the mode
 
 
             if (PlayingMode) //if is set to Toggle then if is already playing this mode then stop it
@@ -288,6 +288,12 @@ namespace MalbersAnimations.Controller
 
             return true;
         }
+
+        /// <summary> Returns an ability by its Index </summary>
+        public Ability GetAbility(int NewIndex) => Abilities.Find(item => item.Index == NewIndex);
+
+        /// <summary> Returns an ability by its Name </summary>
+        public Ability GetAbility(string abilityName) => Abilities.Find(item => item.Name == abilityName);
 
         public bool ForceActivate(int abilityIndex)
         {
@@ -471,13 +477,17 @@ namespace MalbersAnimations.Controller
             {
                 Animal.InputMode = null;
                 if (!CheckStatus(AbilityStatus.PlayOneTime))
-                { Animal.Mode_Interrupt(); }
+                {
+                    Animal.Mode_Interrupt();
+                }
                 else
                 {
                     //Do nothing ... let the mode finish since is on AbilityStatus.PlayOneTime
                 }
             }
         }
+
+        public virtual void Enable() => Active = true;
     }
     /// <summary> Ability for the Modes</summary>
     [System.Serializable]
@@ -489,8 +499,7 @@ namespace MalbersAnimations.Controller
         public string Name;
         /// <summary>index of the Ability </summary>
         public IntReference Index =  new IntReference(0);
-        /// <summary>if true Overrides the Global properties on the Mode </summary>
-      //  public bool OverrideProp;
+     
         /// <summary>Overrides Properties on the mode</summary>
         [UnityEngine.Serialization.FormerlySerializedAs("OverrideProperties")]
         public ModeProperties Properties;
@@ -499,8 +508,7 @@ namespace MalbersAnimations.Controller
         public bool HasAffectStates => Properties.affectStates != null && Properties.affectStates.Count > 0;
         public bool HasTransitionFrom => Properties.TransitionFrom != null && Properties.TransitionFrom.Count > 0;
 
-        ///// <summary>Enable Disable the Ability</summary>
-        //public BoolReference active = new BoolReference(true);
+        public bool Active { get => active.Value; set => active.Value = value; }
     }
 
     public enum AbilityStatus

@@ -67,6 +67,9 @@ MonoBehaviour:
       IgnoreLowerStates: 0
       LockMovement: 0
       LockInput: 0
+  CanStrafe: 1
+  MovementStrafe: 1
+  IdleStrafe: 1
   TryLoop:
     UseConstant: 1
     ConstantValue: 6
@@ -108,7 +111,6 @@ MonoBehaviour:
     Variable: {fileID: 0}
   AirDrag: 2
   BlendFall: 0
-  LandTag: Land
   AffectStat: {fileID: 0}
   FallMinDistance:
     UseConstant: 1

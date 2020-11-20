@@ -22,6 +22,8 @@ namespace MalbersAnimations.Controller
 
             var height = EditorGUIUtility.singleLineHeight;
             var vertical = property.FindPropertyRelative("Vertical");
+            var strafe = property.FindPropertyRelative("strafeSpeed");
+            var strafeLerp = property.FindPropertyRelative("lerpStrafe");
 
             var positionS = property.FindPropertyRelative("position");
             var lerpPosition = property.FindPropertyRelative("lerpPosition");
@@ -72,7 +74,7 @@ namespace MalbersAnimations.Controller
                 EditorGUI.PropertyField(line, vertical, new GUIContent("   Vertical Speed", "Vertical Mutliplier for the Animator"));
 
                 line.y += height + 2;
-                float lerpSize = 55;
+                float lerpSize = 0.5f * (line.width/3);
 
                 var MainRect = new Rect(line.x, line.y, line.width - (lerpSize*2) - 5, height);
                 var lerpRect = new Rect(line.x + line.width - lerpSize, line.y,  lerpSize, height);
@@ -100,8 +102,8 @@ namespace MalbersAnimations.Controller
                 line.y += height + 2;
               
 
-                  MainRect = new Rect(line.x, line.y, line.width - (lerpSize), height);
-                  lerpRect = new Rect(line.x + line.width - lerpSize, line.y, lerpSize, height);
+                MainRect = new Rect(line.x, line.y, line.width - (lerpSize), height);
+                lerpRect = new Rect(line.x + line.width - lerpSize, line.y, lerpSize, height);
 
 
                 EditorGUI.PropertyField(MainRect, animator, new GUIContent("   Animator", "Additional " + name.stringValue + " Speed added to the Animator"));
@@ -109,7 +111,16 @@ namespace MalbersAnimations.Controller
                 EditorGUI.PropertyField(lerpRect, lerpAnimator, new GUIContent("L", "Animator " + name.stringValue + " Lerp interpolation, higher value more Responsiveness"));
                 EditorGUIUtility.labelWidth = 0;
 
-                position.height = line.height;
+                line.y += height + 2;
+
+
+                MainRect = new Rect(line.x, line.y, line.width - (lerpSize), height);
+                lerpRect = new Rect(line.x + line.width - lerpSize, line.y, lerpSize, height);
+
+                EditorGUI.PropertyField(MainRect, strafe, new GUIContent("   Strafe Speed", "Strafe Movement Position"));
+                EditorGUIUtility.labelWidth = labelwith;
+                EditorGUI.PropertyField(lerpRect, strafeLerp, new GUIContent("L", "Strafe Movement Lerp Interpolation"));
+                EditorGUIUtility.labelWidth = 0;
             }
             EditorGUI.indentLevel = indent;
             EditorGUI.EndProperty();
@@ -119,7 +130,7 @@ namespace MalbersAnimations.Controller
         {
             if (!property.isExpanded) return base.GetPropertyHeight(property, label);
 
-            return 16 * 5 + 20;
+            return 16 * 6 + 25;
         }
 
     }

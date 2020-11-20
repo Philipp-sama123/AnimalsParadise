@@ -12,19 +12,19 @@ namespace MalbersAnimations.Controller.AI
     public class MoveStopTask : MTask
     {
         public enum MoveType
-        { 
-            MoveToTarget, 
-            StopAnimal, 
-            StopAgent, 
-            RotateInPlace, 
-            Flee, 
+        {
+            MoveToTarget,
+            StopAnimal,
+            StopAgent,
+            RotateInPlace,
+            Flee,
             CircleAround,
-            KeepDistance 
+            KeepDistance
         };
         public enum CircleDirection { Left, Right };
 
 
-        [Space,Tooltip("Type of the Movement task")]
+        [Space, Tooltip("Type of the Movement task")]
         public MoveType task = MoveType.MoveToTarget;
         /// <summary> Distance for the Flee, Circle Around and keep Distance Task</summary>
         public FloatReference distance = new FloatReference(10f);
@@ -42,6 +42,7 @@ namespace MalbersAnimations.Controller.AI
         /// <summary> If the Targets Move, or you want to keep an eye of the Target this Option should be enable </summary>
         public bool UpdateFleeMovingTarget = false;
         public bool LookAtTarget = true;
+        public bool Interact = true;
 
 
         /// <summary>Reduce the amount of calls of the Task... higher value: lest acurrancy but more performance</summary>
@@ -54,6 +55,8 @@ namespace MalbersAnimations.Controller.AI
             {
                 case MoveType.MoveToTarget:
                     brain.AIMovement.MoveToTarget();
+                    brain.AIMovement.LookAtTargetOnArrival = LookAtTarget;
+                    brain.AIMovement.AutoInteract = Interact;
                     break;
                 case MoveType.StopAgent:
                     brain.AIMovement.Stop();
@@ -81,7 +84,7 @@ namespace MalbersAnimations.Controller.AI
 
         public override void UpdateTask(MAnimalBrain brain, int index)
         {
-            if (interval > 0 )
+            if (interval > 0)
             {
                 if (brain.CheckIfTasksCountDownElapsed(interval, index))
                 {
@@ -101,11 +104,8 @@ namespace MalbersAnimations.Controller.AI
                     MoveToTarget(brain);
                     break;
                 case MoveType.StopAgent:
+                    brain.AIMovement.MoveAgent = false;
                     break;
-                //case MoveType.LockMovement:
-                //    break;
-                //case MoveType.RotateInPlace:
-                //    break;
                 case MoveType.Flee:
                     if (UpdateFleeMovingTarget)
                         Flee(brain, index);
@@ -147,7 +147,7 @@ namespace MalbersAnimations.Controller.AI
 
             for (int i = 0; i < arcsCount; ++i)
             {
-              var CurrentPoint = brain.Target.position + (currentDirection.normalized * distance);
+                var CurrentPoint = brain.Target.position + (currentDirection.normalized * distance);
 
                 float DistCurrentPoint = Vector3.Distance(CurrentPoint, brain.transform.position);
 
@@ -170,7 +170,7 @@ namespace MalbersAnimations.Controller.AI
             brain.AIMovement.UpdateTargetPosition = false; //Means the Animal Wont Update the Destination Position with the Target position.
             brain.AIMovement.SetDestination(MinPoint);
             brain.AIMovement.HasArrived = false;
-            brain.AIMovement.MoveAgentOnMovingTarget = false; 
+            brain.AIMovement.MoveAgentOnMovingTarget = false;
         }
 
         private void CircleAround(MAnimalBrain brain, int index)
@@ -194,7 +194,7 @@ namespace MalbersAnimations.Controller.AI
                 Vector3 currentDirection = Vector3.forward;
                 currentDirection = rotation * currentDirection;
 
-               // Debug.Log(brain.Target);
+                // Debug.Log(brain.Target);
 
                 Vector3 CurrentPoint = brain.Target.position + (currentDirection.normalized * distance);
 
@@ -211,7 +211,7 @@ namespace MalbersAnimations.Controller.AI
         /// <summary>Locks the Movement forward but it still tries to go forward. Only Rotates</summary>
         private void RotateInPlace(MAnimalBrain brain)
         {
-          //  brain.Animal.LockForwardMovement = true;
+            //  brain.Animal.LockForwardMovement = true;
             brain.AIMovement.StoppingDistance = 100f;               //Set the Stopping Distance to almost nothing that way the animal keeps trying to go towards the target
             brain.AIMovement.LookAtTargetOnArrival = true;           //Set the Animal to look Forward to the Target
             brain.AIMovement.Stop();
@@ -279,14 +279,14 @@ namespace MalbersAnimations.Controller.AI
                 {
                     float DistanceDiff = distance - TargetDistance;
 
-                    Vector3 fleePoint = CurrentPos + TargetDirection.normalized * distance*0.5f;   //player is too close from us, pick a point diametrically oppossite at twice that distance and try to move there.
+                    Vector3 fleePoint = CurrentPos + TargetDirection.normalized * distance * 0.5f;   //player is too close from us, pick a point diametrically oppossite at twice that distance and try to move there.
 
 
                     brain.TaskDone(index, false);
 
                     brain.AIMovement.StoppingDistance = stoppingDistance;
 
-                    Debug.DrawRay(fleePoint, Vector3.up*15, Color.blue, 2f);
+                    Debug.DrawRay(fleePoint, Vector3.up * 15, Color.blue, 2f);
 
                     if (Vector3.Distance(CurrentPos, fleePoint) > stoppingDistance) //If the New flee Point is not in the Stopping distance radius then set a new Flee Point
                     {
@@ -299,7 +299,7 @@ namespace MalbersAnimations.Controller.AI
                 }
                 else
                 {
-                   // if (brain.AIMovement.HasArrived)
+                    // if (brain.AIMovement.HasArrived)
                     {
                         brain.AIMovement.StoppingDistance = distance * 10;  //Force a big Stopping distance to ensure the animal can look at the Target
                         brain.TaskDone(index); //Means this taks is Done ... it has Reachedn to the Fleeing Position
@@ -313,7 +313,7 @@ namespace MalbersAnimations.Controller.AI
             if (brain.AIMovement.HasArrived) brain.TaskDone(index); //IF we arrived to the Point we set on the Start Task then set this task as done
         }
 
-        public override void ExitTask(MAnimalBrain brain, int index)
+        public override void ExitAIState(MAnimalBrain brain, int index)
         {
             brain.AIMovement.MoveAgent = true;
             brain.AIMovement.UpdateTargetPosition = true;
@@ -362,7 +362,7 @@ namespace MalbersAnimations.Controller.AI
             {
                 UnityEditor.Handles.color = new Color(debugColor.r, debugColor.g, debugColor.b, 1f);
                 UnityEditor.Handles.DrawWireDisc(brain.AIMovement.Agent.transform.position, Vector3.up, distance);
-                
+
                 float arcDegree = 360.0f / arcsCount;
                 Quaternion rotation = Quaternion.Euler(0, -arcDegree, 0);
 
@@ -370,7 +370,7 @@ namespace MalbersAnimations.Controller.AI
 
                 for (int i = 0; i < arcsCount; ++i)
                 {
-                   var CurrentPoint = brain.Target.position + (currentDirection.normalized * distance);
+                    var CurrentPoint = brain.Target.position + (currentDirection.normalized * distance);
                     Gizmos.DrawWireSphere(CurrentPoint, 0.1f);
                     currentDirection = rotation * currentDirection;
                 }
@@ -380,11 +380,13 @@ namespace MalbersAnimations.Controller.AI
     }
 
 #if UNITY_EDITOR
-    [CustomEditor(typeof(MoveStopTask)),CanEditMultipleObjects]
+    [CustomEditor(typeof(MoveStopTask)), CanEditMultipleObjects]
     public class MoveTaskEditor : Editor
     {
         SerializedProperty
-            Description, distance, debugColor, distanceThreshold, stoppingDistance, task, Direction, UpdateFleeMovingTarget, MessageID, interval, arcsCount, LookAtTarget;
+            Description, distance, debugColor, distanceThreshold, Interact,
+            stoppingDistance, task, Direction, UpdateFleeMovingTarget,
+            MessageID, interval, arcsCount, LookAtTarget;
         MonoScript script;
         private void OnEnable()
         {
@@ -402,6 +404,7 @@ namespace MalbersAnimations.Controller.AI
             debugColor = serializedObject.FindProperty("debugColor");
             stoppingDistance = serializedObject.FindProperty("stoppingDistance");
             LookAtTarget = serializedObject.FindProperty("LookAtTarget");
+            Interact = serializedObject.FindProperty("Interact");
         }
 
 
@@ -430,6 +433,7 @@ namespace MalbersAnimations.Controller.AI
             {
                 case MoveStopTask.MoveType.MoveToTarget:
                     EditorGUILayout.PropertyField(LookAtTarget, new GUIContent("Look at Target", "If we Arrived to the Target then Keep Looking At it"));
+                    EditorGUILayout.PropertyField(Interact, new GUIContent("Interact", "If we Arrived to the Target and is Interactable, Interact!"));
                     break;
                 case MoveStopTask.MoveType.StopAnimal:
                     break;

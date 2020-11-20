@@ -3,48 +3,36 @@
 namespace MalbersAnimations.Scriptables
 {
     ///<summary> V3 Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple  </summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Vector3")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Vector3", order = 1000)]
     public class Vector3Var : ScriptableVar
     {
         /// <summary>The current value</summary>
         [SerializeField] private Vector3 value = Vector3.zero;
-       
- 
-        ///// <summary>When active OnValue changed will ve used every time the value changes (you can subscribe only at runtime .?)</summary>
-        //public bool UseEvent = true;
-
-        ///// <summary>Invoked when the value changes</summary>
-        //public Events.Vector3Event OnValueChanged = new Events.Vector3Event();
 
         /// <summary> Value of the Float Scriptable variable</summary>
         public virtual Vector3 Value
         {
-            get { return value; }
+            get => value;
             set
             {
                 this.value = value;
-                //if (this.value != value)                                //If the value is diferent change it
-                //{
-                //    this.value = value;
-                //    if (UseEvent) OnValueChanged.Invoke(value);         //If we are using OnChange event Invoked
-                //}
+#if UNITY_EDITOR
+                if (debug) Debug.Log($"<B>{name} -> [<color=gray> {value} </color>] </B>");
+#endif
             }
         }
+        public float x { get => value.x; set => this.value.x = value; }
+        public float y { get => value.y; set => this.value.y = value; }
+        public float z { get => value.z; set => this.value.z = value; }
 
-        public virtual void SetValue(Vector3Var var)
-        {
-            Value = var.Value;
-        }
+        public void SetValue(Vector3Var var) => Value = var.Value;
+        public void SetX(float var) => value.x = var;
+        public void SetY(float var) => value.y = var;
+        public void SetZ(float var) => value.z = var;
 
-        public static implicit operator Vector3(Vector3Var reference)
-        {
-            return reference.Value;
-        }
+        public static implicit operator Vector3(Vector3Var reference) => reference.Value;
 
-        public static implicit operator Vector2(Vector3Var reference)
-        {
-            return reference.Value;
-        }
+        public static implicit operator Vector2(Vector3Var reference) => reference.Value;
 
     }
 
@@ -62,7 +50,7 @@ namespace MalbersAnimations.Scriptables
             ConstantValue = Vector3.zero;
         }
 
-        public Vector3Reference(bool variable = false)
+        public Vector3Reference(bool variable)
         {
             UseConstant = !variable;
 
@@ -77,14 +65,11 @@ namespace MalbersAnimations.Scriptables
             }
         }
 
-        public Vector3Reference(Vector3 value)
-        {
-            Value = value;
-        }
+        public Vector3Reference(Vector3 value) => Value = value;
 
         public Vector3 Value
         {
-            get { return UseConstant ? ConstantValue : Variable.Value; }
+            get => UseConstant ? ConstantValue : Variable.Value;
             set
             {
                 if (UseConstant)
@@ -94,16 +79,46 @@ namespace MalbersAnimations.Scriptables
             }
         }
 
-        #region Operators
-        public static implicit operator Vector3(Vector3Reference reference)
+        public float x
         {
-            return reference.Value;
+            get => UseConstant ? ConstantValue.x : Variable.x;
+            set
+            {
+                if (UseConstant)
+                    ConstantValue.x = value;
+                else
+                    Variable.x = value;
+            }
         }
 
-        public static implicit operator Vector2(Vector3Reference reference)
+        public float y
         {
-            return reference.Value;
+            get => UseConstant ? ConstantValue.y : Variable.y;
+            set
+            {
+                if (UseConstant)
+                    ConstantValue.y = value;
+                else
+                    Variable.y = value;
+            }
         }
+
+        public float z
+        {
+            get => UseConstant ? ConstantValue.z : Variable.z;
+            set
+            {
+                if (UseConstant)
+                    ConstantValue.z = value;
+                else
+                    Variable.z = value;
+            }
+        }
+
+        #region Operators
+        public static implicit operator Vector3(Vector3Reference reference) => reference.Value;
+
+        public static implicit operator Vector2(Vector3Reference reference) => reference.Value;
         #endregion
     }
 }

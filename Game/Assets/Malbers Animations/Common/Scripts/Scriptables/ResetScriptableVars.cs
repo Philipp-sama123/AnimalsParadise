@@ -35,6 +35,8 @@ namespace MalbersAnimations.Scriptables
         public Vector2Reference DefaultVector2;
         public Vector3Reference DefaultVector3;
         public ColorReference DefaultColor;
+        public TransformReference DefaultTransform;
+        public GameObjectReference DefaultGO;
 
         public void Reset()
         {
@@ -45,6 +47,8 @@ namespace MalbersAnimations.Scriptables
             else if (Var is Vector3Var) (Var as Vector3Var).Value = DefaultVector3.Value;
             else if (Var is Vector2Var)  (Var as Vector2Var).Value = DefaultVector2.Value;
             else if (Var is ColorVar)     (Var as ColorVar).Value = DefaultColor.Value;
+            else if (Var is TransformVar) (Var as TransformVar).Value = DefaultTransform.Value;
+            else if (Var is GameObjectVar) (Var as GameObjectVar).Value = DefaultGO.Value;
         }
     }
 
@@ -179,6 +183,8 @@ namespace MalbersAnimations.Scriptables
             else if (Var is Vector3Var) EditorGUI.PropertyField(RectValue, Element.FindPropertyRelative("DefaultVector3"), GUIContent.none);
             else if (Var is Vector2Var) EditorGUI.PropertyField(RectValue, Element.FindPropertyRelative("DefaultVector2"), GUIContent.none);
             else if (Var is ColorVar) EditorGUI.PropertyField(RectValue, Element.FindPropertyRelative("DefaultColor"), GUIContent.none);
+            else if (Var is TransformVar) EditorGUI.PropertyField(RectValue, Element.FindPropertyRelative("DefaultTransform"), GUIContent.none);
+            else if (Var is GameObjectVar) EditorGUI.PropertyField(RectValue, Element.FindPropertyRelative("DefaultGO"), GUIContent.none);
         }
     }
 #endif

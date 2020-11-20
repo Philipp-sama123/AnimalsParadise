@@ -51,9 +51,15 @@ MonoBehaviour:
       IgnoreLowerStates: 1
       LockMovement: 0
       LockInput: 0
+  CanStrafe: 1
+  MovementStrafe: 1
+  IdleStrafe: 1
+  TryLoop:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
   ExitFrame: 1
   ExitOnMain: 1
-  TryLoop: 3
   debug: 1
   WaterLayer:
     serializedVersion: 2
@@ -63,4 +69,5 @@ MonoBehaviour:
   TryExitTime: 1
   WaterIsStatic: 1
   KeepInertia: 1
-  Radius: 0.05
+  m_Radius: 0.1
+  FrontRayLength: 1

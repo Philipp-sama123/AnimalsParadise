@@ -42,7 +42,7 @@ namespace MalbersAnimations.Controller
         public override void ExitState()
         {
             base.ExitState();
-            SetStatus(animal.CurrentSpeedIndex); //When Exiting the State set the Status the current Speed Modifier.
+            SetStatus((int)animal.CurrentSpeedModifier.Vertical.Value); //When Exiting the State set the Status the current Speed Modifier.
         }
 
 

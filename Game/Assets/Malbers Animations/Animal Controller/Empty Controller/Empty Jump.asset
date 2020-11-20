@@ -39,6 +39,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
   QueueFrom: []
   TagModifiers: []
+  CanStrafe: 1
+  MovementStrafe: 1
+  IdleStrafe: 1
   TryLoop:
     UseConstant: 1
     ConstantValue: 1

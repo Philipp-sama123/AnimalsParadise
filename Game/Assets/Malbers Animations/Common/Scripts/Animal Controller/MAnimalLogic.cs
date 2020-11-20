@@ -16,8 +16,7 @@ namespace MalbersAnimations.Controller
             if (Anim == null) Anim = GetComponentInParent<Animator>();   //Cache the Animator
             if (RB == null) RB = GetComponentInParent<Rigidbody>();      //Catche the Rigid Body  
 
-            if (MainCamera == null)
-                MainCamera = MTools.FindMainCamera()?.transform;         //Find the Camera
+         
 
             if (Rotator != null && RootBone == null) 
                 RootBone = Rotator.GetChild(0);           //Find the First Rotator Child  THIS CAUSE ISSUES WITH TIMELINE!!!!!!!!!!!!
@@ -74,6 +73,12 @@ namespace MalbersAnimations.Controller
 
         public virtual void ResetController()
         {
+            if (MainCamera == null) //Find the Camera
+            {
+                m_MainCamera.UseConstant = true;
+                m_MainCamera.Value = MTools.FindMainCamera().transform;        
+            }
+
             foreach (var state in states)
             {
                 state.InitializeState();
@@ -84,10 +89,14 @@ namespace MalbersAnimations.Controller
             CheckIfGrounded(); //Make the first Alignment
 
 
+
+
+
             activeState = states[states.Count - 1]; //Set the First state as the active state (IMPORTANT TO BE THE FIRST THING TO DO)
             activeState.Activate();
             activeState.IsPending = false;    //IMPORTAAANT!
             activeState.General.Modify(this); //IMPORTAAANT!
+           
 
 
             MovementAxis = MovementAxisRaw = MovementAxisSmoothed = Vector3.zero; //Reset all movement
@@ -142,6 +151,7 @@ namespace MalbersAnimations.Controller
             Grounded = true;
             Randomizer = true;
             AlwaysForward = AlwaysForward;                       // Execute the code inside Always Forward .... Why??? Don't know ..something to do with the Input stuff
+            Strafe = Strafe;                       // Execute the code inside Strafe
             Stance = currentStance;
             SpeedMultiplier = 1;
             CurrentFrame = 0;
@@ -339,7 +349,7 @@ namespace MalbersAnimations.Controller
 
         #endregion
 
-        #region Input Entering for Moving
+        #region Inputs
 
         /// <summary>Get the Raw Input Axis from a source</summary>
         public virtual void SetInputAxis(Vector3 inputAxis)
@@ -352,7 +362,7 @@ namespace MalbersAnimations.Controller
 
             if (AlwaysForward) inputAxis.z = 1;
 
-            if (UseCameraInput && MainCamera)
+            if (MainCamera && UseCameraInput && !Strafe)
             {
                 var Cam_Forward = Vector3.ProjectOnPlane(MainCamera.forward, UpVector).normalized; //Normalize the Camera Forward Depending the Up Vector IMPORTANT!
                 var Cam_Right = Vector3.ProjectOnPlane(MainCamera.right, UpVector).normalized;
@@ -374,11 +384,7 @@ namespace MalbersAnimations.Controller
                 }
 
 
-
-
                 if (Grounded) UpInput = Vector3.zero;            //Reset the UP Input in case is on the Ground
-
-
                 var m_Move = ((inputAxis.z * Cam_Forward) + (inputAxis.x * Cam_Right) + UpInput);
 
 
@@ -810,7 +816,11 @@ namespace MalbersAnimations.Controller
             var LerpTurn = DeltaTime * CurrentSpeedModifier.lerpRotAnim;
             var LerpAnimator = DeltaTime * CurrentSpeedModifier.lerpAnimator;
 
-            if (Strafe) maxspeedH = maxspeedV; //if the animal is strafing
+            if (Strafe)
+            {
+                maxspeedH = maxspeedV; //if the animal is strafing
+                LerpVertical = LerpTurn = LerpUpDown = DeltaTime * CurrentSpeedModifier.lerpStrafe;
+            }
 
             if (IsPlayingMode && !ActiveMode.AllowMovement) //Active mode and Isplaying Mode is failing!!**************
                 MovementAxis = Vector3.zero;
@@ -822,12 +832,6 @@ namespace MalbersAnimations.Controller
             UpDownSmooth = LerpVertical > 0 ? Mathf.Lerp(UpDownSmooth, MovementAxis.y, LerpUpDown) : MovementAxis.y;                                                //smoothly transitions bettwen Directions
             SpeedMultiplier = (LerpAnimator > 0) ? Mathf.MoveTowards(SpeedMultiplier, CurrentSpeedModifier.animator.Value, LerpAnimator) : CurrentSpeedModifier.animator.Value;  //Changue the velocity of the animator
 
-
-            //var mult = 4;
-            //VerticalSmooth = LerpVertical > 0 ? Mathf.SmoothStep(VerticalSmooth, MovementAxis.z * maxspeedV, LerpVertical* mult) : MovementAxis.z * maxspeedV;           //smoothly transitions bettwen Speeds
-            //HorizontalSmooth = LerpTurn > 0 ? Mathf.SmoothStep(HorizontalSmooth, MovementAxis.x * maxspeedH, LerpTurn* mult) : MovementAxis.x * maxspeedH;               //smoothly transitions bettwen Directions
-            //UpDownSmooth = LerpVertical > 0 ? Mathf.Lerp(UpDownSmooth, MovementAxis.y, LerpUpDown) : MovementAxis.y;                                                //smoothly transitions bettwen Directions
-            //SpeedMultiplier = (LerpAnimator > 0) ? Mathf.SmoothStep(SpeedMultiplier, CurrentSpeedModifier.animator.Value, LerpAnimator* mult) : CurrentSpeedModifier.animator.Value;  //Changue the velocity of the animator
         }
 
         /// <summary> Try Activate all other states </summary>
@@ -1104,7 +1108,7 @@ namespace MalbersAnimations.Controller
 
 
             var DeltaRB = RB.velocity * DeltaTime;
-            DeltaVelocity = grounded ? Vector3.ProjectOnPlane(DeltaRB, UpVector) : DeltaRB; //When is not grounded take the Up Vector this is the one!!!
+            DeltaVelocity = Grounded ? Vector3.ProjectOnPlane(DeltaRB, UpVector) : DeltaRB; //When is not grounded take the Up Vector this is the one!!!
         }
     }
 }

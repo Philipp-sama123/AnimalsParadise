@@ -117,6 +117,10 @@ namespace MalbersAnimations.Controller
         public FloatReference strafeSpeed;
 
 
+        /// <summary> Smoothness to change to the Rotation speed, higher value more Responsiveness </summary>
+        public FloatReference lerpStrafe;
+
+
         public MSpeed(MSpeed newSpeed)
         {
             name = newSpeed.name;
@@ -133,6 +137,8 @@ namespace MalbersAnimations.Controller
             lerpAnimator = newSpeed.lerpAnimator;
             Vertical = newSpeed.Vertical;
             strafeSpeed = newSpeed.strafeSpeed;
+            strafeSpeed = newSpeed.strafeSpeed;
+            lerpStrafe = newSpeed.lerpStrafe;
 
             nameHash = name.GetHashCode();
         }
@@ -151,6 +157,7 @@ namespace MalbersAnimations.Controller
             strafeSpeed = 0;
             lerpRotation = 4;
             lerpRotAnim = 4;
+            lerpStrafe = 4;
 
             animator = 1;
             lerpAnimator = lerpanim;
@@ -170,6 +177,8 @@ namespace MalbersAnimations.Controller
             strafeSpeed = 0;
             lerpRotation = 4;
             lerpRotAnim = 4;
+            lerpStrafe = 4;
+
 
             animator = 1;
             lerpAnimator = lerpanim;
@@ -190,8 +199,11 @@ namespace MalbersAnimations.Controller
 
             rotation = 0;
             strafeSpeed = 0;
+
             lerpRotation = 4;
             lerpRotAnim = 4;
+            lerpStrafe = 4;
+
 
             animator = 1;
             lerpAnimator = 4;

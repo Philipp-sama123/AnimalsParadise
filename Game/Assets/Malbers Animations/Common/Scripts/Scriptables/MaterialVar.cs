@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MalbersAnimations.Scriptables
 {
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Material")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Material", order = 2000)]
     public class MaterialVar : ScriptableObject
     {
         /// <summary> The current value</summary>

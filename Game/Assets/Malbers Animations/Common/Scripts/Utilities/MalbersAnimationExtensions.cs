@@ -223,4 +223,12 @@ public static class MalbersAnimationsExtensions
             }
         }
     }
+
+
+    /// --------------- EDITOR EXTENSIONS -------------------------
+
+#if UNITY_EDITOR
+
+#endif
+
 }

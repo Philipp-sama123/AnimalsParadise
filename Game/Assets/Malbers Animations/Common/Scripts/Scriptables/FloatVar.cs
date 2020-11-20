@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MalbersAnimations.Scriptables
 {
     ///<summary>  Float Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple  </summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Float")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Float",order = 1000)]
     public class FloatVar : ScriptableVar
     {
         /// <summary>The current value</summary>
@@ -23,6 +23,9 @@ namespace MalbersAnimations.Scriptables
                 {
                     this.value = value;
                     OnValueChanged?.Invoke(value);         //If we are using OnChange event Invoked
+#if UNITY_EDITOR
+                    if (debug) Debug.Log($"<B>{name} -> [<color=red> {value:F3} </color>] </B>");
+#endif
                 }
             }
         }

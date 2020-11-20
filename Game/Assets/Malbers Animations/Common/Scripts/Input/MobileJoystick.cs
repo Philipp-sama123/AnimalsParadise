@@ -1,24 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using MalbersAnimations.Events;
 using MalbersAnimations.Scriptables;
-using UnityEngine.Animations;
 
 namespace MalbersAnimations
 {
+    [HelpURL("https://malbersanimations.gitbook.io/animal-controller/mobile/mobile-joystick")]
     public class MobileJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
     {
-        /// <summary>Invert the X Axis</summary>
+        [Tooltip("Inverts the Horizontal value of the joystick")]
         public bool invertX;
-        public float deathpoint = 0.1f;
-        /// <summary>Invert the X Axis</summary>
+        [Tooltip("Inverts the Vertical value of the joystick")]
         public bool invertY;                     // Bollean to define whether or not the Y axis is inverted.
 
-     //   [Header("Sensitivity")]
+        [Tooltip("If the Axis Magnitude is lower than this value then the Axis will zero out")]
+        public float deathpoint = 0.1f;
         /// <summary>sensitivity for the X Axis</summary>
         public float sensitivityX = 1;
         /// <summary>sensitivity for the Y Axis</summary>
@@ -47,6 +45,7 @@ namespace MalbersAnimations
         public bool AxisEditor = true;
         public bool EventsEditor = true;
         public bool ReferencesEditor = true;
+        [Tooltip("If true, then the joystick will not use the starting position as guide for calculating the movement axis")]
         public bool m_Drag = false;
 
 

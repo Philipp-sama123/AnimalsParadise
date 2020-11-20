@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MalbersAnimations.Scriptables
 {
     ///<summary>  Bool Scriptable Variable. Based on the Talk - Game Architecture with Scriptable Objects by Ryan Hipple </summary>
-    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Bool")]
+    [CreateAssetMenu(menuName = "Malbers Animations/Scriptables/Variables/Bool", order = 1000)]
     public class BoolVar : ScriptableVar
     {
         [SerializeField] private bool value;
@@ -23,6 +23,9 @@ namespace MalbersAnimations.Scriptables
                 {
                     this.value = value;
                     OnValueChanged?.Invoke(value);         //If we are using OnChange event Invoked
+#if UNITY_EDITOR
+                    if (debug) Debug.Log($"<B>{name} -> [<color=blue> {value} </color>] </B>");
+#endif
                 }
             }
         }

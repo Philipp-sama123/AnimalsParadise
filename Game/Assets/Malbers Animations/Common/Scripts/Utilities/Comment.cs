@@ -1,5 +1,4 @@
-﻿ 
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MalbersAnimations.Utilities
 {
@@ -10,18 +9,19 @@ namespace MalbersAnimations.Utilities
     [UnityEditor.CustomEditor(typeof(Comment))]
     public class CommentEditor : UnityEditor.Editor
     {
-        private Comment script;
-        GUIStyle style;
+        private GUIStyle style;
+        private UnityEditor.SerializedProperty text;
 
         private void OnEnable()
         {
-            script = target as Comment;
+            text = serializedObject.FindProperty("text");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
+            if (style == null)
             style = new GUIStyle(UnityEditor.EditorStyles.helpBox)
             {
                 fontSize = 12,
@@ -29,13 +29,8 @@ namespace MalbersAnimations.Utilities
             };
 
             UnityEditor.EditorGUILayout.BeginVertical(MalbersEditor.StyleBlue);
-            string text = UnityEditor.EditorGUILayout.TextArea(script.text, style);
+            text.stringValue = UnityEditor.EditorGUILayout.TextArea(text.stringValue, style);
             UnityEditor.EditorGUILayout.EndVertical();
-            if (text != script.text)
-            {
-                UnityEditor.Undo.RecordObject(script, "Edit Comments");
-                script.text = text;
-            }
 
             serializedObject.ApplyModifiedProperties();
         }

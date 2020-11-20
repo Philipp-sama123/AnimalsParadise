@@ -113,15 +113,19 @@ namespace MalbersAnimations.Controller
             JumpSpeed = new MSpeed(animal.CurrentSpeedModifier) //Inherit the Vertical and the Lerps
             {
                 name = "Jump Basic Speed",
-                position = General.RootMotion? 0 : animal.HorizontalSpeed, //Inherit the Horizontal Speed you have from the last state
+                position = General.RootMotion ? 0 : animal.HorizontalSpeed, //Inherit the Horizontal Speed you have from the last state
                 animator = 1,
                 Vertical = animal.CurrentSpeedModifier.Vertical,
                 lerpPosition = AirSmooth,
-                rotation = AirRotation
+                rotation = AirRotation,
+                strafeSpeed = General.RootMotion ? 0 : animal.HorizontalSpeed,
+                lerpStrafe = AirSmooth
             };
 
-            animal.UpdateDirectionSpeed = AirControl;
-            if (animal.HasExternalForce) animal.DirectionalSpeed = Vector3.ProjectOnPlane(animal.ExternalForce, animal.UpVector).normalized;
+            animal.UpdateDirectionSpeed = AirControl; 
+
+            if (animal.HasExternalForce)
+                animal.DirectionalSpeed = Vector3.ProjectOnPlane(animal.ExternalForce, animal.UpVector).normalized;
 
             animal.SetCustomSpeed(JumpSpeed, true);       //Set the Current Speed to the Jump Speed Modifier
 
@@ -142,6 +146,8 @@ namespace MalbersAnimations.Controller
                     Vertical = animal.CurrentSpeedModifier.Vertical,
                     animator = 1,
                     rotation = AirControl.Value ? (!animal.UseCameraInput ? AirRotation.Value : AirRotation.Value / 10f) : 0f,
+                    strafeSpeed = animal.HorizontalSpeed,
+                    lerpStrafe = AirSmooth
                 };
 
                 Debugging("[EnterTag-JumpStart]");
@@ -168,7 +174,7 @@ namespace MalbersAnimations.Controller
                 }
 
                 Vector3 ExtraJumpHeight = (animal.UpVector * activeJump.Height.Value);
-                animal.AdditivePosition += ExtraJumpHeight * deltaTime * JumpPressHeight_Value;
+                animal.AdditivePosition += ExtraJumpHeight * deltaTime * JumpPressHeight_Value; //Up Movement
 
 
                 if (AirMovement > CurrentSpeedPos && AirControl)

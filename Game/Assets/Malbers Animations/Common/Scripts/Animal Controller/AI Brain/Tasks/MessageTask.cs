@@ -11,7 +11,11 @@ namespace MalbersAnimations.Controller.AI
         public Affected affect = Affected.Self;
         [Tooltip("When you want to send the Message")]
         public ExecuteTask when = ExecuteTask.OnStart;
-        public bool UseSendMessage = true;
+        public bool UseSendMessage = false;
+        [Hide("ShowUpdate",true,false)]
+        public float interval = 1f;
+        [Tooltip("The message will be send to the Root of the Hierarchy")]
+        public bool SendToRoot = true;
         public MesssageItem[] messages;                                     //Store messages to send it when Enter the animation State
 
 
@@ -21,6 +25,8 @@ namespace MalbersAnimations.Controller.AI
             {
                 Execute_Task(brain);
                 brain.TaskDone(index); //Set Done to this task
+
+                brain.TasksTimeElapsed[index] = Time.time;
             }
         }
 
@@ -28,11 +34,15 @@ namespace MalbersAnimations.Controller.AI
         {
             if (when == ExecuteTask.OnUpdate)
             {
-                Execute_Task(brain);
+                if (MTools.ElapsedTime(brain.TasksTimeElapsed[index], interval))
+                {
+                    Execute_Task(brain);
+                    brain.TasksTimeElapsed[index] = Time.time;
+                }
             }
         }
 
-        public override void ExitTask(MAnimalBrain brain, int index)
+        public override void ExitAIState(MAnimalBrain brain, int index)
         {
             if (when == ExecuteTask.OnExit)
             {
@@ -45,17 +55,17 @@ namespace MalbersAnimations.Controller.AI
         {
             if (affect == Affected.Self)
             {
-                SendMessage(brain.transform);
+                SendMessage(SendToRoot ?  brain.transform.root : brain.transform);
             }
             else
             {
-                if (brain.Target != null) SendMessage(brain.Target.root);
+                if (brain.Target != null) SendMessage(SendToRoot ? brain.Target.root : brain.Target);
             }
         }
 
         public virtual void SendMessage(Transform t)
         {
-            var listeners = t.GetComponents<IAnimatorListener>();
+            var listeners = t.root.GetComponentsInChildren<IAnimatorListener>();
 
             foreach (var msg in messages)
             {
@@ -72,5 +82,11 @@ namespace MalbersAnimations.Controller.AI
 
         void Reset()
         { Description = "Send messages to the Root game Object of the Target or the Animal using the Brain"; }
+
+       [HideInInspector] public bool ShowUpdate;
+        private void OnValidate()
+        {
+            ShowUpdate = when == ExecuteTask.OnUpdate;
+        }
     }
 }
