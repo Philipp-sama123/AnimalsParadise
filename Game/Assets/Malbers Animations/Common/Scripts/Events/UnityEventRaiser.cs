@@ -90,10 +90,10 @@ namespace MalbersAnimations.Events
             {
 
                 UnityEditor.EditorGUIUtility.labelWidth = 40;
-                UnityEditor.EditorGUILayout.PropertyField(RepeatTime, new GUIContent("RT", "Repeat Time"), GUILayout.MinWidth(40));
+                UnityEditor.EditorGUILayout.PropertyField(RepeatTime,new GUIContent("RT","Repeat Time") ,GUILayout.MinWidth(40));
                 UnityEditor.EditorGUIUtility.labelWidth = 0;
             }
-
+            
             Repeat.boolValue = GUILayout.Toggle(Repeat.boolValue, new GUIContent("Repeat"), UnityEditor.EditorStyles.miniButton, GUILayout.Width(47));
             UnityEditor.EditorGUILayout.EndHorizontal();
             UnityEditor.EditorGUILayout.PropertyField(OnEnableEvent);
@@ -115,7 +115,7 @@ namespace MalbersAnimations.Events
 
             currentStyle.normal.background = bg;
 
-#if UNITY_2019_4 || UNITY_2020
+#if UNITY_2019 || UNITY_2020
             // MW 04-Jul-2020: Check if system supports newer graphics formats used by Unity GUI
             Texture2D bgActual = currentStyle.normal.scaledBackgrounds[0];
 
